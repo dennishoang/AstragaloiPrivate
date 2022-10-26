@@ -5,7 +5,7 @@ import model.Field
 @main def hello: Unit =
   println("Hello world!")
   val field = Field()
-  println(field.mesh)
+  println(field.mesh())
 
 
 
