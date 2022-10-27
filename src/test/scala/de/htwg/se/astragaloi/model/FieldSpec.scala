@@ -65,6 +65,14 @@ class FieldSpec extends AnyWordSpec {
             "+------+" in {
                 field.quadrat(6,2,0) should be ("+------+" + eol + "|      |" + eol + "|      |" + eol + "+------+" + eol)
             }
+            "have a scalable mesh in form of" in {
+                field.mesh(25,4,2,15,2,1,1) should be ("               +----+" + eol + "               |    |" + eol + "               |    |" + eol + "               +----+" + eol +
+                "+--+ +--+ +--+ " + eol + "|  | |  | |  | " + eol + "+--+ +--+ +--+ " + eol + "|  | |  | |  | " + eol + "+--+ +--+ +--+ " + eol + "|  | |  | |  | " + eol + "+--+ +--+ +--+ " + eol * 2 +
+                "-------------------------" + eol * 2 +
+                "+--+ +--+ +--+ " + eol + "|  | |  | |  | " + eol + "+--+ +--+ +--+ " + eol + "|  | |  | |  | " + eol + "+--+ +--+ +--+ " + eol + "|  | |  | |  | " + eol + "+--+ +--+ +--+ " + eol +
+                "               +----+" + eol + "               |    |" + eol + "               |    |" + eol + "               +----+" + eol)
+
+            }
 
 
         }
