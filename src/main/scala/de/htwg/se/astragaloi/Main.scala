@@ -1,5 +1,4 @@
 import model.Field
-import model.Field2
 
 //import scala.annotation.meta.field.apply
 
