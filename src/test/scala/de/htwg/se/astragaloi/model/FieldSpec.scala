@@ -91,7 +91,7 @@ class FieldSpec extends AnyWordSpec {
             "               |    |" + field.eol +
             "               |    |" + field.eol +
             "               +----+" in {
-                field.mesh(25,4,2,15,2,1,1) should be (
+                field.mesh() should be (
                     "               +----+" + field.eol +
                     "               |    |" + field.eol +
                     "               |    |" + field.eol +
