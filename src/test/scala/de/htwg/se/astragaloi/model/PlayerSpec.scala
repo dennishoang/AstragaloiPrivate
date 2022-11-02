@@ -1,10 +1,13 @@
 package de.htwg.se.astragaloi.model
 
-import model.player
+import model.Player
+import org.scalatest.wordspec.AnyWordSpec
+import org.scalatest.matchers.should.Matchers._
+
 
 class PlayerSpec extends AnyWordSpec {
     "A Player" should {
-        val player = Player(name = "Noah", points = pointsp1)
+        val player = Player(name = "Noah", points = 0)
         "have a name" in {
             player.name should be("Noah")
         }
