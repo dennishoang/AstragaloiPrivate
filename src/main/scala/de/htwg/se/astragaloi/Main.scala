@@ -1,11 +1,13 @@
-/* import model.Field
+import model.Field2
+import model.Dice
 
 //import scala.annotation.meta.field.apply
 
 @main def hello: Unit =
-  val field = Field()
-  println(field.mesh(25,4,2,15,2,1,1))
+  val field = new Field2(3, Dice.Empty)
+  println(field.toString)
+  field.put(Dice.ONE, 0, 0, field.matrix_1)
+  field.put(Dice.TWO, 0, 0, field.matrix_2)
+  println(field.toString)
 
 
-
- */
