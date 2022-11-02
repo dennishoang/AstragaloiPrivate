@@ -20,4 +20,7 @@ def mesh(seperator: Int = 25, quadwidth: Int = 4, quadlength: Int = 2, quadspace
   + eol + "-" * seperator + eol * 2
   + playfield(cellWidth, celllength, cellspace) + eol + quadrat(quadwidth, quadlength, quadspace)
 
+
+
+
 }
