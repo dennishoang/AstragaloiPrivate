@@ -1,7 +1,7 @@
 package model
 
-case class Matrix[T](rows: Vector[Vector[T]]):
-    def this(size: Int, filling: T) = this(Vector.tabulate(size, size) { (row, col) => filling })
+case class Matrix[T](rows: Vector[Vector[T]], player: Int):
+    def this(size: Int, filling: T, player: Int) = this(Vector.tabulate(size, size) { (row, col) => filling }, player)
     val size: Int = rows.size
     def cell(row: Int, col: Int): T = rows(row)(col) // z.B: rows(3)(1): Zugriff auf erste Zelle Spalte 3
     def row(row: Int) = rows(row)

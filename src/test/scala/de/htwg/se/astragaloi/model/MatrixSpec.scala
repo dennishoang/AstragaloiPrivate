@@ -1,4 +1,4 @@
-package de.htwg.se.astragaloi.model
+/* package de.htwg.se.astragaloi.model
 
 import model.Matrix
 import model.Dice
@@ -26,4 +26,4 @@ class MatrixSpec extends AnyWordSpec {
             matrix4.cell(0,0) should be(Dice.Empty)
         }
     }
-}
+} */

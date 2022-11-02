@@ -6,8 +6,9 @@ import model.Dice
 @main def hello: Unit =
   val field = new Field2(3, Dice.Empty)
   println(field.toString)
-  field.put(Dice.ONE, 0, 0, field.matrix_1)
-  field.put(Dice.TWO, 0, 0, field.matrix_2)
-  println(field.toString)
+  val field2 = field.put(Dice.ONE, 0, 0, field.matrix_1)
+  val field3 = field.put(Dice.TWO, 0, 1, field.matrix_2)
+  println(field2.toString)
+  println(field3.toString)
 
 

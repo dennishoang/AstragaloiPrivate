@@ -6,14 +6,14 @@ import model.Dice
 case class Field2(matrix_1: Matrix[Dice], matrix_2: Matrix[Dice]) {
 
 def this(size: Int, filling: Dice) =
-    this(new Matrix(size, filling), new Matrix(size, filling))
+    this(new Matrix(size, filling, 1), new Matrix(size, filling, 2))
 
 val size = matrix_1.size + matrix_2.size
 val eol = sys.props("line.separator");
 def bars(width: Int, space: Int) =
   (("+" + "-" * width) + "+" + " " * space) * 3 + eol
 def cells(row: Int, width: Int, space: Int, matrix: Matrix[Dice]) =
-    matrix.row(row).map(_.toString).map(("|" + " " * ((width - 1) / 2) + _ + " " * ((width - 1) / 2) + "|" + " " * space) * 3) + eol
+    matrix.row(row).map(_.toString).map("|" + " " * ((width - 1) / 2) + _ + " " * ((width - 1) / 2)).mkString("|" + " " * space) + eol
 def playfield(width: Int, length: Int, space: Int, matrix: Matrix[Dice]) =
   (bars(width, space) + (cells(0, width, space, matrix) * length)) + bars(width, space)
   + (cells(1, width, space, matrix) * length) + bars(width, space) + cells(2, width, space, matrix)
