@@ -117,9 +117,6 @@ class FieldSpec extends AnyWordSpec {
                     "               +----+" + field.eol)
 
             }
-
-
-
         }
     }
 }
