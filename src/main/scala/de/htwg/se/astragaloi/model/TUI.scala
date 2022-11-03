@@ -1,13 +1,13 @@
 package model
 
-//import model.Matrix
 import model.PlayField
+import model.DiceSlot
 import model.Dice
 
 case class TUI(playfield: PlayField[Dice], diceslot: DiceSlot[Dice]) {
 
 def this(size_1: Int, size_2: Int = 2, filling: Dice) =
-    this(new PlayField(size_1, filling), new DiceSlot(size_2, filling))
+  this(new PlayField(size_1, filling), new DiceSlot(size_2, filling))
 
 val size = playfield.size
 val eol = sys.props("line.separator");
@@ -22,7 +22,7 @@ def playerfield(matrix: Int, width: Int, length: Int, space: Int) =
 
 def quadbar(width: Int, space: Int) = " " * space + "+" + ("-" * width) + "+" + eol
 def quadcell(slot: Int, width: Int, space: Int) =
-  diceslot.map(_.toString).map(" " * space + (" " * ((width - 1) / 2) + _ + " " * ((width - 1) / 2))).mkString("|") + eol
+  diceslot.slots.map(_.toString).map(" " * space + " " * ((width - 1) / 2) + _ + " " * ((width - 1) / 2)).mkString("|") + eol
 def quadrat(slot: Int, width: Int, length: Int, space: Int) = (quadbar(width, space) + (quadcell(slot, width, space) * length)) + quadbar(width, space)
 
 def mesh(seperator: Int = 25, quadwidth: Int = 5, quadlength: Int = 1, quadspace: Int = 15,
@@ -33,6 +33,9 @@ def mesh(seperator: Int = 25, quadwidth: Int = 5, quadlength: Int = 1, quadspace
 
 
 override def toString = mesh()
-def put(number: Dice, matrix: Int, x: Int, y: Int) = copy(playfield.replaceCell(matrix, x, y, number))
-def putSlot(number: Dice, slot: Int) = copy(diceslot.replaceCell(slot, number))
+def put(number: Dice, matrix: Int, x: Int, y: Int) =
+  copy(playfield.replaceCell(matrix, x, y, number), diceslot)
+def putSlot(number: Dice, slot: Int): TUI =
+  copy(playfield, diceslot.replace(slot, number))
+
 }

@@ -5,4 +5,4 @@ case class DiceSlot[T](slots: Vector[T]):
     val size: Int = slots.size
     def cell(slot: Int): T = slots(slot)
     def fill(filling: T): DiceSlot[T] = copy(Vector.tabulate(size) { (slot) => filling })
-    def replaceCell(slot: Int, cell: T): DiceSlot[T] = copy(slots.updated(slot, cell))
+    def replace(slot: Int, cell: T): DiceSlot[T] = copy(slots.updated(slot, cell))
