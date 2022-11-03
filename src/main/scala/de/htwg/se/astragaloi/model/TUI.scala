@@ -22,7 +22,7 @@ def playerfield(matrix: Int, width: Int, length: Int, space: Int) =
 
 def quadbar(width: Int, space: Int) = " " * space + "+" + ("-" * width) + "+" + eol
 def quadcell(slot: Int, width: Int, space: Int) =
-  diceslot.slots.map(_.toString).map(" " * space + " " * ((width - 1) / 2) + _ + " " * ((width - 1) / 2)).mkString("|") + eol
+  " " * space + "|" + " " * ((width - 1) / 2) + diceslot.cell(slot).toString + " " * ((width - 1) / 2) + "|" + eol
 def quadrat(slot: Int, width: Int, length: Int, space: Int) = (quadbar(width, space) + (quadcell(slot, width, space) * length)) + quadbar(width, space)
 
 def mesh(seperator: Int = 25, quadwidth: Int = 5, quadlength: Int = 1, quadspace: Int = 15,
@@ -35,7 +35,7 @@ def mesh(seperator: Int = 25, quadwidth: Int = 5, quadlength: Int = 1, quadspace
 override def toString = mesh()
 def put(number: Dice, matrix: Int, x: Int, y: Int) =
   copy(playfield.replaceCell(matrix, x, y, number), diceslot)
-def putSlot(number: Dice, slot: Int): TUI =
+def putSlot(number: Dice, slot: Int) =
   copy(playfield, diceslot.replace(slot, number))
 
 }
