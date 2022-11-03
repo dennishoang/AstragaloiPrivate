@@ -4,10 +4,10 @@ package model
 import model.PlayField
 import model.Dice
 
-case class TUI(playfield: PlayField[Dice]) {
+case class TUI(playfield: PlayField[Dice], diceslot: DiceSlot[Dice]) {
 
-def this(size: Int, filling: Dice) =
-    this(new PlayField(size, filling))
+def this(size_1: Int, size_2: Int = 2, filling: Dice) =
+    this(new PlayField(size_1, filling), new DiceSlot(size_2, filling))
 
 val size = playfield.size
 val eol = sys.props("line.separator");
@@ -21,16 +21,18 @@ def playerfield(matrix: Int, width: Int, length: Int, space: Int) =
   + bars(width, space)
 
 def quadbar(width: Int, space: Int) = " " * space + "+" + ("-" * width) + "+" + eol
-def quadcell(width: Int, space: Int) = " " * space + "|" + (" " * width) + "|" + eol
-def quadrat(width: Int, length: Int, space: Int) = (quadbar(width, space) + (quadcell(width, space) * length)) + quadbar(width, space)
+def quadcell(slot: Int, width: Int, space: Int) =
+  diceslot.map(_.toString).map(" " * space + (" " * ((width - 1) / 2) + _ + " " * ((width - 1) / 2))).mkString("|") + eol
+def quadrat(slot: Int, width: Int, length: Int, space: Int) = (quadbar(width, space) + (quadcell(slot, width, space) * length)) + quadbar(width, space)
 
-def mesh(seperator: Int = 25, quadwidth: Int = 4, quadlength: Int = 2, quadspace: Int = 15,
+def mesh(seperator: Int = 25, quadwidth: Int = 5, quadlength: Int = 1, quadspace: Int = 15,
   cellWidth: Int = 3, celllength: Int = 1, cellspace: Int = 1) =
-  quadrat(quadwidth, quadlength, quadspace) + eol + playerfield(0, cellWidth, celllength, cellspace)
+  quadrat(0, quadwidth, quadlength, quadspace) + eol + playerfield(0, cellWidth, celllength, cellspace)
   + eol + "-" * seperator + eol * 2
-  + playerfield(1, cellWidth, celllength, cellspace) + eol + quadrat(quadwidth, quadlength, quadspace)
+  + playerfield(1, cellWidth, celllength, cellspace) + eol + quadrat(1, quadwidth, quadlength, quadspace)
 
 
 override def toString = mesh()
 def put(number: Dice, matrix: Int, x: Int, y: Int) = copy(playfield.replaceCell(matrix, x, y, number))
+def putSlot(number: Dice, slot: Int) = copy(diceslot.replaceCell(slot, number))
 }
