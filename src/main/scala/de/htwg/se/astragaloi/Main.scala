@@ -1,10 +1,9 @@
-import model.Field2
+import model.TUI
 import model.Dice
 
-//import scala.annotation.meta.field.apply
 
-@main def hello: Unit =
-  val field = new Field2(3, Dice.Empty)
+@main def game: Unit =
+  val field = new TUI(3, Dice.Empty)
   println(field.toString)
   val field2 = field.put(Dice.ONE, 0, 0, 0)
   val field3 = field.put(Dice.TWO, 1, 0, 1)

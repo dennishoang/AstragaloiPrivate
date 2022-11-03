@@ -4,7 +4,7 @@ package model
 import model.PlayField
 import model.Dice
 
-case class Field2(playfield: PlayField[Dice]) {
+case class TUI(playfield: PlayField[Dice]) {
 
 def this(size: Int, filling: Dice) =
     this(new PlayField(size, filling))

@@ -1,13 +1,13 @@
-/* package de.htwg.se.astragaloi.model
+package de.htwg.se.astragaloi.model
 
-import model.Matrix
+import model.PlayField
 import model.Dice
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
-class MatrixSpec extends AnyWordSpec {
-    val matrix = new Matrix[Dice](2, Dice.ONE)
+class PlayFieldSpec extends AnyWordSpec {
+    val matrix = new PlayField[Dice](2, Dice.ONE)
     "A Matrix" should {
         "be created by using a dimention and a cell" in {
             matrix.size should be(2)
@@ -26,4 +26,4 @@ class MatrixSpec extends AnyWordSpec {
             matrix4.cell(0,0) should be(Dice.Empty)
         }
     }
-} */
+}
