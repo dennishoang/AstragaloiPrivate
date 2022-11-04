@@ -121,6 +121,40 @@ class TUISpec extends AnyWordSpec {
                 field.bars(3,0).toString should be ("+---++---++---+" + field.eol)
                 field.quadbar(5,2).toString should be ("  +-----+" + field.eol)
             }
+
+            "can put a number in the matrix" in {
+                val field8 = new TUI (3, 2, Dice.Empty)
+                val fieldput = field8.put(Dice.SIX, 0 , 1, 0)
+                fieldput.playerfield(0, 3, 1 , 1)should be (
+                "+---+ +---+ +---+ " + field.eol +
+                "|   | |   | |   |" + field.eol +
+                "+---+ +---+ +---+ " + field.eol +
+                "| 6 | |   | |   |" + field.eol +
+                "+---+ +---+ +---+ " + field.eol +
+                "|   | |   | |   |" + field.eol +
+                "+---+ +---+ +---+ " + field.eol)
+            }
+
+            "can put a number in the quadrat" in {
+                val field69 = new TUI (3,2, Dice.Empty)
+                val quadratput = field69.putSlot(Dice.FOUR, 0)
+                val qudratput1 = field69.putSlot(Dice.FIVE, 1)
+                quadratput.quadrat(0,5,1,0) should be(
+                    "+-----+" + field.eol +
+                    "|  4  |" + field.eol +
+                    "+-----+" + field.eol
+                )
+                qudratput1.quadrat(1,5,1,0) should be(
+                    "+-----+" + field.eol +
+                    "|  5  |" + field.eol +
+                    "+-----+" + field.eol
+                )
+
+
+
+            }
+
+
         }
     }
 }
