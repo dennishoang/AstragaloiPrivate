@@ -5,7 +5,7 @@ import model.TUI
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
-
+/*
 class TUISpec extends AnyWordSpec {
 
     "A Field" when {
@@ -120,3 +120,5 @@ class TUISpec extends AnyWordSpec {
         }
     }
 }
+
+*/
