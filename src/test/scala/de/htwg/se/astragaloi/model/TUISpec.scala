@@ -1,4 +1,4 @@
-package de.htwg.se.astragaloi.model
+/* package de.htwg.se.astragaloi.model
 
 import model.TUI
 
@@ -120,3 +120,4 @@ class TUISpec extends AnyWordSpec {
         }
     }
 }
+*/
