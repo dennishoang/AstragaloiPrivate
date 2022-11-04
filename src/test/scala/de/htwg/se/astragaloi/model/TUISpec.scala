@@ -1,12 +1,12 @@
 package de.htwg.se.astragaloi.model
 
-import model.Field
+import model.TUI
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
 
-class FieldSpec extends AnyWordSpec {
+class TUISpec extends AnyWordSpec {
 
     "A Field" when {
         "empty " should {
