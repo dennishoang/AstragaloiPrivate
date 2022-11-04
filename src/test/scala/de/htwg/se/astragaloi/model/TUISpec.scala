@@ -30,20 +30,20 @@ class TUISpec extends AnyWordSpec {
                 field.cells(0, 0, 5, 5) should be ("|     |     |     |     |     |" + field.eol)
             }
             "have a scalable cells" in {
-                field1.cells(0, 0, 2, 4) should be ("|  |    |  |    |  |" + field.eol)
+                field1.cells(0, 0, 3, 4) should be ("|   |    |   |    |   |" + field.eol)
                 field2.cells(0, 0, 5, 0) should be ("|     ||     ||     |" + field.eol)
-                field.cells(0, 0, 0, 2) should be ("||  ||  ||" + field.eol)
+                field.cells(0, 0, 0, 2) should be ("| |  | |  | |" + field.eol)
             }
             "have scalable playfield in form of" + field.eol +
-            "+--+ +--+ +--+" + field.eol +
-            "|  | |  | |  |" + field.eol +
-            "+--+ +--+ +--+" + field.eol +
-            "|  | |  | |  |" + field.eol +
-            "+--+ +--+ +--+" + field.eol +
-            "|  | |  | |  |" + field.eol +
-            "+--+ +--+ +--+" in {
-                field.playerfield(0, 2, 1, 1) should be("+--+ +--+ +--+ " + field.eol + "|  | |  | |  | " + field.eol + "+--+ +--+ +--+ "+
-             field.eol + "|  | |  | |  | " + field.eol + "+--+ +--+ +--+ " + field.eol + "|  | |  | |  | " + field.eol + "+--+ +--+ +--+ " + field.eol)
+            "+---+ +---+ +---+" + field.eol +
+            "|   | |   | |   |" + field.eol +
+            "+---+ +---+ +---+" + field.eol +
+            "|   | |   | |   |" + field.eol +
+            "+---+ +---+ +---+" + field.eol +
+            "|   | |   | |   |" + field.eol +
+            "+---+ +---+ +---+" in {
+                field.playerfield(0, 3, 1, 1) should be("+---+ +---+ +---+ " + field.eol + "|   | |   | |   |" + field.eol + "+---+ +---+ +---+ "+
+             field.eol + "|   | |   | |   |" + field.eol + "+---+ +---+ +---+ " + field.eol + "|   | |   | |   |" + field.eol + "+---+ +---+ +---+ " + field.eol)
             }
             "have a quadbar as a String of a form '+---+'" in {
                 field.quadbar(3,0) should be ("+---+" + field.eol)
