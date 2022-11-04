@@ -54,61 +54,62 @@ class TUISpec extends AnyWordSpec {
                 field2.quadbar(4,4) should be ("    +----+" + field.eol)
             }
             "have a quadcell as a String of a form '|   |'" in {
-                field.quadcell(0, 2, 4) should be ("    |  |" + field.eol)
+                field.quadcell(0, 3, 4) should be ("    |   |" + field.eol)
             }
             "have scalable quadcells" in {
-                field.quadcell(0, 0, 0) should be ("||" + field.eol)
-                field1.quadcell(0, 4, 1) should be (" |    |" + field.eol)
-                field2.quadcell(0, 6, 2) should be ("  |      |" + field.eol)
+                field.quadcell(0, 5, 0) should be ("|     |" + field.eol)
+                field1.quadcell(0, 1, 1) should be (" | |" + field.eol)
+                field2.quadcell(0, 7, 2) should be ("  |       |" + field.eol)
             }
             "have a scalable quadrat in form of" + field.eol +
-            "+------+" + field.eol +
-            "|      |" + field.eol +
-            "|      |" + field.eol +
-            "+------+" in {
-                field.quadrat(0, 6, 2, 0) should be ("+------+" + field.eol + "|      |" + field.eol + "|      |" + field.eol + "+------+" + field.eol)
+            "+-----+" + field.eol +
+            "|     |" + field.eol +
+            "|     |" + field.eol +
+            "+-----+" in {
+                field.quadrat(0, 5, 2, 0) should be ("+-----+" + field.eol + "|     |" + field.eol + "|     |" + field.eol + "+-----+" + field.eol)
             }
+
             "have as scalable mesh in form of" + field.eol +
             "               +-----+" + field.eol +
             "               |     |" + field.eol +
-            "               +-----+" + field.eol + field.eol
-            "+--+ +--+ +--+       " + field.eol +
-            "|  | |  | |  |       " + field.eol +
-            "+--+ +--+ +--+       " + field.eol +
-            "|  | |  | |  |       " + field.eol +
-            "+--+ +--+ +--+       " + field.eol +
-            "|  | |  | |  |       " + field.eol +
-            "+--+ +--+ +--+       " + field.eol + field.eol
-            "-------------------------" + field.eol * 2+
-            "+--+ +--+ +--+       " + field.eol +
-            "|  | |  | |  |       " + field.eol +
-            "+--+ +--+ +--+       " + field.eol +
-            "|  | |  | |  |       " + field.eol +
-            "+--+ +--+ +--+       " + field.eol +
-            "|  | |  | |  |       " + field.eol +
-            "+--+ +--+ +--+       " + field.eol +
+            "               +-----+" + field.eol + field.eol +
+            "+---+ +---+ +---+ " + field.eol +
+            "|   | |   | |   |" + field.eol +
+            "+---+ +---+ +---+ " + field.eol +
+            "|   | |   | |   |" + field.eol +
+            "+---+ +---+ +---+ " + field.eol +
+            "|   | |   | |   |" + field.eol +
+            "+---+ +---+ +---+ " + field.eol + field.eol +
+            "-------------------------" + field.eol * 2 +
+            "+---+ +---+ +---+ " + field.eol +
+            "|   | |   | |   |" + field.eol +
+            "+---+ +---+ +---+ " + field.eol +
+            "|   | |   | |   |" + field.eol +
+            "+---+ +---+ +---+ " + field.eol +
+            "|   | |   | |   |" + field.eol +
+            "+---+ +---+ +---+ " + field.eol + field.eol +
             "               +-----+" + field.eol +
             "               |     |" + field.eol +
-            "               +-----+" in {
+            "               +-----+" + field.eol in {
                 field.mesh() should be (
                     "               +-----+" + field.eol +
                     "               |     |" + field.eol +
                     "               +-----+" + field.eol + field.eol +
-                    "+--+ +--+ +--+ " + field.eol +
-                    "|  | |  | |  | " + field.eol +
-                    "+--+ +--+ +--+ " + field.eol +
-                    "|  | |  | |  | " + field.eol +
-                    "+--+ +--+ +--+ " + field.eol +
-                    "|  | |  | |  | " + field.eol +
-                    "+--+ +--+ +--+ " + field.eol + field.eol +
+                    "+---+ +---+ +---+ " + field.eol +
+                    "|   | |   | |   |" + field.eol +
+                    "+---+ +---+ +---+ " + field.eol +
+                    "|   | |   | |   |" + field.eol +
+                    "+---+ +---+ +---+ " + field.eol +
+                    "|   | |   | |   |" + field.eol +
+                    "+---+ +---+ +---+ " + field.eol + field.eol +
                     "-------------------------" + field.eol * 2 +
-                    "+--+ +--+ +--+ " + field.eol +
-                    "|  | |  | |  | " + field.eol +
-                    "+--+ +--+ +--+ " + field.eol +
-                    "|  | |  | |  | " + field.eol +
-                    "+--+ +--+ +--+ " + field.eol +
-                    "|  | |  | |  | " + field.eol +
-                    "+--+ +--+ +--+ " + field.eol + field.eol +
+                    "+---+ +---+ +---+ " + field.eol +
+                    "|   | |   | |   |" + field.eol +
+                    "+---+ +---+ +---+ " + field.eol +
+                    "|   | |   | |   |" + field.eol +
+                    "+---+ +---+ +---+ " + field.eol +
+                    "|   | |   | |   |" + field.eol +
+                    "+---+ +---+ +---+ " + field.eol + field.eol +
                     "               +-----+" + field.eol +
                     "               |     |" + field.eol +
                     "               +-----+" + field.eol)
