@@ -1,3 +1,4 @@
+/*
 import model.TUI
 import model.Dice
 import scala.io.StdIn.readLine
@@ -44,3 +45,5 @@ def getInputAndPrintLoop(field: TUI): Unit =
         Some(field.put(dice, matrix, x, y))
 
       }
+
+      */

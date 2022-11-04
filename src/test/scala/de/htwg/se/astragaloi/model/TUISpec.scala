@@ -120,6 +120,7 @@ class TUISpec extends AnyWordSpec {
             "for test purposes toString" in {
                 field.bars(3,0).toString should be ("+---++---++---+" + field.eol)
                 field.quadbar(5,2).toString should be ("  +-----+" + field.eol)
+                field.toString() should be (field.mesh())
             }
 
             "can put a number in the matrix" in {
