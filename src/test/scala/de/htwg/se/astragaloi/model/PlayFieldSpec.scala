@@ -10,7 +10,7 @@ class PlayFieldSpec extends AnyWordSpec {
     val playfield = new PlayField[Dice](2, Dice.ONE)
     "A PlayField" should {
         "be created by using a dimention and a cell" in {
-            playfield.size should be(2)
+            playfield.size should be(8)
         }
         "for test purposes" in {
             val playfield2 = new PlayField[Dice](2, Dice.ONE)
@@ -21,9 +21,14 @@ class PlayFieldSpec extends AnyWordSpec {
             playfield.cell(1, 1, 1) should be(Dice.ONE)
             playfield3.cell(1, 1, 1) should be(Dice.TWO)
         }
+        "return rows" in {
+            val playfield4 = new PlayField[Dice](3, Dice.SIX)
+            val sum = playfield4.row(1,0).map(_.toString).map(_.toInt).sum
+            sum should be (18)
+        }
         "be filled" in {
-            val playfield4 = playfield.fill(Dice.Empty)
-            playfield4.cell(0, 0, 0) should be(Dice.Empty)
+            val playfield5 = playfield.fill(Dice.Empty)
+            playfield5.cell(0, 0, 0) should be(Dice.Empty)
         }
     }
 }
