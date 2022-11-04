@@ -15,6 +15,7 @@ class TUISpec extends AnyWordSpec {
             val field = new TUI(3, 2, Dice.Empty)
             val field1 = new TUI(3, 2, Dice.Empty)
             val field2 = new TUI(3, 2, Dice.Empty)
+            val field3 = new TUI(3,2, Dice.THREE)
             "have a line seperator" in {
                 field.eol should equal ("\n")
             }
@@ -28,6 +29,7 @@ class TUISpec extends AnyWordSpec {
             }
             "have a cell as a String of a form '|     |     |     |     |     |'" in {
                 field.cells(0, 0, 5, 5) should be ("|     |     |     |     |     |" + field.eol)
+                field3.cells(0, 0, 5, 5) should be ("|  3  |     |  3  |     |  3  |" + field.eol)
             }
             "have a scalable cells" in {
                 field1.cells(0, 0, 3, 4) should be ("|   |    |   |    |   |" + field.eol)
@@ -114,6 +116,10 @@ class TUISpec extends AnyWordSpec {
                     "               |     |" + field.eol +
                     "               +-----+" + field.eol)
 
+            }
+            "for test purposes toString" in {
+                field.bars(3,0).toString should be ("+---++---++---+" + field.eol)
+                field.quadbar(5,2).toString should be ("  +-----+" + field.eol)
             }
         }
     }
