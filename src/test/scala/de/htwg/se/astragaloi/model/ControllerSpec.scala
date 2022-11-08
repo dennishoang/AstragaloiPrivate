@@ -19,6 +19,9 @@ class ControllerSpec extends AnyWordSpec {
             val putslot = controller.putSlot(Dice.SIX, 1)
             controller.field.diceslot.cell(1) should be (Dice.SIX)
         }
+        "print the Field" in {
+            controller.toString should be (controller.field.toString)
+        }
     }
 }
 
