@@ -1,21 +1,21 @@
 package de.htwg.se.astragaloi.model
 
-import model.TUI
+import model.Field
 import model.Dice
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
 
-class TUISpec extends AnyWordSpec {
+class FieldSpec extends AnyWordSpec {
 
     "A Field" when {
         "empty " should {
 
-            val field = new TUI(3, 2, Dice.Empty)
-            val field1 = new TUI(3, 2, Dice.Empty)
-            val field2 = new TUI(3, 2, Dice.Empty)
-            val field3 = new TUI(3,2, Dice.THREE)
+            val field = new Field(3, 2, Dice.Empty)
+            val field1 = new Field(3, 2, Dice.Empty)
+            val field2 = new Field(3, 2, Dice.Empty)
+            val field3 = new Field(3,2, Dice.THREE)
             "have a line seperator" in {
                 field.eol should equal ("\n")
             }
@@ -124,7 +124,7 @@ class TUISpec extends AnyWordSpec {
             }
 
             "can put a number in the matrix" in {
-                val field8 = new TUI (3, 2, Dice.Empty)
+                val field8 = new Field (3, 2, Dice.Empty)
                 val fieldput = field8.put(Dice.SIX, 0 , 1, 0)
                 fieldput.playerfield(0, 3, 1 , 1)should be (
                 "+---+ +---+ +---+ " + field.eol +
@@ -137,7 +137,7 @@ class TUISpec extends AnyWordSpec {
             }
 
             "can put a number in the quadrat" in {
-                val field69 = new TUI (3,2, Dice.Empty)
+                val field69 = new Field (3,2, Dice.Empty)
                 val quadratput = field69.putSlot(Dice.FOUR, 0)
                 val qudratput1 = field69.putSlot(Dice.FIVE, 1)
                 quadratput.quadrat(0,5,1,0) should be(
