@@ -7,7 +7,7 @@ import scala.io.StdIn.readLine
 import util.Observer
 
 
-class TUI(controller: Controller) extends Observer:
+case class TUI(controller: Controller) extends Observer:
     controller.add(this)
     def run =
         println(controller.field.toString)
