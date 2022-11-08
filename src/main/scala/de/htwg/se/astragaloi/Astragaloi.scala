@@ -1,24 +1,31 @@
-/*
-import model.TUI
+package de.htwg.se.astragaloi
+
+import model.Field
 import model.Dice
+import aview.TUI
+import controller.Controller
 import scala.io.StdIn.readLine
 
 
 @main def game: Unit =
-  /* val field = new TUI(3, 2, Dice.Empty)
+/*
+  val field = new Field(3, 2, Dice.Empty)
   println(field.toString)
+
   val field2 = field.put(Dice.ONE, 0, 0, 0)
   val field3 = field.put(Dice.TWO, 1, 0, 1)
   println(field2.toString)
   println(field3.toString)
-  val field4 = field.putSlot(Dice.SIX, 0)
-  println(field4.toString) */
+
+  val field4 = field.putSlot(Dice.random, 0)
+  println(field4.toString)
+
   println("Welcome to Astragaloi")
-  val field = new TUI(3, 2, Dice.Empty)
+  val field = new Field(3, 2, Dice.Empty)
   println(field.toString)
   getInputAndPrintLoop(field)
 
-def getInputAndPrintLoop(field: TUI): Unit =
+def getInputAndPrintLoop(field: Field): Unit =
   val input = readLine
   parseInput(input) match
     case None => field
@@ -26,7 +33,7 @@ def getInputAndPrintLoop(field: TUI): Unit =
       println(newfield)
       getInputAndPrintLoop(newfield)
 
-  def parseInput(input: String): Option[TUI] =
+  def parseInput(input: String): Option[Field] =
     input match
       case "q" => None
       case _ => {
@@ -45,5 +52,13 @@ def getInputAndPrintLoop(field: TUI): Unit =
         Some(field.put(dice, matrix, x, y))
 
       }
-
       */
+
+      val field = new Field(3 ,2, Dice.Empty)
+      val controller = Controller(field)
+      val tui = TUI(controller)
+      tui.run
+
+
+
+

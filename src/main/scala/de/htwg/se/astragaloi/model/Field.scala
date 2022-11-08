@@ -4,15 +4,14 @@ import model.PlayField
 import model.DiceSlot
 import model.Dice
 
-case class TUI(playfield: PlayField[Dice], diceslot: DiceSlot[Dice]) {
+case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice]) {
 
 def this(size_1: Int, size_2: Int = 2, filling: Dice) =
   this(new PlayField(size_1, filling), new DiceSlot(size_2, filling))
 
 val size = playfield.size
 val eol = sys.props("line.separator");
-def bars(width: Int, space: Int) =
-  (("+" + "-" * width) + "+" + " " * space) * 3 + eol
+def bars(width: Int, space: Int) = (("+" + "-" * width) + "+" + " " * space) * 3 + eol
 def cells(matrix: Int, row: Int, width: Int, space: Int) =
   playfield.row(matrix, row).map(_.toString).map("|" + " " * ((width - 1) / 2) + _ + " " * ((width - 1) / 2) + "|").mkString(" " * space) + eol
 def playerfield(matrix: Int, width: Int, length: Int, space: Int) =

@@ -1,6 +1,7 @@
 package model
 
 case class PlayField[T](matrixes: Vector[Vector[Vector[T]]]):
+
     def this(size: Int, filling: T) = this(Vector.tabulate(2, size, size) { (matrix, row, col) => filling })
     val size: Int = 2*(matrixes.size*matrixes.size)
     def cell(matrix: Int, row: Int, col: Int): T = matrixes(matrix)(row)(col) // z.B: rows(3)(1): Zugriff auf erste Zelle Spalte 3
