@@ -9,9 +9,10 @@ import scala.io.StdIn.readLine
 
 @main def game: Unit =
 
+/*
   val field = new Field(3, 2, Dice.random)
   println(field.toString)
-/*
+
   val field2 = field.put(Dice.ONE, 0, 0, 0)
   val field3 = field.put(Dice.TWO, 1, 0, 1)
   println(field2.toString)
@@ -53,12 +54,12 @@ def getInputAndPrintLoop(field: Field): Unit =
 
       }
       */
-      /*
+
       val field = new Field(3 ,2, Dice.Empty)
       val controller = Controller(field)
       val tui = TUI(controller)
       tui.run
-      */
+
 
 
 

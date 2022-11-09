@@ -12,9 +12,11 @@ case class Controller(var field: Field) extends Observable:
         field = field.put(number, matrix, x, y)
         notifyObservers
 
-    def putSlot (number: Dice, slot: Int): Unit =
+    def putSlot(number: Dice, slot: Int): Unit =
         field = field.putSlot(number, slot)
         notifyObservers
+
+    def changePlayer(playerID: Int): Int = 1 - playerID
 
     override def toString: String = field.toString
 
