@@ -3,6 +3,7 @@ package aview
 
 import controller.Controller
 import model.Dice
+import model.Move
 import scala.io.StdIn.readLine
 import util.Observer
 import scala.util.Random
@@ -19,34 +20,35 @@ case class TUI(controller: Controller) extends Observer:
 
     override def update = println(controller.field.toString)
 
-
     def getInputAndPrintLoop(playerID: Int, auto_input: String): Unit =
         val matrix = playerID
         val random = Dice.random
-        controller.putSlot(random, matrix) // dadurch wird das geprinted
-        if (auto_input != "") {
-            auto_input match
-            case "q" => None
-            case _ => {
-                val chars = auto_input.toCharArray
-                val x = chars(0).toString.toInt
-                val y = chars(1).toString.toInt
-                controller.put(random, matrix, x, y)
-                controller.putSlot(Dice.Empty, matrix)
-            }
-        } else {
-            val input = readLine
-            input match
+        val move = Move(random, matrix,  0, 0)
+        val clear = Move(Dice.Empty, matrix, 0, 0)
+        controller.Publish(controller.putSlot, move)
+        if (auto_input == "")
+            analyseInput(readLine, random, matrix) match
+                case None       =>
+                case Some(move) => {
+                    controller.Publish(controller.put, move)
+                    controller.Publish(controller.putSlot, clear)
+                    getInputAndPrintLoop(controller.changePlayer(playerID), auto_input)
+                }
+        else
+            analyseInput(auto_input, random, matrix)
+
+
+    def analyseInput(input: String, dice: Dice, matrix: Int): Option[Move] =
+        input match
             case "q" => None
             case _ => {
                 val chars = input.toCharArray
                 val x = chars(0).toString.toInt
                 val y = chars(1).toString.toInt
-                controller.put(random, matrix, x, y)
-                controller.putSlot(Dice.Empty, matrix)
-                getInputAndPrintLoop(controller.changePlayer(playerID), "") // change_player:  1 - playerID to switch player
+                Some(Move(dice, matrix, x, y))
             }
-        }
+
+
 
 
     /*
