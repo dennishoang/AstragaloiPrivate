@@ -22,6 +22,11 @@ class ControllerSpec extends AnyWordSpec {
         "print the Field" in {
             controller.toString should be (controller.field.toString)
         }
+        "change the player" in {
+            controller.changePlayer(1) should be (0)
+            controller.changePlayer(0) should be (1)
+
+        }
     }
 }
 

@@ -1,8 +1,12 @@
 package model
 
-case class Player (name: String, points: Int)
+case class Player (playerID: Int, points: Int)
 
-val noah = Player(name = "Noah", points = 0)
-val dennis = Player(name = "Dennis", points = 0)
+val player1 = Player(0, 0)
+val player2 = Player(1,0)
+
+
+
+
 
 
