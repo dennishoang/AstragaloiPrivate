@@ -5,6 +5,8 @@ import model.Dice
 import aview.TUI
 import controller.Controller
 import scala.io.StdIn.readLine
+import scala.util.Random
+import scala.util.control._
 
 
 @main def game: Unit =
@@ -59,6 +61,9 @@ def getInputAndPrintLoop(field: Field): Unit =
       val controller = Controller(field)
       val tui = TUI(controller)
       tui.run
+
+
+
 
 
 
