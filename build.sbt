@@ -8,7 +8,7 @@ lazy val root = project
 
     scalaVersion := scala3Version,
 
-    secrets := "yJoCQPYOTdfn4LyhNnzcG0mJrQXBwnaqh",
+    COVERALLS_REPO_TOKEN=yJoCQPYOTdfn4LyhNnzcG0mJrQXBwnaqh,
 
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test,
     libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.14",
