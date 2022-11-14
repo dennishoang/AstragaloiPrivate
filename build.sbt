@@ -1,3 +1,7 @@
+import org.scoverage.coveralls.Imports.CoverallsKeys._
+
+export COVERALLS_REPO_TOKEN=token.txt
+
 val scala3Version = "3.2.0"
 
 lazy val root = project
