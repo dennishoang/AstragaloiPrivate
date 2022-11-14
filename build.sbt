@@ -13,3 +13,6 @@ lazy val root = project
     libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.14",
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.14" % "test"
   )
+  .secrets(
+    repo_token: yJoCQPYOTdfn4LyhNnzcG0mJrQXBwnaqh
+  )
