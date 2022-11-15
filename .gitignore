@@ -33,4 +33,4 @@ metals.sbt
 /.worksheet/
 
 #Coveralls
-token.txt
+.coveralls.yml
