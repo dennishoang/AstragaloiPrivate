@@ -1,5 +1,7 @@
 package model
 
+import scala.util.Random
+
 enum Dice(stringRepresentation: String):
     override def toString = stringRepresentation
     case ONE extends Dice("1")
@@ -9,4 +11,8 @@ enum Dice(stringRepresentation: String):
     case FIVE extends Dice("5")
     case SIX extends Dice("6")
     case Empty extends Dice(" ")
+
+object Dice:
+    private final val dices = Dice.values
+    def random: Dice = dices(Random.nextInt(dices.size - 1))
 
