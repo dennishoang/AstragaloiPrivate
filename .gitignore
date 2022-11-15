@@ -33,4 +33,4 @@ metals.sbt
 /.worksheet/
 
 #Coveralls
-.coveralls.yml
+#.coveralls.yml
