@@ -3,7 +3,7 @@ on:
  push:
    branches: [ SE_06 ]
  pull_request:
-   branches: [ main ]
+   branches: [ SE_06 ]
 jobs:
  build:
    runs-on: ubuntu-latest
