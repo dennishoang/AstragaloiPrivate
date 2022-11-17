@@ -1,9 +1,8 @@
-import de.htwg.se.astragaloi.util.Observer
+package de.htwg.se.astragaloi.util
 
-import de.htwg.se.astragaloi.controller.Controller
-import de.htwg.se.astragaloi.model.Field
-import de.htwg.se.astragaloi.model.Dice
-import de.htwg.se.astragaloi.aview.TUI
+//import util.Observable
+//import de.htwg.se.astragaloi.controller.Controller
+//import de.htwg.se.astragaloi.aview.TUI
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
@@ -11,33 +10,35 @@ import org.scalatest.matchers.should.Matchers._
 
 class ObserverSpec extends AnyWordSpec {
 
-    class ObserverTest(controller: Controller) extends Observer:
-        def get: Controller = controller
-        override def update = println(controller.field.toString)
+    "An observable" when {
+        "new observer" should {
+            var updated = false
+            val observable = new Observable
+            val observer = new Observer {
+                override def update: Unit = updated = true
+            }
 
-    val testobs = new ObserverTest(new Controller(new Field(3, 2, Dice.Empty)))
+            observable.add(observer)
 
-    "The Observable" should {
-        /*
-        "be added" in {
-            val subs = testobs.get.add(testobs)
-            subs should be (testobs.get.subscribers)
-        }
-        "be removed" in {
-            testobs.get.add(testobs)
-            testobs.get.remove(testobs) should be (testobs.get.subscribers)
-        }
-        */
-        "notify the Observer" in {
-            testobs.get.add(testobs)
-            testobs.get.notifyObservers should be (testobs.update)
+            "have a subscriber" in {
+                observable.subscribers.contains(observer) should be(true)
+            }
+            "have subscriber removed" in {
+                observable.remove(observer)
+                observable.subscribers.contains(observer) should be(false)
+            }
+            "have a subscriber add" in {
+                observable.add(observer)
+                observable.subscribers.contains(observer) should be(true)
+            }
+            "remove an Observer" in {
+                observable.remove(observer)
+                observable.subscribers should not contain (observer)
+            }
+            "add an Observer" in {
+                observable.add(observer)
+                observable.subscribers should contain (observer)
+            }
         }
     }
-
-    "The Observer" should {
-        "be updated" in {
-            testobs.update should equal (println(testobs.get.field.toString))
-        }
-    }
-
- }
+}

@@ -7,6 +7,8 @@ import model.Field
 import model.Move
 import util.Observable
 
+import scala.util.Random
+
 case class Controller(var field: Field) extends Observable:
 
     def Publish(doThis: Move => Field, move: Move): Unit =
@@ -21,5 +23,7 @@ case class Controller(var field: Field) extends Observable:
         field.putSlot(move.dice, move.matrix)
 
     def changePlayer(playerID: Int): Int = 1 - playerID
+
+    def rollDice(): Dice = Dice.values(Random.nextInt(Dice.values.size - 1))
 
     override def toString: String = field.toString

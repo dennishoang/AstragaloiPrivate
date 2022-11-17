@@ -14,7 +14,7 @@ class TUISpec extends AnyWordSpec {
 
     "A TUI" should {
         val tui = new TUI(Controller(new Field(3, 2, Dice.Empty)))
-        "get Input and print loop" in {
+        "get Input and print loop" in { // 00 als Testeingabe
             tui.getInputAndPrintLoop(0, "00") should be (println(tui.controller.field.toString))
         }
         "be updated" in {
