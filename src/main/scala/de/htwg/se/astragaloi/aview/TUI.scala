@@ -24,7 +24,7 @@ case class TUI(controller: Controller) extends Observer:
 
         val matrix = playerID
         val random = Dice.random
-        val move = Move(random, matrix,  0, 0)
+        val roll = Move(random, matrix,  0, 0)
         val clear = Move(Dice.Empty, matrix, 0, 0)
         controller.Publish(controller.putSlot, move)
 

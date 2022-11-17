@@ -1,3 +1,4 @@
+package de.htwg.se.astragaloi
 package model
 
 import scala.util.Random
@@ -13,6 +14,5 @@ enum Dice(stringRepresentation: String):
     case Empty extends Dice(" ")
 
 object Dice:
-    private final val dices = Dice.values
-    def random: Dice = dices(Random.nextInt(dices.size - 1))
+    def random: Dice = Dice.values(Random.nextInt(Dice.values.size - 1))
 
