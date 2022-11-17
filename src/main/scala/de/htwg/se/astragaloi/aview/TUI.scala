@@ -23,10 +23,10 @@ case class TUI(controller: Controller) extends Observer:
     def getInputAndPrintLoop(playerID: Int, auto_input: String): Unit =
 
         val matrix = playerID
-        val random = Dice.random
+        val random = controller.rollDice()
         val roll = Move(random, matrix,  0, 0)
         val clear = Move(Dice.Empty, matrix, 0, 0)
-        controller.Publish(controller.putSlot, move)
+        controller.Publish(controller.putDiceslot, roll)
 
         var input = ""
         if (auto_input != "")
@@ -36,9 +36,9 @@ case class TUI(controller: Controller) extends Observer:
 
         analyseInput(input, random, matrix) match
             case None       =>
-            case Some(move) => {
-                controller.Publish(controller.put, move)
-                controller.Publish(controller.putSlot, clear)
+            case Some(playerAction) => {
+                controller.Publish(controller.putPlayfield, playerAction)
+                controller.Publish(controller.putDiceslot, clear)
                 if (auto_input == "")
                     getInputAndPrintLoop(controller.changePlayer(playerID), auto_input)
             }

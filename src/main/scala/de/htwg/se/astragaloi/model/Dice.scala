@@ -13,6 +13,3 @@ enum Dice(stringRepresentation: String):
     case SIX extends Dice("6")
     case Empty extends Dice(" ")
 
-object Dice:
-    def random: Dice = Dice.values(Random.nextInt(Dice.values.size - 1))
-

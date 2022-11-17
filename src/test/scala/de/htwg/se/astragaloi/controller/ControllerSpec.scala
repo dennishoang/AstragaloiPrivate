@@ -30,6 +30,13 @@ class ControllerSpec extends AnyWordSpec {
             controller.changePlayer(1) should be (0)
             controller.changePlayer(0) should be (1)
         }
+        "roll the Dice" in {
+            val value = controller.rollDice()
+            if (value.equals(Dice.Empty))
+                value should be (" ")
+            else
+                value.toString.toInt should be <= 6
+        }
         "be published" in {
             val move = Move(Dice.ONE, 0, 0, 0)
             controller.Publish(controller.putPlayfield, move) should be
