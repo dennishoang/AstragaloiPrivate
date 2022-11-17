@@ -1,3 +1,4 @@
+package de.htwg.se.astragaloi
 package model
 
 case class PlayField[T](matrixes: Vector[Vector[Vector[T]]]):

@@ -11,6 +11,10 @@ import org.scalatest.matchers.should.Matchers._
 class ObserverSpec extends AnyWordSpec {
     /*
     class ObserverTest(controller: Controller) extends Observer:
+        def get: Controller = controller
+        override def update = println(controller.field.toString)
+
+    val testobs = new ObserverTest(new Controller(new Field(3, 2, Dice.Empty)))
 
         "The Observable" should {
             "be added" in {
