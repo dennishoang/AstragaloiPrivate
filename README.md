@@ -9,7 +9,7 @@ For more information on the sbt-dotty plugin, see the
 
 ### Coveralls badge
 
-[![Coverage Status](https://coveralls.io/repos/github/dennishoang/AstragaloiPrivate/badge.svg)](https://coveralls.io/github/dennishoang/AstragaloiPrivate)
+[![Coverage Status](https://coveralls.io/repos/github/dennishoang/AstragaloiPrivate/badge.svg?branch=main)](https://coveralls.io/github/dennishoang/AstragaloiPrivate?branch=main)
 
 ### Workflow badge
 
