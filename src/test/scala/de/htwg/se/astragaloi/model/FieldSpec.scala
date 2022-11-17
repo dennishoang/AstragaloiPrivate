@@ -11,11 +11,13 @@ class FieldSpec extends AnyWordSpec {
 
     "A Field" when {
         "empty " should {
-
             val field = new Field(3, 2, Dice.Empty)
             val field1 = new Field(3, 2, Dice.Empty)
             val field2 = new Field(3, 2, Dice.Empty)
             val field3 = new Field(3,2, Dice.THREE)
+            "be created" in {
+                new Field(3, 2, Dice.Empty) should be (new Field(3, 2, Dice.Empty))
+            }
             "have a line seperator" in {
                 field.eol should equal ("\n")
             }

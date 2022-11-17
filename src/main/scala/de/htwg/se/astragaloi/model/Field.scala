@@ -7,8 +7,8 @@ import model.Dice
 
 case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice]) {
 
-def this(size_1: Int, size_2: Int = 2, filling: Dice) =
-  this(new PlayField(size_1, filling), new DiceSlot(size_2, filling))
+def this(matrix_size: Int, diceslot_size: Int = 2, filling: Dice) =
+  this(new PlayField(matrix_size, filling), new DiceSlot(diceslot_size, filling))
 
 val size = playfield.size
 val eol = sys.props("line.separator");

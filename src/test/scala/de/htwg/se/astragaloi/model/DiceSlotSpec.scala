@@ -33,6 +33,5 @@ class DiceSlotSpec extends AnyWordSpec {
             returndiceslot.cell(0) should be (Dice.SIX)
         }
 
-
     }
 }
