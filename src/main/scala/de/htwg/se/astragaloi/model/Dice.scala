@@ -1,7 +1,6 @@
 package de.htwg.se.astragaloi
 package model
 
-import scala.util.Random
 
 enum Dice(stringRepresentation: String):
     override def toString = stringRepresentation
@@ -13,6 +12,4 @@ enum Dice(stringRepresentation: String):
     case SIX extends Dice("6")
     case Empty extends Dice(" ")
 
-object Dice:
-    def random: Dice = Dice.values(Random.nextInt(Dice.values.size - 1))
 

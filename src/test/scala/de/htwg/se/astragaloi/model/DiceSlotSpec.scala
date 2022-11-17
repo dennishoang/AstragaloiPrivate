@@ -33,10 +33,5 @@ class DiceSlotSpec extends AnyWordSpec {
             returndiceslot.cell(0) should be (Dice.SIX)
         }
 
-        "have a random value" in {
-            val random = Dice.random
-            random should be (random)
-        }
-
     }
 }
