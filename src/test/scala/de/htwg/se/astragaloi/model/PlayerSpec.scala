@@ -1,6 +1,6 @@
 package de.htwg.se.astragaloi.model
 
-import model.Player
+import de.htwg.se.astragaloi.model.Player
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 

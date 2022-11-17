@@ -1,15 +1,14 @@
-package de.htwg.se.astragaloi.model
-
-
+package de.htwg.se.astragaloi
 
 import de.htwg.se.astragaloi.controller.Controller
-import model.Field
-import model.Dice
-import model.Move
+import de.htwg.se.astragaloi.model.Field
+import de.htwg.se.astragaloi.model.Dice
+import de.htwg.se.astragaloi.model.Move
 import de.htwg.se.astragaloi.aview.TUI
 import de.htwg.se.astragaloi.util.Observable
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
+
 
 class ControllerSpec extends AnyWordSpec {
     "The Controller" should {

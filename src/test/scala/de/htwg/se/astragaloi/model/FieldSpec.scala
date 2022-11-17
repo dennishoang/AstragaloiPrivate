@@ -1,7 +1,7 @@
 package de.htwg.se.astragaloi.model
 
-import model.Field
-import model.Dice
+import de.htwg.se.astragaloi.model.Field
+import de.htwg.se.astragaloi.model.Dice
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
