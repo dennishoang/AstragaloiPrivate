@@ -6,6 +6,8 @@ import de.htwg.se.astragaloi.controller.Controller
 import model.Field
 import model.Dice
 import model.Move
+import de.htwg.se.astragaloi.aview.TUI
+import de.htwg.se.astragaloi.util.Observable
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
@@ -33,6 +35,13 @@ class ControllerSpec extends AnyWordSpec {
             val move = Move(Dice.ONE, 0, 0, 0)
             controller.Publish(controller.put, move) should be
             (println(controller.field.toString))
+        }
+        "notify observers" in {
+            class TestObservable (controller: Controller) extends Observable:
+                val tui = new TUI(controller)
+                controller.add(tui)
+                controller.notifyObservers should be (tui.update)
+
         }
     }
 }
