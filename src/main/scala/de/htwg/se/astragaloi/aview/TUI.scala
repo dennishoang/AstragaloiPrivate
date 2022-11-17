@@ -3,7 +3,6 @@ package aview
 
 import controller.Controller
 import model.Dice
-import model.DiceRoll
 import model.Move
 import scala.io.StdIn.readLine
 import util.Observer
@@ -23,7 +22,7 @@ case class TUI(controller: Controller) extends Observer:
 
     def getInputAndPrintLoop(playerID: Int, auto_input: String): Unit =
         val matrix = playerID
-        val random = DiceRoll.random
+        val random = Dice.random
         val roll = Move(random, matrix,  0, 0)
         val clear = Move(Dice.Empty, matrix, 0, 0)
         controller.Publish(controller.putDiceslot, roll)
