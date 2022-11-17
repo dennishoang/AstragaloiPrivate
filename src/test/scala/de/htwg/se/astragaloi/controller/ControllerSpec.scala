@@ -41,7 +41,6 @@ class ControllerSpec extends AnyWordSpec {
                 val tui = new TUI(controller)
                 controller.add(tui)
                 controller.notifyObservers should be (tui.update)
-
         }
     }
 }
