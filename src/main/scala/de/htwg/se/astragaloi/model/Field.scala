@@ -37,4 +37,4 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice]):
   def putSlot(number: Dice, slot: Int) =
     copy(playfield, diceslot.replace(slot, number))
 
-}
+
