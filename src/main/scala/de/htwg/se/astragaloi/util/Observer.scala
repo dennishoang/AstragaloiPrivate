@@ -2,9 +2,9 @@ package de.htwg.se.astragaloi
 package util
 
 trait Observer:
-  def update: Unit = {}
+  def update: Unit
 
-trait Observable:
+class Observable:
   var subscribers: Vector[Observer] = Vector()
   def add(s: Observer) = subscribers = subscribers :+ s
   def remove(s: Observer) = subscribers = subscribers.filterNot(o => o == s)
