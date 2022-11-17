@@ -11,6 +11,7 @@ For more information on the sbt-dotty plugin, see the
 
 [![Coverage Status](https://coveralls.io/repos/github/dennishoang/AstragaloiPrivate/badge.svg?branch=main)](https://coveralls.io/github/dennishoang/AstragaloiPrivate?branch=main)
 
+
 ### Workflow badge
 
 [![Scala CI](https://github.com/dennishoang/AstragaloiPrivate/actions/workflows/scala.yml/badge.svg)](https://github.com/dennishoang/AstragaloiPrivate/actions/workflows/scala.yml)
