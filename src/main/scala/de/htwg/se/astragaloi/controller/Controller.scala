@@ -14,10 +14,10 @@ case class Controller(var field: Field) extends Observable:
         field = doThis(move)
         notifyObservers
 
-    def put(move: Move): Field =
+    def putPlayfield(move: Move): Field =
         field.put(move.dice, move.matrix, move.x, move.y)
 
-    def putSlot(move: Move): Field =
+    def putDiceslot(move: Move): Field =
         field.putSlot(move.dice, move.matrix)
 
     def changePlayer(playerID: Int): Int = 1 - playerID

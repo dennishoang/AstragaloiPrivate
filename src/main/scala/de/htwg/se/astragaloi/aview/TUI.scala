@@ -23,15 +23,15 @@ case class TUI(controller: Controller) extends Observer:
     def getInputAndPrintLoop(playerID: Int, auto_input: String): Unit =
         val matrix = playerID
         val random = Dice.random
-        val move = Move(random, matrix,  0, 0)
+        val roll = Move(random, matrix,  0, 0)
         val clear = Move(Dice.Empty, matrix, 0, 0)
-        controller.Publish(controller.putSlot, move)
+        controller.Publish(controller.putDiceslot, roll)
         if (auto_input == "")
             analyseInput(readLine, random, matrix) match
                 case None       =>
-                case Some(move) => {
-                    controller.Publish(controller.put, move)
-                    controller.Publish(controller.putSlot, clear)
+                case Some(playerAction) => {
+                    controller.Publish(controller.putPlayfield, playerAction)
+                    controller.Publish(controller.putDiceslot, clear)
                     getInputAndPrintLoop(controller.changePlayer(playerID), auto_input)
                 }
         else

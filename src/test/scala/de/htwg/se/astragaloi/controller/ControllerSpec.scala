@@ -1,27 +1,26 @@
-package de.htwg.se.astragaloi.model
-
-
+package de.htwg.se.astragaloi
 
 import de.htwg.se.astragaloi.controller.Controller
-import model.Field
-import model.Dice
-import model.Move
+import de.htwg.se.astragaloi.model.Field
+import de.htwg.se.astragaloi.model.Dice
+import de.htwg.se.astragaloi.model.Move
 import de.htwg.se.astragaloi.aview.TUI
 import de.htwg.se.astragaloi.util.Observable
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
+
 
 class ControllerSpec extends AnyWordSpec {
     "The Controller" should {
         val controller = Controller(new Field(3,2, Dice.Empty))
         "put a number in the Playfielid" in {
             val move = Move(Dice.ONE, 0, 2, 1)
-            controller.field = controller.put(move)
+            controller.field = controller.putPlayfield(move)
             controller.field.playfield.cell(0, 2, 1) should be (Dice.ONE)
         }
         "put a number in the qudadrat" in {
             val move = Move(Dice.SIX, 1, 0, 0)
-            controller.field = controller.putSlot(move)
+            controller.field = controller.putDiceslot(move)
             controller.field.diceslot.cell(1) should be (Dice.SIX)
         }
         "print the Field" in {
@@ -33,7 +32,7 @@ class ControllerSpec extends AnyWordSpec {
         }
         "be published" in {
             val move = Move(Dice.ONE, 0, 0, 0)
-            controller.Publish(controller.put, move) should be
+            controller.Publish(controller.putPlayfield, move) should be
             (println(controller.field.toString))
         }
         "notify observers" in {
