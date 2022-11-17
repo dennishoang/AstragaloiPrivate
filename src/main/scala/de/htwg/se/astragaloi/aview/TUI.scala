@@ -21,21 +21,28 @@ case class TUI(controller: Controller) extends Observer:
     override def update = println(controller.field.toString)
 
     def getInputAndPrintLoop(playerID: Int, auto_input: String): Unit =
+
         val matrix = playerID
         val random = Dice.random
         val move = Move(random, matrix,  0, 0)
         val clear = Move(Dice.Empty, matrix, 0, 0)
         controller.Publish(controller.putSlot, move)
-        if (auto_input == "")
-            analyseInput(readLine, random, matrix) match
-                case None       =>
-                case Some(move) => {
-                    controller.Publish(controller.put, move)
-                    controller.Publish(controller.putSlot, clear)
-                    getInputAndPrintLoop(controller.changePlayer(playerID), auto_input)
-                }
+
+        var input = ""
+        if (auto_input != "")
+            input = auto_input
         else
-            analyseInput(auto_input, random, matrix)
+            input = readLine
+
+        analyseInput(input, random, matrix) match
+            case None       =>
+            case Some(move) => {
+                controller.Publish(controller.put, move)
+                controller.Publish(controller.putSlot, clear)
+                if (auto_input == "")
+                    getInputAndPrintLoop(controller.changePlayer(playerID), auto_input)
+            }
+
 
 
     def analyseInput(input: String, dice: Dice, matrix: Int): Option[Move] =
