@@ -1,3 +1,4 @@
+/*
 package de.htwg.se.astragaloi
 
 import model.Field
@@ -56,13 +57,13 @@ def getInputAndPrintLoop(field: Field): Unit =
 
       }
       */
-/*
+
       val field = new Field(3 ,2, Dice.Empty)
       val controller = Controller(field)
       val tui = TUI(controller)
       tui.run
-      */
 
+*/
 
 
 
