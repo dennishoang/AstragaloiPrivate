@@ -55,13 +55,3 @@ case class TUI(controller: Controller) extends Observer:
                 Some(Move(dice, matrix, x, y))
             }
 
-
-
-
-    /*
-    def getInputAndPrintLoop(playerID: Int, value: Int, row: Int, col: Int): Unit =
-            val matrix = playerID
-            controller.putSlot(random, matrix)
-            controller.put(random, matrix, row, col)
-            controller.putSlot(Dice.Empty, matrix)
-    */

@@ -1,4 +1,4 @@
-/*
+
 package de.htwg.se.astragaloi
 
 import model.Field
@@ -62,7 +62,7 @@ def getInputAndPrintLoop(field: Field): Unit =
       val controller = Controller(field)
       val tui = TUI(controller)
       tui.run
-*/
+
 
 
 

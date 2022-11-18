@@ -1,8 +1,5 @@
 package de.htwg.se.astragaloi.util
 
-//import util.Observable
-//import de.htwg.se.astragaloi.controller.Controller
-//import de.htwg.se.astragaloi.aview.TUI
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
