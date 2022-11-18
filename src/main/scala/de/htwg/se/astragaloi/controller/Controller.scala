@@ -7,6 +7,8 @@ import model.Field
 import model.Move
 import util.Observable
 
+import model.PointSlot
+
 import scala.util.Random
 
 case class Controller(var field: Field) extends Observable:
@@ -25,5 +27,8 @@ case class Controller(var field: Field) extends Observable:
     def changePlayer(playerID: Int): Int = 1 - playerID
 
     def rollDice(): Dice = Dice.values(Random.nextInt(Dice.values.size - 1))
+
+    def putPoints(move: Move): Field =
+        field.putPoint(move.matrix, move.y)
 
     override def toString: String = field.toString

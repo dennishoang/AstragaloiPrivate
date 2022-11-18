@@ -4,10 +4,12 @@ package model
 import model.PlayField
 import model.DiceSlot
 import model.Dice
+import model.PointSlot
 
-case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice]):
 
-  def this(matrix_size: Int, diceslot_size: Int = 2, filling: Dice) = this(new PlayField(matrix_size, filling), new DiceSlot(diceslot_size, filling))
+case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot: PointSlot[Int]):
+
+  def this(matrix_size: Int, diceslot_size: Int = 2, filling: Dice, fillingpoint: Int) = this(new PlayField(matrix_size, filling), new DiceSlot(diceslot_size, filling), new PointSlot(diceslot_size, fillingpoint))
 
   val size = playfield.size
   val eol = sys.props("line.separator");
@@ -19,6 +21,8 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice]):
     + (cells(matrix, 1, width, space) * length) + bars(width, space) + cells(matrix, 2, width, space)
     + bars(width, space)
 
+  def pointcell(slot: Int, width: Int, space: Int) = pointslot.slot(slot).map(_.toString).map("|" + " " * ((width - 1) / 2) + _ + " " * ((width - 1) / 2) + "|").mkString(" " * space) + eol
+
   def quadbar(width: Int, space: Int) = " " * space + "+" + ("-" * width) + "+" + eol
   def quadcell(slot: Int, width: Int, space: Int) =
     " " * space + "|" + " " * ((width - 1) / 2) + diceslot.cell(slot).toString + " " * ((width - 1) / 2) + "|" + eol
@@ -27,7 +31,7 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice]):
   def mesh(seperator: Int = 25, quadwidth: Int = 5, quadlength: Int = 1, quadspace: Int = 15,
     cellWidth: Int = 3, celllength: Int = 1, cellspace: Int = 1) =
     quadrat(0, quadwidth, quadlength, quadspace) + eol + playerfield(0, cellWidth, celllength, cellspace)
-    + eol + "-" * seperator + eol * 2
+    + eol + pointcell(0, cellWidth, cellspace) + "-" * seperator + eol + pointcell(1, cellWidth, cellspace) + eol
     + playerfield(1, cellWidth, celllength, cellspace) + eol + quadrat(1, quadwidth, quadlength, quadspace)
 
 
@@ -36,5 +40,11 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice]):
     copy(playfield.replaceCell(matrix, x, y, number), diceslot)
   def putSlot(number: Dice, slot: Int) =
     copy(playfield, diceslot.replace(slot, number))
+  def putPoint(slot: Int, col: Int) =
+    //val range = 0 to 2
+    val number = playfield.cell(slot, 0 , col).toString.toInt
+    copy(playfield, diceslot, pointslot.replacePoints(slot, col, number))
+
+
 
 

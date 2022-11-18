@@ -3,6 +3,8 @@ package de.htwg.se.astragaloi
 
 import model.Field
 import model.Dice
+import model.PointSlot
+import model.Move
 import aview.TUI
 import controller.Controller
 import scala.io.StdIn.readLine
@@ -12,10 +14,21 @@ import scala.util.control._
 
 @main def game: Unit =
 
-/*
-  val field = new Field(3, 2, Dice.random)
-  println(field.toString)
 
+  val controller = Controller(new Field(3,2,Dice.Empty, 0))
+  val move = Move(Dice.ONE, 1,2,2)
+  val move1 = Move(Dice.TWO,0,2,2)
+  controller.field = controller.putPoints(move)
+  controller.field = controller.putPoints(move1)
+  println(controller.field.toString)
+
+  //val field = new Field(3, 2, Dice.Empty)
+  //val field2 = field.putPoint(0,0, Dice.ONE)
+
+  //val field2 = field.putPoint(0, 4, Dice.ONE)
+  //val controller = Controller(field2)
+  //println(controller.field2.toString)
+/*
   val field2 = field.put(Dice.ONE, 0, 0, 0)
   val field3 = field.put(Dice.TWO, 1, 0, 1)
   println(field2.toString)
@@ -57,7 +70,7 @@ def getInputAndPrintLoop(field: Field): Unit =
 
       }
       */
-
+/*
       val field = new Field(3 ,2, Dice.Empty)
       val controller = Controller(field)
       val tui = TUI(controller)
