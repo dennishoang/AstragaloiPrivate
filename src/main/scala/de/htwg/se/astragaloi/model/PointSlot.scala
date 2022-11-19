@@ -9,32 +9,54 @@ case class PointSlot[T](slots: Vector[Vector[Int]]):
     def cell(matrix: Int, col:Int): Int = slots(matrix)(col)
     def slot(matrix: Int) = slots(matrix)
     def fill(filling: Int): PointSlot[T] = copy(Vector.tabulate(size, 4) { (slot, col) => filling })
+
     def replacePoints(playfield: PlayField[T], matrix: Int, col: Int): PointSlot[T] =
-        val value = calculatePoints(playfield, matrix, col)
+        val value = calculatePoints(playfield, matrix, col, 0)
         copy(slots.updated(matrix, slots(matrix).updated(col,value)))
-    def calculatePoints(playfield: PlayField[T], matrix: Int, col: Int): Int =
-        // Algorithm:  Pasch: (Anzahl gleiche Zahlen in einer Spalte) * (Summe gleicher Zahlen) ==> z.B. 2 Zweier ==> 2 * ( 2 + 2 ) = 8
 
-        val orig = playfield.col(matrix, col).map(_.toString).filter(_.forall(Character.isDigit)).map(_.toInt).toSet
+        //val total = calculatePoints(playfield, matrix, col, 1)
+        //copy(slots.updated(matrix, slots(matrix).updated(3,total)))
 
-        //val dist: PartialFunction[Int, Int] = { case a if a == b => a}
-        val distincted = playfield.col(matrix, col).map(_.toString).filter(_.forall(Character.isDigit)).map(_.toInt).distinct.toSet
 
-        val equalElements = orig -- distincted
-        //val equalElements = orig.diff(distincted)
-        val numOfEqElements = equalElements.size + 1 // (+ 1) because it just includes the duplicates
-        (equalElements.sum * numOfEqElements) + orig.diff(equalElements).sum
+    def calculatePoints(playfield: PlayField[T], matrix: Int, col: Int, algorithm: Int): Int =
 
-        /*
-        val orig = playfield.col(matrix, col).map(_.toString).filter(_.forall(Character.isDigit)).map(_.toInt)
-        val distincted = playfield.col(matrix, col).map(_.toString).filter(_.forall(Character.isDigit)).map(_.toInt).distinct
-        val equalElements = orig.diff(distincted)
-        val numOfEqElements = equalElements.size // (+ 1) because it just includes the duplicates
-        (equalElements.sum * numOfEqElements) + orig.diff(equalElements).sum
-        */
+        object Algorithm {
 
-        // Vorherige (vereinfachte) Rechnung
-        // playfield.col(matrix, col).map(_.toString).filter(_.forall(Character.isDigit)).map(_.toInt).sum
+            var strategy = if (algorithm == 0) calcCol(playfield, matrix, col) else rowPoints(matrix)
+
+            def calcCol(playfield: PlayField[T], matrix: Int, col: Int): Int =
+
+                val values = playfield.col(matrix, col).map(_.toString).filter(_.forall(Character.isDigit)).map(_.toInt)
+                var unique = Vector(0)
+                var doubles = Vector(0)
+                var firstInsert = 1
+                for (x <- values) {
+                    if (!(unique.contains(x))) {
+                        unique = unique :+ x
+                    } else {
+                        if (firstInsert == 1) {
+                            doubles = doubles :+ x
+                            doubles = doubles :+ x
+                            firstInsert = 0
+                        } else {
+                            doubles = doubles :+ x
+                        }
+
+                    }
+                }
+                val numOfEqElements = doubles.size - 1
+                (doubles.sum * numOfEqElements) + unique.diff(doubles).sum
+
+
+                // playfield.col(matrix, col).map(_.toString).filter(_.forall(Character.isDigit)).map(_.toInt).sum
+
+            def rowPoints(matrix: Int): Int  = cell(matrix, 0) + cell(matrix, 1) + cell(matrix, 2)
+
+        }
+
+        Algorithm.strategy
+
+
 
 
 

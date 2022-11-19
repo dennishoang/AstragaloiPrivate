@@ -25,7 +25,7 @@ case class Controller(var field: Field) extends Observable:
         field.putSlot(move.dice, move.matrix)
 
     def putPoints(move: Move): Field =
-    field.putPoint(move.matrix, move.y)
+        field.putPoint(move.matrix, move.y)
 
     def changePlayer(playerID: Int): Int = 1 - playerID
 
