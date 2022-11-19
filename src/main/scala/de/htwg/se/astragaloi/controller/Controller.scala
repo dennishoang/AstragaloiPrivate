@@ -24,11 +24,11 @@ case class Controller(var field: Field) extends Observable:
     def putDiceslot(move: Move): Field =
         field.putSlot(move.dice, move.matrix)
 
+    def putPoints(move: Move): Field =
+    field.putPoint(move.matrix, move.y)
+
     def changePlayer(playerID: Int): Int = 1 - playerID
 
     def rollDice(): Dice = Dice.values(Random.nextInt(Dice.values.size - 1))
-
-    def putPoints(move: Move): Field =
-        field.putPoint(move.matrix, move.y)
 
     override def toString: String = field.toString

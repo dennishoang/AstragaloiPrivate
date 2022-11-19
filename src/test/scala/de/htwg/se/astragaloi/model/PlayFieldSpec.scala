@@ -26,6 +26,11 @@ class PlayFieldSpec extends AnyWordSpec {
             val sum = playfield4.row(1,0).map(_.toString).map(_.toInt).sum
             sum should be (18)
         }
+        "returns cols" in {
+            val playfield5 = new PlayField[Dice](3, Dice.SIX)
+            val sum = playfield5.col(1,0).map(_.toString).map(_.toInt).sum
+            sum should be (18)
+        }
         "be filled" in {
             val playfield5 = playfield.fill(Dice.Empty)
             playfield5.cell(0, 0, 0) should be(Dice.Empty)

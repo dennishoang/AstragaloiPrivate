@@ -14,75 +14,19 @@ import scala.util.control._
 
 @main def game: Unit =
 
-
+  /*
   val controller = Controller(new Field(3,2,Dice.Empty, 0))
   val move = Move(Dice.ONE, 1,2,2)
   val move1 = Move(Dice.TWO,0,2,2)
   controller.field = controller.putPoints(move)
   controller.field = controller.putPoints(move1)
   println(controller.field.toString)
-
-  //val field = new Field(3, 2, Dice.Empty)
-  //val field2 = field.putPoint(0,0, Dice.ONE)
-
-  //val field2 = field.putPoint(0, 4, Dice.ONE)
-  //val controller = Controller(field2)
-  //println(controller.field2.toString)
-/*
-  val field2 = field.put(Dice.ONE, 0, 0, 0)
-  val field3 = field.put(Dice.TWO, 1, 0, 1)
-  println(field2.toString)
-  println(field3.toString)
-
-  val field4 = field.putSlot(Dice.random, 0)
-  println(field4.toString)
-
-  println("Welcome to Astragaloi")
-  val field = new Field(3, 2, Dice.Empty)
-  println(field.toString)
-  getInputAndPrintLoop(field)
-
-def getInputAndPrintLoop(field: Field): Unit =
-  val input = readLine
-  parseInput(input) match
-    case None => field
-    case Some(newfield) =>
-      println(newfield)
-      getInputAndPrintLoop(newfield)
-
-  def parseInput(input: String): Option[Field] =
-    input match
-      case "q" => None
-      case _ => {
-        val chars = input.toCharArray
-        val dice = chars(0) match
-          case '1' => Dice.ONE
-          case '2' => Dice.TWO
-          case '3' => Dice.THREE
-          case '4' => Dice.FOUR
-          case '5' => Dice.FIVE
-          case '6' => Dice.SIX
-          case _   => Dice.Empty
-        val matrix = chars(1).toString.toInt
-        val x = chars(2).toString.toInt
-        val y = chars(3).toString.toInt
-        Some(field.put(dice, matrix, x, y))
-
-      }
-      */
-/*
-      val field = new Field(3 ,2, Dice.Empty)
-      val controller = Controller(field)
-      val tui = TUI(controller)
-      tui.run
+  */
 
 
-
-
-
-
-
-
-
+  val field = new Field(3 ,2, Dice.Empty, 0)
+  val controller = Controller(field)
+  val tui = TUI(controller)
+  tui.run
 
 

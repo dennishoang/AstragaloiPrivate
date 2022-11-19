@@ -38,6 +38,7 @@ case class TUI(controller: Controller) extends Observer:
             case None       =>
             case Some(playerAction) => {
                 controller.Publish(controller.putPlayfield, playerAction)
+                controller.Publish(controller.putPoints, playerAction)
                 controller.Publish(controller.putDiceslot, clear)
                 if (auto_input == "")
                     getInputAndPrintLoop(controller.changePlayer(playerID), auto_input)

@@ -7,9 +7,10 @@ import model.Dice
 import model.PointSlot
 
 
-case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot: PointSlot[Int]):
+case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot: PointSlot[Dice]):
 
-  def this(matrix_size: Int, diceslot_size: Int = 2, filling: Dice, fillingpoint: Int) = this(new PlayField(matrix_size, filling), new DiceSlot(diceslot_size, filling), new PointSlot(diceslot_size, fillingpoint))
+  def this(matrix_size: Int, diceslot_size: Int = 2, filling: Dice, fillingpoint: Int) =
+    this(new PlayField(matrix_size, filling), new DiceSlot(diceslot_size, filling), new PointSlot(diceslot_size, fillingpoint))
 
   val size = playfield.size
   val eol = sys.props("line.separator");
@@ -40,10 +41,11 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot
     copy(playfield.replaceCell(matrix, x, y, number), diceslot)
   def putSlot(number: Dice, slot: Int) =
     copy(playfield, diceslot.replace(slot, number))
-  def putPoint(slot: Int, col: Int) =
+  def putPoint(matrix: Int, col: Int) =
     //val range = 0 to 2
-    val number = playfield.cell(slot, 0 , col).toString.toInt
-    copy(playfield, diceslot, pointslot.replacePoints(slot, col, number))
+      // algorithm for point calculation in PointSlot
+    //val number = playfield.col(matrix, col).map(_.toString).map(_.toInt).sum
+    copy(playfield, diceslot, pointslot.replacePoints(playfield, matrix, col))
 
 
 
