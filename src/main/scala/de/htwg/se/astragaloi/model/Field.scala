@@ -41,10 +41,7 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot
   def putSlot(number: Dice, slot: Int) =
     copy(playfield, diceslot.replace(slot, number))
   def putPoint(matrix: Int, col: Int) =
-    //val range = 0 to 2
-      // algorithm for point calculation in PointSlot
-    //val number = playfield.col(matrix, col).map(_.toString).map(_.toInt).sum
-    copy(playfield, diceslot, pointslot.replacePoints(playfield, matrix, col))
+    copy(playfield, diceslot.replace(matrix, Dice.Empty), pointslot.replacePoints(playfield, matrix, col))
 
 
 

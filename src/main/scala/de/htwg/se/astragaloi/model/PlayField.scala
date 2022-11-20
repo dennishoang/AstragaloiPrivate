@@ -27,3 +27,20 @@ case class PlayField[T](matrixes: Vector[Vector[Vector[T]]]):
         } else {
             replaceCell(matrix, rowIndx, x, value)
         }
+    //def formatCol(matrix: Int, x: Int): PlayField[T] =
+    /*
+    def destroyValue(matrix: Int, x: Int, value: T): PlayField[T] =
+        val enemyMatrix = 1 - matrix
+        var enemyCol = col(enemyMatrix, x)
+        var range = Range( 0 , colsize )
+        if (enemyCol.contains(value)) {
+            enemyCol = enemyCol :- value
+        }
+
+        var temp = Vector[PlayField[T]]()
+        for (i <- range)
+            if (cell(enemyMatrix, i, enemyCol).equals(value))
+                temp = temp :+ replaceCell(enemyMatrix, i, enemyCol, Dice.Empty)
+
+        temp.replaceCell()
+        */

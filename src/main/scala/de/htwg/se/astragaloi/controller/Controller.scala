@@ -13,10 +13,13 @@ import scala.util.Random
 
 case class Controller(var field: Field) extends Observable:
 
-    def Publish(doThis: Move => Field, move: Move): Unit =
+    def Publish(doThis: Move => Field, move: Move, finish: Int): Unit =
         // doThis is a function which takes a Move and returns a field (put / putSlot)
         field = doThis(move)
-        notifyObservers
+        if (finish == 1) {
+            notifyObservers
+        }
+
 
     def putPlayfield(move: Move): Field =
         field.put(move.dice, move.matrix, move.x)

@@ -12,7 +12,7 @@ import scala.util.Random
 case class TUI(controller: Controller) extends Observer:
     controller.add(this)
     def run =
-        println(controller.field.toString)
+        // println(controller.field.toString)
         val playerID = Random.nextInt(2)
         getInputAndPrintLoop(playerID, "")
 
@@ -24,9 +24,9 @@ case class TUI(controller: Controller) extends Observer:
 
         val matrix = playerID
         val random = controller.rollDice()
-        val roll = Move(random, matrix,  0, 0)
-        val clear = Move(Dice.Empty, matrix, 0, 0)
-        controller.Publish(controller.putDiceslot, roll)
+        val roll = Move(random, matrix,  0)
+        // val clear = Move(Dice.Empty, matrix, 0)
+        controller.Publish(controller.putDiceslot, roll, 1)
 
         var input = ""
         if (auto_input != "")
@@ -37,9 +37,9 @@ case class TUI(controller: Controller) extends Observer:
         analyseInput(input, random, matrix) match
             case None       =>
             case Some(playerAction) => {
-                controller.Publish(controller.putPlayfield, playerAction)
-                controller.Publish(controller.putPoints, playerAction)
-                controller.Publish(controller.putDiceslot, clear)
+                controller.Publish(controller.putPlayfield, playerAction, 0)
+                controller.Publish(controller.putPoints, playerAction, 0)
+                //controller.Publish(controller.putDiceslot, clear, 0)
                 if (auto_input == "")
                     getInputAndPrintLoop(controller.changePlayer(playerID), auto_input)
             }
@@ -52,6 +52,6 @@ case class TUI(controller: Controller) extends Observer:
             case _ => {
                 val chars = input.toCharArray
                 val col = chars(0).toString.toInt
-                Some(Move(dice, matrix, col, 0))
+                Some(Move(dice, matrix, col))
             }
 
