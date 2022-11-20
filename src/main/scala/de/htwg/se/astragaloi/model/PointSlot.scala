@@ -13,12 +13,15 @@ case class PointSlot[T](slots: Vector[Vector[Int]]):
     def replacePoints(playfield: PlayField[T], matrix: Int, col: Int): PointSlot[T] =
         val value = calculatePoints(playfield, matrix, col, 0, 0)
         val sumvalue = calculatePoints(playfield,matrix, col, 99, value)
+
         copy(slots.updated(matrix, slots(matrix).updated(col,value).updated(3,sumvalue)))
 
         //val total = calculatePoints(playfield, matrix, col, 1)
         //copy(slots.updated(matrix, slots(matrix).updated(3,total)))
 
-
+    def replaceAllPoints(playfield: PlayField[T], matrix: Int, col: Int): PointSlot[T] =
+        val temp = replacePoints(playfield, matrix, col)
+        temp.replacePoints(playfield, 1 - matrix, col)
 
     def calculatePoints(playfield: PlayField[T], matrix: Int, col: Int, algorithm: Int, value: Int): Int =
 
