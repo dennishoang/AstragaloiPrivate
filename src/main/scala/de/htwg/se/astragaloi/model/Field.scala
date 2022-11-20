@@ -12,7 +12,6 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot
   def this(matrix_size: Int, diceslot_size: Int = 2, filling: Dice, fillingpoint: Int) =
     this(new PlayField(matrix_size, filling), new DiceSlot(diceslot_size, filling), new PointSlot(diceslot_size, fillingpoint))
 
-  val size = playfield.size
   val eol = sys.props("line.separator");
   def bars(width: Int, space: Int) = (("+" + "-" * width) + "+" + " " * space) * 3 + eol
   def cells(matrix: Int, row: Int, width: Int, space: Int) =
@@ -37,8 +36,8 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot
 
 
   override def toString = mesh()
-  def put(number: Dice, matrix: Int, x: Int, y: Int) =
-    copy(playfield.replaceCell(matrix, x, y, number), diceslot)
+  def put(number: Dice, matrix: Int, col: Int) =
+    copy(playfield.insertValue(matrix, col, number), diceslot)
   def putSlot(number: Dice, slot: Int) =
     copy(playfield, diceslot.replace(slot, number))
   def putPoint(matrix: Int, col: Int) =

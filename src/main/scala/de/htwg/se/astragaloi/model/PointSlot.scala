@@ -11,7 +11,7 @@ case class PointSlot[T](slots: Vector[Vector[Int]]):
     def fill(filling: Int): PointSlot[T] = copy(Vector.tabulate(size, 4) { (slot, col) => filling })
 
     def replacePoints(playfield: PlayField[T], matrix: Int, col: Int): PointSlot[T] =
-        val value = calculatePoints(playfield, matrix, col,0, 0)
+        val value = calculatePoints(playfield, matrix, col, 0, 0)
         val sumvalue = calculatePoints(playfield,matrix, col, 99, value)
         copy(slots.updated(matrix, slots(matrix).updated(col,value).updated(3,sumvalue)))
 

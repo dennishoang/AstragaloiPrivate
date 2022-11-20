@@ -19,13 +19,13 @@ case class Controller(var field: Field) extends Observable:
         notifyObservers
 
     def putPlayfield(move: Move): Field =
-        field.put(move.dice, move.matrix, move.x, move.y)
+        field.put(move.dice, move.matrix, move.x)
 
     def putDiceslot(move: Move): Field =
         field.putSlot(move.dice, move.matrix)
 
     def putPoints(move: Move): Field =
-        field.putPoint(move.matrix, move.y)
+        field.putPoint(move.matrix, move.x)
 
     def changePlayer(playerID: Int): Int = 1 - playerID
 

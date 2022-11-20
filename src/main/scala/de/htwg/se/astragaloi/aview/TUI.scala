@@ -51,8 +51,7 @@ case class TUI(controller: Controller) extends Observer:
             case "q" => None
             case _ => {
                 val chars = input.toCharArray
-                val x = chars(0).toString.toInt
-                val y = chars(1).toString.toInt
-                Some(Move(dice, matrix, x, y))
+                val col = chars(0).toString.toInt
+                Some(Move(dice, matrix, col, 0))
             }
 
