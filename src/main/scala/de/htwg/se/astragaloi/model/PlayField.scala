@@ -37,13 +37,27 @@ case class PlayField[T](matrixes: Vector[Vector[Vector[T]]]):
 
     def destroyValue(matrix: Int, x: Int, value: T, clear: T): PlayField[T] =
         val enemyMatrix = 1 - matrix
-        //var enemyCol = col(enemyMatrix, x)
-        var range = Range( 0 , colsize )
 
+        var range = Range( 0 , colsize )
         var temp = copy(this.matrixes)
+
         for (i <- range)
             if (cell(enemyMatrix, i, x).equals(value))
                 temp = temp.replaceCell(enemyMatrix, i, x, clear)
+
+        var enemyCol = temp.col(enemyMatrix, x)
+        var emptyVec = Vector[T]()
+        var valueVec = Vector[T]()
+        for (i <- range)
+            if(temp.cell(enemyMatrix,i,x).equals(clear))
+                emptyVec = emptyVec :+ clear
+            else
+                valueVec = valueVec :+ cell(enemyMatrix,i,x)
+        val formatVec = emptyVec ++ valueVec
+        for (i <- range)
+            temp = temp.replaceCell(enemyMatrix, i, x, formatVec(i))
         temp
+
+
 
 
