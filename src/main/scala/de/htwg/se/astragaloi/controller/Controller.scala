@@ -13,12 +13,12 @@ import scala.util.Random
 
 case class Controller(var field: Field) extends Observable:
 
-    def Publish(doThis: Move => Field, move: Move, finish: Int): Unit =
+    def Publish(doThis: Move => Field, move: Move, last: Int): Unit =
         // doThis is a function which takes a Move and returns a field (put / putSlot)
         field = doThis(move)
-        if (finish == 1) {
+        if (last == 1)
             notifyObservers
-        }
+
 
 
     def putPlayfield(move: Move): Field =
@@ -33,5 +33,8 @@ case class Controller(var field: Field) extends Observable:
     def changePlayer(playerID: Int): Int = 1 - playerID
 
     def rollDice(): Dice = Dice.values(Random.nextInt(Dice.values.size - 1))
+
+    def checkColPublish(matrix: Int, col: Int): Int =
+        field.colcheck(matrix, col)
 
     override def toString: String = field.toString

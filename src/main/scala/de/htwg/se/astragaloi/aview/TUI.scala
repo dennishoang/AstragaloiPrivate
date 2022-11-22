@@ -5,6 +5,7 @@ import controller.Controller
 import model.Dice
 import model.Move
 import scala.io.StdIn.readLine
+//import scala.io.StdIn.readInt
 import util.Observer
 import scala.util.Random
 
@@ -28,13 +29,13 @@ case class TUI(controller: Controller) extends Observer:
         // val clear = Move(Dice.Empty, matrix, 0)
         controller.Publish(controller.putDiceslot, roll, 1)
 
-        var input = ""
-        if (auto_input != "")
-            input = auto_input
-        else
-            input = readLine
+        //var input = ""
+        //if (!auto_input.equals(""))
+        //    input = auto_input
+        //else
+        //val input = readLine
 
-        analyseInput(input, random, matrix) match
+        analyseInput(random, matrix) match
             case None       =>
             case Some(playerAction) => {
                 controller.Publish(controller.putPlayfield, playerAction, 0)
@@ -46,12 +47,19 @@ case class TUI(controller: Controller) extends Observer:
 
 
 
-    def analyseInput(input: String, dice: Dice, matrix: Int): Option[Move] =
+    def analyseInput(dice: Dice, matrix: Int): Option[Move] =
+        val input = readLine
         input match
             case "q" => None
             case _ => {
                 val chars = input.toCharArray
+
+                //println("Ausgabe" + chars)
                 val col = chars(0).toString.toInt
-                Some(Move(dice, matrix, col))
+                if (controller.checkColPublish(matrix, col) == -1)
+                    println("Spalte ist voll!")
+                    analyseInput(dice, matrix)
+                else
+                    Some(Move(dice, matrix, col))
             }
 

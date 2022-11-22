@@ -42,6 +42,8 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot
     copy(playfield, diceslot.replace(slot, number))
   def putPoint(matrix: Int, col: Int) =
     copy(playfield, diceslot.replace(matrix, Dice.Empty), pointslot.replaceAllPoints(playfield, matrix, col)) // + pointslot.replacePoints(playfield, 1 - matrix, col)
+  def colcheck(matrix: Int, col: Int): Int =
+    playfield.checkCol(matrix, col)
     // checkFinish(matrix)
 
 
