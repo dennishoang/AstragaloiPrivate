@@ -26,7 +26,6 @@ case class TUI(controller: Controller) extends Observer:
         val matrix = playerID
         val random = controller.rollDice()
         val roll = Move(random, matrix,  0)
-        // val clear = Move(Dice.Empty, matrix, 0)
         controller.Publish(controller.putDiceslot, roll, 1)
 
         //var input = ""
@@ -40,7 +39,6 @@ case class TUI(controller: Controller) extends Observer:
             case Some(playerAction) => {
                 controller.Publish(controller.putPlayfield, playerAction, 0)
                 controller.Publish(controller.putPoints, playerAction, 0)
-                //controller.Publish(controller.putDiceslot, clear, 0)
                 if (auto_input == "")
                     getInputAndPrintLoop(controller.changePlayer(playerID), auto_input)
             }
@@ -48,14 +46,13 @@ case class TUI(controller: Controller) extends Observer:
 
 
     def analyseInput(dice: Dice, matrix: Int): Option[Move] =
-        val input = readLine
+        val input = readLine()
         input match
             case "q" => None
             case _ => {
-                val chars = input.toCharArray
-
-                //println("Ausgabe" + chars)
-                val col = chars(0).toString.toInt
+                //val chars = input.toCharArray
+                //val col = chars(0).toString.toInt
+                val col = input.toInt
                 if (controller.checkColPublish(matrix, col) == -1)
                     println("Spalte ist voll!")
                     analyseInput(dice, matrix)
