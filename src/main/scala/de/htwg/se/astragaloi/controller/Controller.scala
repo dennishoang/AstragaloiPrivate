@@ -20,7 +20,6 @@ case class Controller(var field: Field) extends Observable:
             notifyObservers
 
 
-
     def putPlayfield(move: Move): Field =
         field.put(move.dice, move.matrix, move.x)
 
