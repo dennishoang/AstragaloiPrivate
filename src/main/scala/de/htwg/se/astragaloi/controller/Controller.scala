@@ -19,7 +19,6 @@ case class Controller(var field: Field) extends Observable:
         if (last == 1)
             notifyObservers
 
-
     def putPlayfield(move: Move): Field =
         field.put(move.dice, move.matrix, move.x)
 
