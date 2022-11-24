@@ -14,6 +14,13 @@ class FieldSpec extends AnyWordSpec {
         "empty " should {
 
             val eol = ("\n")
+            "have a constructor" in {
+                val playfield = new PlayField[Dice](3, Dice.Empty)
+                val diceslot = new DiceSlot[Dice](2, Dice.Empty)
+                val pointslot = new PointSlot[Dice](2, 0)
+                val field = new Field(playfield, diceslot, pointslot)
+                field should be (field)
+            }
             "have a mesh in form of field" in {
                 val field = new Field(new PlayField[Dice](3, Dice.Empty), new DiceSlot[Dice](2, Dice.Empty), new PointSlot[Dice](2,0))
                 field.toString() should be (
