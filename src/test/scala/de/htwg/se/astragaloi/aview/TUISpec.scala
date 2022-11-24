@@ -1,3 +1,4 @@
+/*
 package de.htwg.se.astragaloi.model
 
 import de.htwg.se.astragaloi.aview.TUI
@@ -13,6 +14,8 @@ import org.scalatest.matchers.should.Matchers._
 class TUISpec extends AnyWordSpec {
 
     "A TUI" should {
+
+
         val tui = new TUI(Controller(new Field(3, 2, Dice.Empty)))
         "get Input and print loop" in { // 00 als Testeingabe
             tui.getInputAndPrintLoop(0, "00") should be (println(tui.controller.field.toString))
@@ -25,5 +28,10 @@ class TUISpec extends AnyWordSpec {
         }
 
 
+
     }
 }
+*/
+
+
+

@@ -1,3 +1,5 @@
+
+
 package de.htwg.se.astragaloi
 
 import de.htwg.se.astragaloi.controller.Controller
@@ -12,16 +14,23 @@ import org.scalatest.matchers.should.Matchers._
 
 class ControllerSpec extends AnyWordSpec {
     "The Controller" should {
-        val controller = Controller(new Field(3,2, Dice.Empty))
+        val controller = Controller(new Field(3, 2, Dice.Empty, 0))
         "put a number in the Playfielid" in {
-            val move = Move(Dice.ONE, 0, 2, 1)
+            val move = Move(Dice.ONE, 0, 2)
             controller.field = controller.putPlayfield(move)
-            controller.field.playfield.cell(0, 2, 1) should be (Dice.ONE)
+            controller.field.playfield.cell(0, 2, 2) should be (Dice.ONE)
         }
         "put a number in the qudadrat" in {
-            val move = Move(Dice.SIX, 1, 0, 0)
+            val move = Move(Dice.SIX, 1, 0)
             controller.field = controller.putDiceslot(move)
             controller.field.diceslot.cell(1) should be (Dice.SIX)
+        }
+        "put points in the pointslot" in {
+            val move = Move(Dice.SIX, 1, 0)
+            controller.field = controller.putPlayfield(move)
+            val movePoints = Move(Dice.Empty, 1, 0)
+            controller.field = controller.putPoints(move)
+            controller.field.pointslot.cell(1, 0) should be (6)
         }
         "print the Field" in {
             controller.toString should be (controller.field.toString)
@@ -38,8 +47,8 @@ class ControllerSpec extends AnyWordSpec {
                 value.toString.toInt should be <= 6
         }
         "be published" in {
-            val move = Move(Dice.ONE, 0, 0, 0)
-            controller.Publish(controller.putPlayfield, move) should be
+            val move = Move(Dice.ONE, 0, 0)
+            controller.Publish(controller.putPlayfield, move, 1) should be
             (println(controller.field.toString))
         }
         "notify observers" in {
@@ -48,5 +57,11 @@ class ControllerSpec extends AnyWordSpec {
                 controller.add(tui)
                 controller.notifyObservers should be (tui.update)
         }
+        "check Col-Publish" in {
+            controller.checkColPublish(0, 1) should be (1)
+        }
     }
 }
+
+
+
