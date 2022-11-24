@@ -1,4 +1,4 @@
-package de.htwg.se.astragaloi.model
+/*package de.htwg.se.astragaloi.model
 
 import de.htwg.se.astragaloi.model.Field
 import de.htwg.se.astragaloi.model.Dice
@@ -161,3 +161,4 @@ class FieldSpec extends AnyWordSpec {
         }
     }
 }
+*/

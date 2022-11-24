@@ -36,7 +36,7 @@ case class PointCell[T](pointslot: PointSlot[T], width: Int, space: Int, matrix:
     override def create(): String =
         pointslot.slot(matrix).map(_.toString).map("|" + " " * ((width - 1) / 2) + _ + " " * ((width - 1) / 2) + "|").mkString(" " * space)
 
-        
+
 case class MatrixSeperator(width: Int) extends Shape:
     override def create(): String =
         "=" * width
