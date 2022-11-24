@@ -1,3 +1,5 @@
+
+/*
 package de.htwg.se.astragaloi.model
 
 import de.htwg.se.astragaloi.aview.TUI
@@ -27,3 +29,7 @@ class TUISpec extends AnyWordSpec {
 
     }
 }
+
+*/
+
+

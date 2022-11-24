@@ -1,3 +1,5 @@
+
+/*
 package de.htwg.se.astragaloi
 
 import de.htwg.se.astragaloi.controller.Controller
@@ -50,3 +52,6 @@ class ControllerSpec extends AnyWordSpec {
         }
     }
 }
+
+*/
+
