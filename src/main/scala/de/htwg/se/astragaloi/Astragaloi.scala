@@ -4,6 +4,8 @@ package de.htwg.se.astragaloi
 import model.Field
 import model.Dice
 import model.PointSlot
+
+/*
 import model.Move
 import aview.TUI
 import controller.Controller
@@ -29,4 +31,5 @@ import scala.util.control._
   val tui = TUI(controller)
   tui.run
 
+  */
 
