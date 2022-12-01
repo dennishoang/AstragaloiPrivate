@@ -24,7 +24,6 @@ case class Controller(var field: Field) extends Observable:
             notifyObservers
     def Publish(doThis: => Field) =
         field = doThis
-        notifyObservers
 
     def put(move: Move): Field = undoManager.doStep(field, PutCommand(move))
         //field.put(move.dice, move.matrix, move.x)

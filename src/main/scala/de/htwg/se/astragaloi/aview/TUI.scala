@@ -15,19 +15,23 @@ case class TUI(controller: Controller) extends Observer:
     def run =
         // println(controller.field.toString)
         val playerID = Random.nextInt(2)
-        getInputAndPrintLoop(playerID, 1)
+        getInputAndPrintLoop(playerID, 1, Dice.Empty)
 
 
 
     override def update = println(controller.field.toString)
 
-    def getInputAndPrintLoop(playerID: Int, continue: Int): Unit =
+    def getInputAndPrintLoop(playerID: Int, continue: Int, oldValue: Dice): Unit =
 
         val matrix = playerID
-        val random = controller.rollDice()
-        val roll = Move(random, matrix,  0, 0)
-        if (continue == 1)
-            controller.Publish(controller.putDiceslot, roll, 1)
+        var random = oldValue
+        if (continue == 1) {
+            random = controller.rollDice()
+        }
+        var roll = Move(random, matrix,  0, 0)
+        controller.Publish(controller.putDiceslot, roll, 1)
+
+
 
         //var input = ""
         //if (!auto_input.equals(""))
@@ -38,8 +42,8 @@ case class TUI(controller: Controller) extends Observer:
         analyseInput(random, matrix) match
             case None       =>
             case Some(playerAction) => {
-                if (playerAction.none == 1) {
-                    getInputAndPrintLoop(controller.changePlayer(playerID), 0)
+                if (playerAction.none == 1) { // on undo or redo
+                    getInputAndPrintLoop(controller.changePlayer(playerID), 0, playerAction.dice)
                 }
                 /*
                 controller.Publish(controller.putPlayfield, playerAction, 0)
@@ -47,7 +51,7 @@ case class TUI(controller: Controller) extends Observer:
                 */
                 controller.Publish(controller.put, playerAction, 0)
 
-                getInputAndPrintLoop(controller.changePlayer(playerID), 1)
+                getInputAndPrintLoop(controller.changePlayer(playerID), 1, playerAction.dice)
             }
 
 

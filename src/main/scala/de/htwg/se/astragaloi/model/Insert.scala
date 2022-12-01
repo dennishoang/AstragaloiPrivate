@@ -8,11 +8,16 @@ import model.PlayField
 abstract class Insert[T] {
 
     // fun1: PlayField[T] => PlayField[T], fun2: PlayField[T] => PlayField
-    def insertValue(playfield: PlayField[T], matrix: Int, x: Int, value: T, clear: T): PlayField[T] =
+    def insertValue(playfield: PlayField[T], matrix: Int, x: Int, value: T, clear: T, undo: Int): PlayField[T] =
         val modCol = playfield.col(matrix, x)
-        val rowIndx = modCol.lastIndexWhere(a => a.equals(clear))
-        var tmp = destroyValue(matrix, x, value, clear)
-        tmp.replaceCell(matrix, rowIndx, x, value)
+        if (undo == 1) {
+            var tmp = destroyValue(1 - matrix, x, value, clear) // delete value out of own matrix
+            tmp
+        } else {
+            val rowIndx = modCol.lastIndexWhere(a => a.equals(clear))
+            var tmp = destroyValue(matrix, x, value, clear)
+            tmp.replaceCell(matrix, rowIndx, x, value)
+        }
 
     def destroyValue(matrix: Int, x: Int, value: T, clear: T): PlayField[T]
 
