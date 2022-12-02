@@ -15,22 +15,21 @@ case class TUI(controller: Controller) extends Observer:
     def run =
         // println(controller.field.toString)
         val playerID = Random.nextInt(2)
-        getInputAndPrintLoop(playerID, 1, Dice.Empty)
+        getInputAndPrintLoop(playerID, 1)
 
 
 
     override def update = println(controller.field.toString)
 
-    def getInputAndPrintLoop(playerID: Int, continue: Int, oldValue: Dice): Unit =
+    def getInputAndPrintLoop(playerID: Int, continue: Int): Unit =
 
         val matrix = playerID
-        var random = oldValue
-        if (continue == 1) {
-            random = controller.rollDice()
-        }
+        var random = controller.rollDice()
         var roll = Move(random, matrix,  0, 0)
-        controller.Publish(controller.putDiceslot, roll, 1)
 
+        if (continue == 1) {
+            controller.Publish(controller.putDiceslot, roll, 1)
+        }
 
 
         //var input = ""
@@ -43,7 +42,7 @@ case class TUI(controller: Controller) extends Observer:
             case None       =>
             case Some(playerAction) => {
                 if (playerAction.none == 1) { // on undo or redo
-                    getInputAndPrintLoop(controller.changePlayer(playerID), 0, playerAction.dice)
+                    getInputAndPrintLoop(controller.changePlayer(playerID), 0)
                 }
                 /*
                 controller.Publish(controller.putPlayfield, playerAction, 0)
@@ -51,7 +50,7 @@ case class TUI(controller: Controller) extends Observer:
                 */
                 controller.Publish(controller.put, playerAction, 0)
 
-                getInputAndPrintLoop(controller.changePlayer(playerID), 1, playerAction.dice)
+                getInputAndPrintLoop(controller.changePlayer(playerID), 1)
             }
 
 
