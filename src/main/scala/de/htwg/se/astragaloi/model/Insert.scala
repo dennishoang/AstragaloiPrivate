@@ -11,7 +11,8 @@ abstract class Insert[T] {
     def insertValue(playfield: PlayField[T], matrix: Int, x: Int, value: T, clear: T, undo: Int): PlayField[T] =
         val modCol = playfield.col(matrix, x)
         if (undo == 1) {
-            var tmp = destroyValue(1 - matrix, x, value, clear) // delete value out of own matrix
+            val rowIndx = modCol.indexWhere(a => a.equals(value))
+            var tmp = replaceCell(matrix, rowIndx, x, clear) // delete value out of own matrix
             tmp
         } else {
             val rowIndx = modCol.lastIndexWhere(a => a.equals(clear))

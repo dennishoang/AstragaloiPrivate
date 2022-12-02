@@ -27,7 +27,12 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot
 
   def put(number: Dice, matrix: Int, col: Int, undo: Int) =
     val temp = copy(playfield.insertValue(playfield, matrix, col, number, Dice.Empty, undo), diceslot)
-    temp.copy(temp.playfield, temp.diceslot.replace(matrix, Dice.Empty), temp.pointslot.replaceAllPoints(temp.playfield, matrix, col))
+    if (undo == 0) {
+      temp.copy(temp.playfield, temp.diceslot.replace(matrix, Dice.Empty), temp.pointslot.replaceAllPoints(temp.playfield, matrix, col))
+    } else {
+      temp.copy(temp.playfield, temp.diceslot.replace(matrix, number), temp.pointslot.replaceAllPoints(temp.playfield, matrix, col))
+    }
+
 
   def putSlot(number: Dice, slot: Int) =
     copy(playfield, diceslot.replace(slot, number))
