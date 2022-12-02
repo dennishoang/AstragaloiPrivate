@@ -15,19 +15,22 @@ case class TUI(controller: Controller) extends Observer:
     def run =
         // println(controller.field.toString)
         val playerID = Random.nextInt(2)
-        getInputAndPrintLoop(playerID, 1)
+        getInputAndPrintLoop(playerID, 1, Move(Dice.Empty, 0, 0, 0))
 
 
 
     override def update = println(controller.field.toString)
 
-    def getInputAndPrintLoop(playerID: Int, continue: Int): Unit =
+    def getInputAndPrintLoop(playerID: Int, continue: Int, oldMove: Move): Unit =
 
         val matrix = playerID
         var random = controller.rollDice()
-        var roll = Move(random, matrix,  0, 0)
+        var roll = oldMove
+
+        //println("Matrix: " + matrix + " MOVE.MATRIX: " + roll.matrix)
 
         if (continue == 1) {
+            roll = Move(random, matrix,  0, 0)
             controller.Publish(controller.putDiceslot, roll, 1)
         }
 
@@ -38,43 +41,54 @@ case class TUI(controller: Controller) extends Observer:
         //else
         //val input = readLine
 
-        analyseInput(random, matrix) match
+        analyseInput(roll) match
             case None       =>
             case Some(playerAction) => {
-                if (playerAction.none == 1) { // on undo or redo
-                    getInputAndPrintLoop(controller.changePlayer(playerID), 0)
+                if (playerAction.mode == 1) { // on undo
+                    getInputAndPrintLoop(controller.changePlayer(playerID), 0, oldMove)
                 }
+                else if (playerAction.mode == 2) { // on redo
+                    controller.Publish(controller.put, oldMove, 0)
+                    getInputAndPrintLoop(controller.changePlayer(playerID), 1, oldMove)
+                }
+                else if (playerAction.mode == 0) { // on do
+                    controller.Publish(controller.put, playerAction, 0)
+                    getInputAndPrintLoop(controller.changePlayer(playerID), 1, playerAction)
+                }
+
+
+
                 /*
                 controller.Publish(controller.putPlayfield, playerAction, 0)
                 controller.Publish(controller.putPoints, playerAction, 0)
                 */
-                controller.Publish(controller.put, playerAction, 0)
 
-                getInputAndPrintLoop(controller.changePlayer(playerID), 1)
             }
 
 
 
-    def analyseInput(dice: Dice, matrix: Int): Option[Move] =
+
+
+    def analyseInput(move: Move): Option[Move] =
         val input = readLine()
         input match
-            case "r" => {
-                controller.Publish(controller.redo)
-                Some(Move(dice, matrix, 0, 1))
-            }
+            case "q" => None
             case "u" => {
                 controller.Publish(controller.undo)
-                Some(Move(dice, matrix, 0, 1))
+                Some(move.copy(move.dice, move.matrix, move.x, 1)) // set move to none
             }
-            case "q" => None
+            case "r" => {
+                controller.Publish(controller.redo)
+                Some(move.copy(move.dice, move.matrix, move.x, 2))
+            }
             case _ => {
                 //val chars = input.toCharArray
                 //val col = chars(0).toString.toInt
                 val col = input.toInt
-                if (controller.checkColPublish(matrix, col) == -1)
+                if (controller.checkColPublish(move.matrix, col) == -1)
                     println("Spalte ist voll!")
-                    analyseInput(dice, matrix)
+                    analyseInput(move)
                 else
-                    Some(Move(dice, matrix, col, 0))
+                    Some(Move(move.dice, move.matrix, col, 0))
             }
 

@@ -26,6 +26,19 @@ case class PlayField[T](matrixes: Vector[Vector[Vector[T]]]) extends Insert[T]:
     override def replaceCell(matrix: Int, row: Int, col: Int, value: T): PlayField[T] =
         copy(matrixes.updated(matrix, matrixes(matrix).updated(row, matrixes(matrix)(row).updated(col, value))))
 
+    override def undestroyValue(matrix: Int, col: Int, value: T, oldIndexes: Vector[Int]): PlayField[T] =
+        val enemyMatrix = 1 - matrix
+        //enemyCol = field.playfield.col(enemyMatrix, col)
+        var range = Range(0, oldIndexes.size)
+
+        var temp = copy(this.matrixes)
+        for(i <- range)
+            temp = temp.replaceCell(enemyMatrix, oldIndexes(i), col, value)
+        temp
+
+
+
+
     override def destroyValue(matrix: Int, x: Int, value: T, clear: T): PlayField[T] =
         val enemyMatrix = 1 - matrix
 

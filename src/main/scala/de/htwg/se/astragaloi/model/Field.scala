@@ -25,8 +25,8 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot
 
   override def toString = mesh.create()
 
-  def put(number: Dice, matrix: Int, col: Int, undo: Int) =
-    copy(playfield.insertValue(playfield, matrix, col, number, Dice.Empty, undo), diceslot)
+  def put(number: Dice, matrix: Int, col: Int, undo: Int, oldValues: Vector[Int]) =
+    copy(playfield.insertValue(playfield, matrix, col, number, Dice.Empty, undo, oldValues), diceslot)
 
 
     /*else {

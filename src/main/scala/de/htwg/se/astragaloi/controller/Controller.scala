@@ -22,8 +22,9 @@ case class Controller(var field: Field) extends Observable:
         field = doThis(move)
         if (last == 1)
             notifyObservers
-    def Publish(doThis: => Field) =
+    def Publish(doThis: => Field) = // for undo and redo
         field = doThis
+        notifyObservers
 
     def put(move: Move): Field = undoManager.doStep(field, PutCommand(move))
         //field.put(move.dice, move.matrix, move.x)
