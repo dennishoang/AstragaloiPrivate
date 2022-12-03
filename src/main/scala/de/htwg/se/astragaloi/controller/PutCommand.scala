@@ -27,7 +27,6 @@ class PutCommand(move: Move) extends Command[Field]:
         var tmp = field.put(move.dice, move.matrix, move.x, 0, delValueIndx)
         tmp = tmp.putPoint(move.matrix, move.x)
         tmp = tmp.putSlot(Dice.Empty, move.matrix)
-        //delValueIndx = Vector[Int]()
         tmp
 
 
@@ -45,7 +44,6 @@ class PutCommand(move: Move) extends Command[Field]:
         var tmp = field.put(move.dice, move.matrix, move.x, 0, delValueIndx)
         tmp = tmp.putPoint(move.matrix, move.x)
         tmp = tmp.putSlot(Dice.Empty, move.matrix)
-        //delValueIndx = Vector[Int]()
         tmp
 
 

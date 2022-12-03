@@ -24,14 +24,13 @@ case class TUI(controller: Controller) extends Observer:
     def getInputAndPrintLoop(playerID: Int, continue: Int, oldMove: Move): Unit =
 
         val matrix = playerID
-        var random = controller.rollDice()
-        var roll = oldMove
+        var move = oldMove
 
-        //println("Matrix: " + matrix + " MOVE.MATRIX: " + roll.matrix)
 
         if (continue == 1) {
-            roll = Move(random, matrix,  0, 0)
-            controller.Publish(controller.putDiceslot, roll, 1)
+            var random = controller.rollDice()
+            move = Move(random, matrix,  0, 0)
+            controller.Publish(controller.putDiceslot, move, 1)
         }
 
 
@@ -41,14 +40,14 @@ case class TUI(controller: Controller) extends Observer:
         //else
         //val input = readLine
 
-        analyseInput(roll) match
+        analyseInput(move) match
             case None       =>
             case Some(playerAction) => {
                 if (playerAction.mode == 1) { // on undo
                     getInputAndPrintLoop(controller.changePlayer(playerID), 0, oldMove)
                 }
                 else if (playerAction.mode == 2) { // on redo
-                    controller.Publish(controller.put, oldMove, 0)
+                    //controller.Publish(controller.put, oldMove, 0)
                     getInputAndPrintLoop(controller.changePlayer(playerID), 1, oldMove)
                 }
                 else if (playerAction.mode == 0) { // on do
@@ -74,21 +73,19 @@ case class TUI(controller: Controller) extends Observer:
         input match
             case "q" => None
             case "u" => {
-                controller.Publish(controller.undo)
-                Some(move.copy(move.dice, move.matrix, move.x, 1)) // set move to none
+                controller.Publish(controller.undo, 1)
+                Some(move.copy(move.dice, move.matrix, move.x, 1)) // set mode to "undo"
             }
             case "r" => {
-                controller.Publish(controller.redo)
-                Some(move.copy(move.dice, move.matrix, move.x, 2))
+                controller.Publish(controller.redo, 0)
+                Some(move.copy(move.dice, move.matrix, move.x, 2)) // set mode to "redo"
             }
             case _ => {
-                //val chars = input.toCharArray
-                //val col = chars(0).toString.toInt
                 val col = input.toInt
                 if (controller.checkColPublish(move.matrix, col) == -1)
                     println("Spalte ist voll!")
                     analyseInput(move)
                 else
-                    Some(Move(move.dice, move.matrix, col, 0))
+                    Some(Move(move.dice, move.matrix, col, 0)) // return new move, set mode to "do"
             }
 

@@ -22,13 +22,16 @@ case class Controller(var field: Field) extends Observable:
         field = doThis(move)
         if (last == 1)
             notifyObservers
-    def Publish(doThis: => Field) = // for undo and redo
+
+    def Publish(doThis: => Field, undo: Int) = // for undo and redo
         field = doThis
-        notifyObservers
+        if (undo == 1)
+            notifyObservers
 
     def put(move: Move): Field = undoManager.doStep(field, PutCommand(move))
-        //field.put(move.dice, move.matrix, move.x)
+
     def undo: Field = undoManager.undoStep(field)
+
     def redo: Field = undoManager.redoStep(field)
 
     def putDiceslot(move: Move): Field =
@@ -40,7 +43,5 @@ case class Controller(var field: Field) extends Observable:
 
     def checkColPublish(matrix: Int, col: Int): Int =
         field.colcheck(matrix, col)
-
-
 
     override def toString: String = field.toString
