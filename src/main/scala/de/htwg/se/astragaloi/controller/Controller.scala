@@ -46,4 +46,12 @@ case class Controller(var field: Field) extends Observable:
     def checkColPublish(matrix: Int, col: Int): Int =
         field.colcheck(matrix, col)
 
+    // checks finish
+    def checkFinish(matrix: Int): Boolean =
+        field.checkFinish(matrix)
+
+    // returns winner
+    def chooseWinner: Int =
+        field.chooseWinner
+
     override def toString: String = field.toString

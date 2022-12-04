@@ -19,16 +19,19 @@ case class TUI(controller: Controller) extends Observer:
     var doCounter = 0
 
     def run =
-
         val playerID = Random.nextInt(2)
         getInputAndPrintLoop(playerID, 1)
 
+    def finish(player: Int) =
+        if (player == -1)
+            println("unentschieden!")
+        else
+            println("Player " + player + " wins!")
 
     override def update = println(controller.field.toString)
 
-    def getInputAndPrintLoop(playerID: Int, continue: Int): Unit =
+    def getInputAndPrintLoop(matrix: Int, continue: Int): Unit =
 
-        val matrix = playerID
         var move = Move(Dice.Empty, 0, 0, 0)
 
         if (continue == 1) {
@@ -48,13 +51,13 @@ case class TUI(controller: Controller) extends Observer:
                     if (doCounter > 0)
                         doCounter -= 1
                     undoCounter += 1
-                    getInputAndPrintLoop(controller.changePlayer(playerID), 0)
+                    getInputAndPrintLoop(controller.changePlayer(matrix), 0)
                 }
                 else if (playerAction.mode == 2) { // on redo
                     if (undoCounter > 0)
                         undoCounter -= 1
                     doCounter += 1
-                    getInputAndPrintLoop(controller.changePlayer(playerID), 1)
+                    getInputAndPrintLoop(controller.changePlayer(matrix), 1)
                 }
                 else if (playerAction.mode == 0) { // on do
                     if (undoCounter > 0)
@@ -62,7 +65,10 @@ case class TUI(controller: Controller) extends Observer:
                     doCounter += 1
                     controller.Publish(controller.put, playerAction, 0)
                     // checkfinish
-                    getInputAndPrintLoop(controller.changePlayer(playerID), 1)
+                    if (controller.checkFinish(matrix))
+                        finish(controller.chooseWinner)
+                    else
+                        getInputAndPrintLoop(controller.changePlayer(matrix), 1)
                 }
             }
 
