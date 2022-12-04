@@ -15,21 +15,27 @@ case class TUI(controller: Controller) extends Observer:
     def run =
         // println(controller.field.toString)
         val playerID = Random.nextInt(2)
-        getInputAndPrintLoop(playerID)
+        getInputAndPrintLoop(playerID, 1)
 
 
 
     override def update = println(controller.field.toString)
 
-    def getInputAndPrintLoop(playerID: Int): Unit =
+    def getInputAndPrintLoop(playerID: Int, continue: Int): Unit =
 
         val matrix = playerID
+        var move = Move(Dice.Empty, 0, 0, 0)
 
 
+        if (continue == 1) {
+            val random = controller.rollDice()
+            move = Move(random, matrix,  0, 0)
+            controller.Publish(controller.putDiceslot, move, 1)
+        } else {
+            var value = controller.getSlot(matrix)
+            move = Move(value, matrix, 0, 0)
+        }
 
-        var random = controller.rollDice()
-        var move = Move(random, matrix,  0, 0)
-        controller.Publish(controller.putDiceslot, move, 1)
 
 
 
@@ -37,15 +43,15 @@ case class TUI(controller: Controller) extends Observer:
             case None       =>
             case Some(playerAction) => {
                 if (playerAction.mode == 1) { // on undo
-                    getInputAndPrintLoop(controller.changePlayer(playerID))
+                    getInputAndPrintLoop(controller.changePlayer(playerID), 0)
                 }
                 else if (playerAction.mode == 2) { // on redo
                     //controller.Publish(controller.put, oldMove, 0)
-                    getInputAndPrintLoop(controller.changePlayer(playerID))
+                    getInputAndPrintLoop(controller.changePlayer(playerID), 1)
                 }
                 else if (playerAction.mode == 0) { // on do
                     controller.Publish(controller.put, playerAction, 0)
-                    getInputAndPrintLoop(controller.changePlayer(playerID))
+                    getInputAndPrintLoop(controller.changePlayer(playerID), 1)
                 }
 
 
@@ -57,14 +63,15 @@ case class TUI(controller: Controller) extends Observer:
 
     def analyseInput(move: Move): Option[Move] =
         val input = readLine()
-        input match
+        val list = input.split("\\s").toList
+        list.head match
             case "q" => None
             case "u" => {
-                controller.Publish(controller.undo)
+                controller.Publish(controller.undo, 1)
                 Some(move.copy(move.dice, move.matrix, move.x, 1)) // set mode to "undo"
             }
             case "r" => {
-                controller.Publish(controller.redo)
+                controller.Publish(controller.redo, 0)
                 Some(move.copy(move.dice, move.matrix, move.x, 2)) // set mode to "redo"
             }
             case _ => {

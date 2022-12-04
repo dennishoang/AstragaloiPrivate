@@ -43,4 +43,7 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot
     playfield.checkCol(matrix, col)
     // checkFinish(matrix)
 
+  def getSlot(matrix: Int): Dice =
+    diceslot.cell(matrix)
+
 

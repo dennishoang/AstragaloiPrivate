@@ -23,9 +23,12 @@ case class Controller(var field: Field) extends Observable:
         if (last == 1)
             notifyObservers
 
-    def Publish(doThis: => Field) = // for undo and redo
+    def Publish(doThis: => Field, undo: Int) = // for undo and redo
         field = doThis
+        if (undo == 1)
+            notifyObservers
 
+    def getSlot(matrix: Int): Dice = field.getSlot(matrix)
 
     def put(move: Move): Field = undoManager.doStep(field, PutCommand(move))
 
