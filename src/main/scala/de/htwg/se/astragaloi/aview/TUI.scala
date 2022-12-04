@@ -8,19 +8,20 @@ import scala.io.StdIn.readLine
 //import scala.io.StdIn.readInt
 import util.Observer
 import scala.util.Random
+import scala.util.{Try, Success, Failure}
 
 
 case class TUI(controller: Controller) extends Observer:
 
+    controller.add(this)
+
     var undoCounter = 0
     var doCounter = 0
 
-    controller.add(this)
     def run =
-        // println(controller.field.toString)
+
         val playerID = Random.nextInt(2)
         getInputAndPrintLoop(playerID, 1)
-
 
 
     override def update = println(controller.field.toString)
@@ -30,7 +31,6 @@ case class TUI(controller: Controller) extends Observer:
         val matrix = playerID
         var move = Move(Dice.Empty, 0, 0, 0)
 
-
         if (continue == 1) {
             val random = controller.rollDice()
             move = Move(random, matrix,  0, 0)
@@ -39,8 +39,6 @@ case class TUI(controller: Controller) extends Observer:
             var value = controller.getSlot(matrix)
             move = Move(value, matrix, 0, 0)
         }
-
-
 
 
         analyseInput(move) match
@@ -63,20 +61,14 @@ case class TUI(controller: Controller) extends Observer:
                         undoCounter -= 1
                     doCounter += 1
                     controller.Publish(controller.put, playerAction, 0)
+                    // checkfinish
                     getInputAndPrintLoop(controller.changePlayer(playerID), 1)
                 }
-
-
             }
 
-
-
-
-
     def analyseInput(move: Move): Option[Move] =
-        val input = readLine()
-        val list = input.split("\\s").toList
-        list.head match
+        val input = readLine("Column: ")
+        input match
             case "q" => None
             case "u" => {
                 if (doCounter == 0)
@@ -95,11 +87,20 @@ case class TUI(controller: Controller) extends Observer:
                     Some(move.copy(move.dice, move.matrix, move.x, 2)) // set mode to "redo"
             }
             case _ => {
-                val col = input.toInt
-                if (controller.checkColPublish(move.matrix, col) == -1)
-                    println("Spalte ist voll!")
-                    analyseInput(move)
-                else
-                    Some(Move(move.dice, move.matrix, col, 0)) // return new move, set mode to "do"
+                readCol(input) match
+                    case Success(v) =>
+                        val col = input.toInt
+                        if (controller.checkColPublish(move.matrix, col) == -1)
+                            println("Spalte ist voll!")
+                            analyseInput(move)
+                        else
+                            Some(Move(move.dice, move.matrix, col, 0)) // return new move, set mode to "do"
+                    case Failure(i) =>
+                        println("Falsche Eingabe!")
+                        analyseInput(move)
             }
 
+    def readCol(input: String): Try[String] = {
+        val reading = Try(input.flatMap(x => input.map(x => x.toChar)))
+        reading.filter(x => (x.equals("0")) || (x.equals("1")) || (x.equals("2")))
+    }
