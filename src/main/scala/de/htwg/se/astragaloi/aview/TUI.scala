@@ -11,6 +11,10 @@ import scala.util.Random
 
 
 case class TUI(controller: Controller) extends Observer:
+
+    var undoCounter = 0
+    var doCounter = 0
+
     controller.add(this)
     def run =
         // println(controller.field.toString)
@@ -43,13 +47,21 @@ case class TUI(controller: Controller) extends Observer:
             case None       =>
             case Some(playerAction) => {
                 if (playerAction.mode == 1) { // on undo
+                    if (doCounter > 0)
+                        doCounter -= 1
+                    undoCounter += 1
                     getInputAndPrintLoop(controller.changePlayer(playerID), 0)
                 }
                 else if (playerAction.mode == 2) { // on redo
-                    //controller.Publish(controller.put, oldMove, 0)
+                    if (undoCounter > 0)
+                        undoCounter -= 1
+                    doCounter += 1
                     getInputAndPrintLoop(controller.changePlayer(playerID), 1)
                 }
                 else if (playerAction.mode == 0) { // on do
+                    if (undoCounter > 0)
+                        undoCounter -= 1
+                    doCounter += 1
                     controller.Publish(controller.put, playerAction, 0)
                     getInputAndPrintLoop(controller.changePlayer(playerID), 1)
                 }
@@ -67,12 +79,20 @@ case class TUI(controller: Controller) extends Observer:
         list.head match
             case "q" => None
             case "u" => {
-                controller.Publish(controller.undo, 1)
-                Some(move.copy(move.dice, move.matrix, move.x, 1)) // set mode to "undo"
+                if (doCounter == 0)
+                    println("kein Undo moeglich")
+                    analyseInput(move)
+                else
+                    controller.Publish(controller.undo, 1)
+                    Some(move.copy(move.dice, move.matrix, move.x, 1)) // set mode to "undo"
             }
             case "r" => {
-                controller.Publish(controller.redo, 0)
-                Some(move.copy(move.dice, move.matrix, move.x, 2)) // set mode to "redo"
+                if (undoCounter == 0)
+                    println("kein Redo moeglich")
+                    analyseInput(move)
+                else
+                    controller.Publish(controller.redo, 0)
+                    Some(move.copy(move.dice, move.matrix, move.x, 2)) // set mode to "redo"
             }
             case _ => {
                 val col = input.toInt
