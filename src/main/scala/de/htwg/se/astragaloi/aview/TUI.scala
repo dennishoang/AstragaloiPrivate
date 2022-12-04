@@ -15,52 +15,39 @@ case class TUI(controller: Controller) extends Observer:
     def run =
         // println(controller.field.toString)
         val playerID = Random.nextInt(2)
-        getInputAndPrintLoop(playerID, 1, Move(Dice.Empty, 0, 0, 0))
+        getInputAndPrintLoop(playerID)
 
 
 
     override def update = println(controller.field.toString)
 
-    def getInputAndPrintLoop(playerID: Int, continue: Int, oldMove: Move): Unit =
+    def getInputAndPrintLoop(playerID: Int): Unit =
 
         val matrix = playerID
-        var move = oldMove
 
 
-        if (continue == 1) {
-            var random = controller.rollDice()
-            move = Move(random, matrix,  0, 0)
-            controller.Publish(controller.putDiceslot, move, 1)
-        }
+
+        var random = controller.rollDice()
+        var move = Move(random, matrix,  0, 0)
+        controller.Publish(controller.putDiceslot, move, 1)
 
 
-        //var input = ""
-        //if (!auto_input.equals(""))
-        //    input = auto_input
-        //else
-        //val input = readLine
 
         analyseInput(move) match
             case None       =>
             case Some(playerAction) => {
                 if (playerAction.mode == 1) { // on undo
-                    getInputAndPrintLoop(controller.changePlayer(playerID), 0, oldMove)
+                    getInputAndPrintLoop(controller.changePlayer(playerID))
                 }
                 else if (playerAction.mode == 2) { // on redo
                     //controller.Publish(controller.put, oldMove, 0)
-                    getInputAndPrintLoop(controller.changePlayer(playerID), 1, oldMove)
+                    getInputAndPrintLoop(controller.changePlayer(playerID))
                 }
                 else if (playerAction.mode == 0) { // on do
                     controller.Publish(controller.put, playerAction, 0)
-                    getInputAndPrintLoop(controller.changePlayer(playerID), 1, playerAction)
+                    getInputAndPrintLoop(controller.changePlayer(playerID))
                 }
 
-
-
-                /*
-                controller.Publish(controller.putPlayfield, playerAction, 0)
-                controller.Publish(controller.putPoints, playerAction, 0)
-                */
 
             }
 
@@ -73,11 +60,11 @@ case class TUI(controller: Controller) extends Observer:
         input match
             case "q" => None
             case "u" => {
-                controller.Publish(controller.undo, 1)
+                controller.Publish(controller.undo)
                 Some(move.copy(move.dice, move.matrix, move.x, 1)) // set mode to "undo"
             }
             case "r" => {
-                controller.Publish(controller.redo, 0)
+                controller.Publish(controller.redo)
                 Some(move.copy(move.dice, move.matrix, move.x, 2)) // set mode to "redo"
             }
             case _ => {
