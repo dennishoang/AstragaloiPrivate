@@ -12,6 +12,7 @@ import scala.swing._
 import java.awt.GridLayout
 import javax.swing.BoxLayout
 import java.awt.ComponentOrientation
+import javax.swing.ImageIcon
 
 class GUI(controller: Controller) extends Frame with Observer:
     //listenTo(controller)
@@ -55,23 +56,35 @@ class GUI(controller: Controller) extends Frame with Observer:
         contents += button3
     }
 
-    class field = new GridBagPanel {
 
+    val diceLinks: List[String] = List("resources/DiceEmpty.png", "resources/DiceOne.png", "resources/DiceTwo.png", "resources/DiceThree.png",
+        "resources/DiceFour.png", "resources/DiceFive.png", "resources/DiceSix.png")
 
+    class Field() extends GridPanel(3,3) {
+        //contents += button1
+        //contents += button2
+        //contents += button3
+        val range = Range(0, 3*3)
+        for (i <- range) {
+            contents += new Label {
+                icon = new ImageIcon(diceLinks(i))
+            }
+        }
     }
 
     contents = new BorderPanel {
         add(playfieldHead(1, diceslot1), BorderPanel.Position.North)
-        add(fieldbutton, BorderPanel.Position.Center)
-
+        //add(fieldbutton, BorderPanel.Position.Center)
+        add(new Field, BorderPanel.Position.Center)
         add(playfieldHead(2, diceslot2), BorderPanel.Position.South)
     }
     visible = true
 
 
+
     def update(e: Event): Unit = e match
-    case Event.Quit =>
-    case Event.Move =>^^
+        case Event.Quit =>
+        case Event.Move =>
 
 
 
