@@ -41,45 +41,45 @@ class GUI(controller: Controller) extends Frame with Observer:
     }
 
     val button1 = new Button("1") {
-        xLayoutAlignment = 0.5
+        //xLayoutAlignment = 0.5
     }
     val button2 = new Button("2") {
-        xLayoutAlignment = 0.5
+        //xLayoutAlignment = 0.5
     }
     val button3 = new Button("3") {
-        xLayoutAlignment = 0.5
+        //xLayoutAlignment = 0.5
     }
 
-    def fieldbutton = new BoxPanel(Orientation.Horizontal) {
+    def fieldbutton = new BoxLayout(1,3) {
         contents += button1
         contents += button2
         contents += button3
     }
 
 
-    val diceLinks: List[String] = List("resources/DiceEmpty.png", "resources/DiceOne.png", "resources/DiceTwo.png", "resources/DiceThree.png",
-        "resources/DiceFour.png", "resources/DiceFive.png", "resources/DiceSix.png")
+    val diceLinks: List[String] = List("src/main/resources/DiceEmpty.png", "src/main/resources/DiceOne.png", "src/main/resources/DiceTwo.png", "src/main/resources/DiceThree.png",
+        "src/main/resources/DiceFour.png", "src/main/resources/DiceFive.png", "src/main/resources/DiceSix.png")
 
-    class Field() extends GridPanel(3,3) {
-        //contents += button1
-        //contents += button2
-        //contents += button3
-        val range = Range(0, 3*3)
+    val pic = new ImageIcon("src/main/resources/DiceEmpty.png")
+
+    def fieldmatrix = new  GridPanel(3,3):
+        val range = Range(0, 9)
         for (i <- range) {
             contents += new Label {
-                icon = new ImageIcon(diceLinks(i))
+                icon = new ImageIcon(diceLinks(0))
             }
         }
-    }
 
+    class Field() extends GridPanel(2,1):
+        contents += fieldbutton
+        contents += fieldmatrix
     contents = new BorderPanel {
         add(playfieldHead(1, diceslot1), BorderPanel.Position.North)
         //add(fieldbutton, BorderPanel.Position.Center)
-        add(new Field, BorderPanel.Position.Center)
+        add(new Field(), BorderPanel.Position.Center)
         add(playfieldHead(2, diceslot2), BorderPanel.Position.South)
     }
     visible = true
-
 
 
     def update(e: Event): Unit = e match
