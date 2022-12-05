@@ -33,6 +33,7 @@ object astragaloi {
       val tui = TUI(controller)
       val gui = new GUI(controller)
       tui.run
+
   }
 
 }
