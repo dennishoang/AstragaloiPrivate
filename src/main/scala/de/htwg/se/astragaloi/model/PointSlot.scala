@@ -6,9 +6,20 @@ import model.PlayField
 case class PointSlot[T](slots: Vector[Vector[Int]]):
     def this(size: Int, filling: Int) = this(Vector.tabulate(size, 4) { (slot, col) => filling})
     val size = slots.size
+    val slotsize = slots(0).size
     def cell(matrix: Int, col:Int): Int = slots(matrix)(col)
     def slot(matrix: Int) = slots(matrix)
     def fill(filling: Int): PointSlot[T] = copy(Vector.tabulate(size, 4) { (slot, col) => filling })
+
+    def chooseWinner: Int =
+        var winner = 0
+        if (cell(0, slotsize - 1) > cell(1, slotsize - 1))
+            winner = 1
+        else if (cell(0, slotsize - 1) < cell(1, slotsize - 1))
+            winner = 2
+        else
+            winner = -1 // unentschieden
+        winner
 
     def replacePoints(playfield: PlayField[T], matrix: Int, col: Int): PointSlot[T] =
         val value = calculatePoints(playfield, matrix, col, 0, 0)
