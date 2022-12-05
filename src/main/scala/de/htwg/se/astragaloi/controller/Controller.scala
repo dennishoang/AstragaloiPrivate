@@ -7,6 +7,7 @@ import model.Field
 import model.Move
 import util.Observable
 import util.UndoManager
+import util.Event
 
 import model.PointSlot
 
@@ -21,12 +22,14 @@ case class Controller(var field: Field) extends Observable:
         // doThis is a function which takes a Move and returns a field (put / putSlot)
         field = doThis(move)
         if (last == 1)
-            notifyObservers
+            notifyObservers(Event.Move)
 
-    def Publish(doThis: => Field, undo: Int) = // for undo and redo
+    def Publish(doThis: => Field, last: Int) = // for undo and redo
         field = doThis
-        if (undo == 1)
-            notifyObservers
+        if (last == 1)
+            notifyObservers(Event.Move)
+
+    def quit: Unit = notifyObservers(Event.Quit)
 
     def getSlot(matrix: Int): Dice = field.getSlot(matrix)
 
@@ -35,6 +38,8 @@ case class Controller(var field: Field) extends Observable:
     def undo: Field = undoManager.undoStep(field)
 
     def redo: Field = undoManager.redoStep(field)
+
+    def finish: Field = field
 
     def putDiceslot(move: Move): Field =
         field.putSlot(move.dice, move.matrix)
