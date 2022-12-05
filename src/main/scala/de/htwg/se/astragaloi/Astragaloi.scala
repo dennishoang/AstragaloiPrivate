@@ -30,7 +30,7 @@ object astragaloi {
 
       val field = new Field(3 ,2, Dice.Empty, 0)
       val controller = new Controller(field)
-      val tui = new TUI(controller)
+      val tui = TUI(controller)
       val gui = new GUI(controller)
       tui.run
   }
