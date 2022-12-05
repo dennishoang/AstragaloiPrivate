@@ -41,20 +41,23 @@ class GUI(controller: Controller) extends Frame with Observer:
     }
 
     val button1 = new Button("1") {
-        //xLayoutAlignment = 0.5
+        xLayoutAlignment = 2
     }
     val button2 = new Button("2") {
-        //xLayoutAlignment = 0.5
+        xLayoutAlignment = 2
     }
     val button3 = new Button("3") {
-        //xLayoutAlignment = 0.5
+        xLayoutAlignment = 2
     }
 
-    def fieldbutton = new BoxLayout(1,3) {
+
+
+    def fieldbutton = new BoxPanel(Orientation.Horizontal) {
         contents += button1
         contents += button2
         contents += button3
     }
+
 
 
     val diceLinks: List[String] = List("src/main/resources/DiceEmpty.png", "src/main/resources/DiceOne.png", "src/main/resources/DiceTwo.png", "src/main/resources/DiceThree.png",
@@ -70,7 +73,7 @@ class GUI(controller: Controller) extends Frame with Observer:
             }
         }
 
-    class Field() extends GridPanel(2,1):
+    class Field() extends BoxPanel(Orientation.Vertical):
         contents += fieldbutton
         contents += fieldmatrix
     contents = new BorderPanel {
