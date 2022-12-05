@@ -31,10 +31,6 @@ class GUI(controller: Controller) extends Frame with Observer:
         }
     }
 
-    val diceslot1 = new TextField("Wert")
-    val diceslot2 = new TextField("Wert")
-
-
     val buttonsPlayer1: List[Button] = List(new Button("1") { xLayoutAlignment = 2}, new Button("2") { xLayoutAlignment = 2}, new Button("3") { xLayoutAlignment = 2})
     val buttonsPlayer2: List[Button] = List(new Button("1") { xLayoutAlignment = 2}, new Button("2") { xLayoutAlignment = 2}, new Button("3") { xLayoutAlignment = 2})
 
@@ -44,17 +40,17 @@ class GUI(controller: Controller) extends Frame with Observer:
     val diceLinks: List[String] = List("src/main/resources/DiceEmpty.png", "src/main/resources/DiceOne.png", "src/main/resources/DiceTwo.png", "src/main/resources/DiceThree.png",
         "src/main/resources/DiceFour.png", "src/main/resources/DiceFive.png", "src/main/resources/DiceSix.png")
 
-
+    val diceslot1 = new Label { icon = new ImageIcon(diceLinks(0))}
+    val diceslot2 = new Label { icon = new ImageIcon(diceLinks(0))}
 
     for(i <- pointsPlayer1)
         i.editable = false
     for(i <- pointsPlayer2)
         i.editable = false
 
-    def playfieldHead(player: Int, diceslot: TextField) = new FlowPanel {
+    def playfieldHead(player: Int, diceslot: Label) = new FlowPanel {
         val playerLabel = new Label("Player " + player)
         val dice = new Label("Dice:")
-        diceslot1.editable = false
         contents += playerLabel
         contents += dice
         contents += diceslot
@@ -106,9 +102,15 @@ class GUI(controller: Controller) extends Frame with Observer:
         contents += field2
     }
 
+    def finalfield = new FlowPanel {
+        contents += playfield
+        contents += totalPoints(pointsPlayer1, pointsPlayer2)
+    }
+
     contents = new BorderPanel {
-        add(playfield, BorderPanel.Position.Center)
-        add(totalPoints(pointsPlayer1, pointsPlayer2), BorderPanel.Position.East)
+        //add(playfield, BorderPanel.Position.Center)
+        //add(totalPoints(pointsPlayer1, pointsPlayer2), BorderPanel.Position.East)
+        add(finalfield, BorderPanel.Position.Center)
     }
     visible = true
 
