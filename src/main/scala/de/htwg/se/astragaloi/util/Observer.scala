@@ -4,6 +4,7 @@ package util
 trait Observer:
   def update: Unit
 
+
 class Observable:
   var subscribers: Vector[Observer] = Vector()
   def add(s: Observer) = subscribers = subscribers :+ s
