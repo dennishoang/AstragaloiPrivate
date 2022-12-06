@@ -31,7 +31,8 @@ case class Controller(var field: Field) extends Observable:
 
     def quit: Unit = notifyObservers(Event.Quit)
 
-    //def getPoints()
+    def getPoints(matrix: Int): Vector[Int] =
+        field.getPoints(matrix)
 
     def getCol(matrix: Int, col: Int): Vector[Dice] =
         field.getCol(matrix, col)

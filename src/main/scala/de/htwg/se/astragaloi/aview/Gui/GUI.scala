@@ -112,6 +112,9 @@ class GUI(controller: Controller) extends Frame with Observer:
         contents += playerPoints(0)
         contents += playerPoints(1)
         contents += playerPoints(2)
+        def changePoints(points: Vector[Int]) =
+            for (i <- Range(0, points.size - 1))
+                playerPoints(i).text = points(i).toString
     }
 
     case class TotalPoints() extends GridPanel(2,1) {
@@ -121,6 +124,9 @@ class GUI(controller: Controller) extends Frame with Observer:
         totalPointsPlayer2.editable = false
         contents += totalPointsPlayer1
         contents += totalPointsPlayer2
+        def changePoints(points1: Vector[Int], points2: Vector[Int]) =
+            totalPointsPlayer1.text = points1(points1.size - 1).toString
+            totalPointsPlayer2.text = points2(points2.size - 1).toString
     }
 
     case class Field1(var head: FieldHead, var buttons: FieldButtons, var matrix: FieldMatrix, var points: FieldPoints) extends BoxPanel(Orientation.Vertical) {
@@ -132,6 +138,8 @@ class GUI(controller: Controller) extends Frame with Observer:
             head.changeSlot(dice)
         def changeCells(values: Vector[Dice], col: Int) =
             matrix.changeCells(values, col)
+        def changePoints(values: Vector[Int]) =
+            points.changePoints(values)
     }
 
     case class Field2(var head: FieldHead, var buttons: FieldButtons, var matrix: FieldMatrix, var points: FieldPoints) extends BoxPanel(Orientation.Vertical) {
@@ -143,6 +151,8 @@ class GUI(controller: Controller) extends Frame with Observer:
             head.changeSlot(dice)
         def changeCells(values: Vector[Dice], col: Int) =
             matrix.changeCells(values, col)
+        def changePoints(values: Vector[Int]) =
+            points.changePoints(values)
     }
 
     case class Playfield(var field1: Field1, var field2: Field2) extends BoxPanel(Orientation.Vertical) {
@@ -157,6 +167,8 @@ class GUI(controller: Controller) extends Frame with Observer:
     case class Finalfield(var playfield: Playfield, var totalPoints: TotalPoints) extends FlowPanel {
         contents += playfield
         contents += totalPoints
+        def changePoints(points1: Vector[Int], points2: Vector[Int]) =
+            totalPoints.changePoints(points1, points2)
     }
 
 
@@ -164,7 +176,6 @@ class GUI(controller: Controller) extends Frame with Observer:
     val field2 = new Field2(new FieldHead(1), new FieldButtons(1), new FieldMatrix(1), new FieldPoints(1))
     val playfield = new Playfield(field1, field2)
     val finalfield = new Finalfield(playfield, new TotalPoints)
-
 
 
     // finalfield.playfield.changeSlot(new Move(Dice.THREE, 0, 0, 0)) zum testen
@@ -186,6 +197,12 @@ class GUI(controller: Controller) extends Frame with Observer:
         for (i <- Range(0, 3))
             field1.matrix.changeCells(controller.getCol(0, i), i)
             field2.matrix.changeCells(controller.getCol(1, i), i)
+        // update points
+        val points1 = controller.getPoints(0)
+        val points2 = controller.getPoints(1)
+        field1.points.changePoints(points1)
+        field2.points.changePoints(points2)
+        finalfield.totalPoints.changePoints(points1, points2)
 
 
         repaint() // at the end repaint the GUI
