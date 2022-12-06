@@ -80,7 +80,7 @@ case class TUI(controller: Controller) extends Observer:
             }
 
     def analyseInput(move: Move): Option[Move] =
-        val input = readLine("Column: ")
+        val input = readLine("Column: \n")
         input match
             case "q" => None
             case "u" => {

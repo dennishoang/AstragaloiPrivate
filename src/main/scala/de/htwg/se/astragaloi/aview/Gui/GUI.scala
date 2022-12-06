@@ -64,22 +64,23 @@ class GUI(controller: Controller) extends Frame with Observer:
         listenTo(button1)
         listenTo(button2)
         listenTo(button3)
-        val dice = controller.getSlot(matrix)
         reactions += {
             case ButtonClicked(`button1`) => {
+                val dice = controller.getSlot(matrix)
                 val move = new Move(dice, matrix, 0, 0)
                 controller.Publish(controller.put, move ,1)
             }
             case ButtonClicked(`button2`) => {
+                val dice = controller.getSlot(matrix)
                 val move = new Move(dice, matrix, 1, 0)
                 controller.Publish(controller.put, move ,1)
             }
             case ButtonClicked(`button3`) => {
+                val dice = controller.getSlot(matrix)
                 val move = new Move(dice, matrix, 2, 0)
                 controller.Publish(controller.put, move ,1)
             }
         }
-
         contents += playerButtons(0)
         contents += playerButtons(1)
         contents += playerButtons(2)
