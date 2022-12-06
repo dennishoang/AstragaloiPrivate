@@ -35,6 +35,12 @@ class GUI(controller: Controller) extends Frame with Observer:
     val diceLinks: List[String] = List("src/main/resources/DiceEmpty.png", "src/main/resources/DiceOne.png", "src/main/resources/DiceTwo.png", "src/main/resources/DiceThree.png",
         "src/main/resources/DiceFour.png", "src/main/resources/DiceFive.png", "src/main/resources/DiceSix.png")
 
+    val diceToImg: Map[Dice, ImageIcon] = Map(Dice.Empty -> new ImageIcon(diceLinks(0)), Dice.ONE -> new ImageIcon(diceLinks(1)), Dice.TWO -> new ImageIcon(diceLinks(2)),
+     Dice.THREE -> new ImageIcon(diceLinks(3)), Dice.FOUR -> new ImageIcon(diceLinks(4)), Dice.FIVE -> new ImageIcon(diceLinks(5)), Dice.SIX -> new ImageIcon(diceLinks(6)))
+
+    val imgToDice: Map[String, Dice] = Map(diceLinks(0) -> Dice.Empty, diceLinks(1) -> Dice.ONE, diceLinks(2) -> Dice.TWO, diceLinks(3) -> Dice.THREE,
+     diceLinks(4) -> Dice.FOUR, diceLinks(5) -> Dice.FIVE, diceLinks(6) -> Dice.SIX)
+
     case class FieldHead(player: Int) extends FlowPanel {
         val playerLabel = new Label("Player " + player)
         val dice = new Label("Dice:")
@@ -42,6 +48,8 @@ class GUI(controller: Controller) extends Frame with Observer:
         contents += playerLabel
         contents += dice
         contents += diceslot
+        def changeSlot(dice: Dice) =
+            diceslot.icon = diceToImg.get(dice).get
     }
 
     case class FieldButtons() extends BoxPanel(Orientation.Horizontal) {
@@ -90,6 +98,8 @@ class GUI(controller: Controller) extends Frame with Observer:
         contents += buttons
         contents += matrix
         contents += points
+        def changeSlot(dice: Dice) =
+            head.changeSlot(dice)
     }
 
     case class Field2(var head: FieldHead, var buttons: FieldButtons, var matrix: FieldMatrix, var points: FieldPoints) extends BoxPanel(Orientation.Vertical) {
@@ -97,11 +107,17 @@ class GUI(controller: Controller) extends Frame with Observer:
         contents += matrix
         contents += buttons
         contents += head
+        def changeSlot(dice: Dice) =
+            head.changeSlot(dice)
     }
 
     case class Playfield(var field1: Field1, var field2: Field2) extends BoxPanel(Orientation.Vertical) {
         contents += field1
         contents += field2
+        def changeSlot(move: Move) =
+            move.matrix match
+                case 0 => field1.changeSlot(move.dice)
+                case 1 => field2.changeSlot(move.dice)
     }
 
     case class Finalfield(var playfield: Playfield, var totalPoints: TotalPoints) extends FlowPanel {
@@ -114,12 +130,18 @@ class GUI(controller: Controller) extends Frame with Observer:
     val field2 = new Field2(new FieldHead(2), new FieldButtons, new FieldMatrix, new FieldPoints)
     val playfield = new Playfield(field1, field2)
     val finalfield = new Finalfield(playfield, new TotalPoints)
+    // finalfield.playfield.changeSlot(new Move(Dice.THREE, 0, 0, 0)) zum testen
     contents = new BorderPanel {
         add(finalfield, BorderPanel.Position.Center)
     }
     visible = true
 
 
+    // is called when notifyObervers
+    def redraw =
+        // update playfield (head(diceslot), matrix, points)
+
+
     def update(e: Event): Unit = e match
-        case Event.Quit =>
-        case Event.Move =>
+        case Event.Quit => // continue = false
+        case Event.Move => redraw
