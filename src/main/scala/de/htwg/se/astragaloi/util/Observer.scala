@@ -13,4 +13,4 @@ class Observable:
 
 enum Event:
   case Quit
-  case Slot
+  case Move
