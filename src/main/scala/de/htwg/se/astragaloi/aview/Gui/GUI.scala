@@ -64,20 +64,18 @@ class GUI(controller: Controller) extends Frame with Observer:
         listenTo(button1)
         listenTo(button2)
         listenTo(button3)
+        val dice = controller.getSlot(matrix)
         reactions += {
             case ButtonClicked(`button1`) => {
-                //getSlot
-                val move = new Move(Dice.SIX, matrix, 0, 0)
+                val move = new Move(dice, matrix, 0, 0)
                 controller.Publish(controller.put, move ,1)
             }
             case ButtonClicked(`button2`) => {
-                //getSlot
-                val move = new Move(Dice.SIX, matrix, 1, 0)
+                val move = new Move(dice, matrix, 1, 0)
                 controller.Publish(controller.put, move ,1)
             }
             case ButtonClicked(`button3`) => {
-                //getSlot
-                val move = new Move(Dice.SIX, matrix, 2, 0)
+                val move = new Move(dice, matrix, 2, 0)
                 controller.Publish(controller.put, move ,1)
             }
         }
@@ -101,6 +99,10 @@ class GUI(controller: Controller) extends Frame with Observer:
                     border = LineBorder(new Color(0, 0, 0, 255), 3)
                     contents += cellsPlayer(i)(j)
             }
+
+        def changeCells(values: Vector[Dice], col: Int) =
+            for (i <- Range(0, 3))
+            cellsPlayer(col)(i).icon = diceToImg.get(values(i)).get
     }
 
     case class FieldPoints(matrix: Int) extends GridPanel(1,3) {
@@ -128,6 +130,8 @@ class GUI(controller: Controller) extends Frame with Observer:
         contents += points
         def changeSlot(dice: Dice) =
             head.changeSlot(dice)
+        def changeCells(values: Vector[Dice], col: Int) =
+            matrix.changeCells(values, col)
     }
 
     case class Field2(var head: FieldHead, var buttons: FieldButtons, var matrix: FieldMatrix, var points: FieldPoints) extends BoxPanel(Orientation.Vertical) {
@@ -137,6 +141,8 @@ class GUI(controller: Controller) extends Frame with Observer:
         contents += head
         def changeSlot(dice: Dice) =
             head.changeSlot(dice)
+        def changeCells(values: Vector[Dice], col: Int) =
+            matrix.changeCells(values, col)
     }
 
     case class Playfield(var field1: Field1, var field2: Field2) extends BoxPanel(Orientation.Vertical) {
@@ -177,7 +183,10 @@ class GUI(controller: Controller) extends Frame with Observer:
         field1.head.changeSlot(dice1)
         field2.head.changeSlot(dice2)
         // update matrix
-        
+        for (i <- Range(0, 3))
+            field1.matrix.changeCells(controller.getCol(0, i), i)
+            field2.matrix.changeCells(controller.getCol(1, i), i)
+
 
         repaint() // at the end repaint the GUI
 

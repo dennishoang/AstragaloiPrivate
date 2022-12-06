@@ -31,6 +31,11 @@ case class Controller(var field: Field) extends Observable:
 
     def quit: Unit = notifyObservers(Event.Quit)
 
+    //def getPoints()
+
+    def getCol(matrix: Int, col: Int): Vector[Dice] =
+        field.getCol(matrix, col)
+
     def getSlot(matrix: Int): Dice = field.getSlot(matrix)
 
     def put(move: Move): Field = undoManager.doStep(field, PutCommand(move))
@@ -51,11 +56,9 @@ case class Controller(var field: Field) extends Observable:
     def checkColPublish(matrix: Int, col: Int): Int =
         field.colcheck(matrix, col)
 
-    // checks finish
     def checkFinish(matrix: Int): Boolean =
         field.checkFinish(matrix)
 
-    // returns winner
     def chooseWinner: Int =
         field.chooseWinner
 

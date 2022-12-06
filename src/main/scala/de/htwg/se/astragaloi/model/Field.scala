@@ -51,4 +51,7 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot
   def getSlot(matrix: Int): Dice =
     diceslot.cell(matrix)
 
+  def getCol(matrix: Int, col: Int): Vector[Dice] =
+    playfield.col(matrix, col)
+
 
