@@ -43,6 +43,19 @@ class GUI(controller: Controller) extends Frame with Observer:
     val diceslot1 = new Label { icon = new ImageIcon(diceLinks(0))}
     val diceslot2 = new Label { icon = new ImageIcon(diceLinks(0))}
 
+    val cellsPlayer1: List[List[Label]] = List(
+        List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }), // Spalte 1
+        List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }), // Spalte 2
+        List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }) // Spalte 3
+    )
+
+    val cellsPlayer2: List[List[Label]] = List(
+        List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }),
+        List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }),
+        List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) })
+    )
+
+
     for(i <- pointsPlayer1)
         i.editable = false
     for(i <- pointsPlayer2)
@@ -62,14 +75,30 @@ class GUI(controller: Controller) extends Frame with Observer:
         contents += playerButtons(2)
     }
 
-    def fieldmatrix(value: Int) = new GridPanel(3,3) {
-        val range = Range(0, 9)
-        for (i <- range) {
-            contents += new Label {
-                border = new LineBorder(new Color(0, 0, 0, 200), 3)
-                icon = new ImageIcon(diceLinks(value))
+    def fieldmatrix(playermatrix: List[List[Label]]) = new GridPanel(1,3) {
+        val range = Range(0, 3)
+        for (i <- range)
+            contents += new GridPanel(3,1) {
+                for (j <- range)
+                    contents += playermatrix(i)(j)
             }
+        /*
+        contents += new GridPanel(3,1) {
+            for (i <- range)
+                contents += playermatrix(1)(i)
         }
+        contents += new GridPanel(3,1) {
+            for (i <- range)
+                contents += playermatrix(2)(i)
+        }
+        */
+        /*
+        for(i <- range)
+            for(j <- range)
+                contents += playermatrix(i)(j)
+            for (j <- range)
+                col = new GridPanel(3,1)
+                contents +=*/
     }
 
     def fieldpoints(playerPoints: List[TextField]) = new GridPanel(1,3) {
@@ -86,13 +115,13 @@ class GUI(controller: Controller) extends Frame with Observer:
     def field1 = new BoxPanel(Orientation.Vertical) {
         contents += playfieldHead(1, diceslot1)
         contents += fieldbuttons(buttonsPlayer1)
-        contents += fieldmatrix(0)
+        contents += fieldmatrix(cellsPlayer1)
         contents += fieldpoints(pointsPlayer1)
     }
 
     def field2 = new BoxPanel(Orientation.Vertical) {
         contents += fieldpoints(pointsPlayer2)
-        contents += fieldmatrix(0)
+        contents += fieldmatrix(cellsPlayer2)
         contents += fieldbuttons(buttonsPlayer2)
         contents += playfieldHead(2, diceslot2)
     }
