@@ -31,114 +31,90 @@ class GUI(controller: Controller) extends Frame with Observer:
         }
     }
 
-    val buttonsPlayer1: List[Button] = List(new Button("1") { xLayoutAlignment = 2}, new Button("2") { xLayoutAlignment = 2}, new Button("3") { xLayoutAlignment = 2})
-    val buttonsPlayer2: List[Button] = List(new Button("1") { xLayoutAlignment = 2}, new Button("2") { xLayoutAlignment = 2}, new Button("3") { xLayoutAlignment = 2})
-
-    val pointsPlayer1: List[TextField] = List(new TextField("0"), new TextField("0") , new TextField("0"), new TextField("0"))
-    val pointsPlayer2: List[TextField] = List(new TextField("0"), new TextField("0"), new TextField("0"), new TextField("0"))
 
     val diceLinks: List[String] = List("src/main/resources/DiceEmpty.png", "src/main/resources/DiceOne.png", "src/main/resources/DiceTwo.png", "src/main/resources/DiceThree.png",
         "src/main/resources/DiceFour.png", "src/main/resources/DiceFive.png", "src/main/resources/DiceSix.png")
 
-    val diceslot1 = new Label { icon = new ImageIcon(diceLinks(0))}
-    val diceslot2 = new Label { icon = new ImageIcon(diceLinks(0))}
-
-    val cellsPlayer1: List[List[Label]] = List(
-        List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }), // Spalte 1
-        List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }), // Spalte 2
-        List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }) // Spalte 3
-    )
-
-    val cellsPlayer2: List[List[Label]] = List(
-        List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }),
-        List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }),
-        List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) })
-    )
-
-
-    for(i <- pointsPlayer1)
-        i.editable = false
-    for(i <- pointsPlayer2)
-        i.editable = false
-
-    def playfieldHead(player: Int, diceslot: Label) = new FlowPanel {
+    case class FieldHead(player: Int) extends FlowPanel {
         val playerLabel = new Label("Player " + player)
         val dice = new Label("Dice:")
+        val diceslot = new Label { icon = new ImageIcon(diceLinks(0))}
         contents += playerLabel
         contents += dice
         contents += diceslot
     }
 
-    def fieldbuttons(playerButtons: List[Button]) = new BoxPanel(Orientation.Horizontal) {
+    case class FieldButtons() extends BoxPanel(Orientation.Horizontal) {
+        val playerButtons: List[Button] = List(new Button("1") { xLayoutAlignment = 2}, new Button("2") { xLayoutAlignment = 2}, new Button("3") { xLayoutAlignment = 2})
         contents += playerButtons(0)
         contents += playerButtons(1)
         contents += playerButtons(2)
     }
 
-    def fieldmatrix(playermatrix: List[List[Label]]) = new GridPanel(1,3) {
+    case class FieldMatrix() extends GridPanel(1,3) {
+        val cellsPlayer: List[List[Label]] = List(
+            List(new Label { icon = new ImageIcon(diceLinks(1)) }, new Label { icon = new ImageIcon(diceLinks(2)) }, new Label { icon = new ImageIcon(diceLinks(6)) }),
+            List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(3)) }),
+            List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) })
+        )
         val range = Range(0, 3)
         for (i <- range)
+
             contents += new GridPanel(3,1) {
                 for (j <- range)
-                    contents += playermatrix(i)(j)
+                    border = LineBorder(new Color(0, 0, 0, 255), 3)
+                    contents += cellsPlayer(i)(j)
             }
-        /*
-        contents += new GridPanel(3,1) {
-            for (i <- range)
-                contents += playermatrix(1)(i)
-        }
-        contents += new GridPanel(3,1) {
-            for (i <- range)
-                contents += playermatrix(2)(i)
-        }
-        */
-        /*
-        for(i <- range)
-            for(j <- range)
-                contents += playermatrix(i)(j)
-            for (j <- range)
-                col = new GridPanel(3,1)
-                contents +=*/
     }
 
-    def fieldpoints(playerPoints: List[TextField]) = new GridPanel(1,3) {
+    case class FieldPoints() extends GridPanel(1,3) {
+        val playerPoints: List[TextField] = List(new TextField("0"), new TextField("0"), new TextField("0"))
+        for(i <- playerPoints)
+            i.editable = false
         contents += playerPoints(0)
         contents += playerPoints(1)
         contents += playerPoints(2)
     }
 
-    def totalPoints(playerPoints1: List[TextField], playerPoints2: List[TextField]) = new GridPanel(2,1) {
-        contents += playerPoints1(3)
-        contents += playerPoints2(3)
+    case class TotalPoints() extends GridPanel(2,1) {
+        val totalPointsPlayer1 = new TextField("0")
+        val totalPointsPlayer2 = new TextField("0")
+        totalPointsPlayer1.editable = false
+        totalPointsPlayer2.editable = false
+        contents += totalPointsPlayer1
+        contents += totalPointsPlayer2
     }
 
-    def field1 = new BoxPanel(Orientation.Vertical) {
-        contents += playfieldHead(1, diceslot1)
-        contents += fieldbuttons(buttonsPlayer1)
-        contents += fieldmatrix(cellsPlayer1)
-        contents += fieldpoints(pointsPlayer1)
+    case class Field1(var head: FieldHead, var buttons: FieldButtons, var matrix: FieldMatrix, var points: FieldPoints) extends BoxPanel(Orientation.Vertical) {
+        contents += head
+        contents += buttons
+        contents += matrix
+        contents += points
     }
 
-    def field2 = new BoxPanel(Orientation.Vertical) {
-        contents += fieldpoints(pointsPlayer2)
-        contents += fieldmatrix(cellsPlayer2)
-        contents += fieldbuttons(buttonsPlayer2)
-        contents += playfieldHead(2, diceslot2)
+    case class Field2(var head: FieldHead, var buttons: FieldButtons, var matrix: FieldMatrix, var points: FieldPoints) extends BoxPanel(Orientation.Vertical) {
+        contents += points
+        contents += matrix
+        contents += buttons
+        contents += head
     }
 
-    def playfield = new BoxPanel(Orientation.Vertical) {
+    case class Playfield(var field1: Field1, var field2: Field2) extends BoxPanel(Orientation.Vertical) {
         contents += field1
         contents += field2
     }
 
-    def finalfield = new FlowPanel {
+    case class Finalfield(var playfield: Playfield, var totalPoints: TotalPoints) extends FlowPanel {
         contents += playfield
-        contents += totalPoints(pointsPlayer1, pointsPlayer2)
+        contents += totalPoints
     }
 
+
+    val field1 = new Field1(new FieldHead(1), new FieldButtons, new FieldMatrix, new FieldPoints)
+    val field2 = new Field2(new FieldHead(2), new FieldButtons, new FieldMatrix, new FieldPoints)
+    val playfield = new Playfield(field1, field2)
+    val finalfield = new Finalfield(playfield, new TotalPoints)
     contents = new BorderPanel {
-        //add(playfield, BorderPanel.Position.Center)
-        //add(totalPoints(pointsPlayer1, pointsPlayer2), BorderPanel.Position.East)
         add(finalfield, BorderPanel.Position.Center)
     }
     visible = true
