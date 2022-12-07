@@ -25,14 +25,30 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot
 
   override def toString = mesh.create()
 
-  def put(number: Dice, matrix: Int, col: Int) =
-    copy(playfield.insertValue(playfield, matrix, col, number, Dice.Empty), diceslot)
+  def put(number: Dice, matrix: Int, col: Int, undo: Int, oldValues: Vector[Int]) =
+    copy(playfield.insertValue(playfield, matrix, col, number, Dice.Empty, undo, oldValues), diceslot)
+
+
+    /*else {
+      temp.copy(temp.playfield, temp.diceslot.replace(matrix, number), temp.pointslot.replaceAllPoints(temp.playfield, matrix, col))
+    }*/
+
+  def putPoint(matrix:Int, col:Int) =
+    copy(playfield, diceslot, pointslot.replaceAllPoints(playfield, matrix, col))
+
   def putSlot(number: Dice, slot: Int) =
     copy(playfield, diceslot.replace(slot, number))
-  def putPoint(matrix: Int, col: Int) =
-    copy(playfield, diceslot.replace(matrix, Dice.Empty), pointslot.replaceAllPoints(playfield, matrix, col)) // + pointslot.replacePoints(playfield, 1 - matrix, col)
+
   def colcheck(matrix: Int, col: Int): Int =
     playfield.checkCol(matrix, col)
-    // checkFinish(matrix)
+
+  def checkFinish(matrix: Int): Boolean =
+    playfield.checkFinish(matrix: Int)
+
+  def chooseWinner: Int =
+    pointslot.chooseWinner
+
+  def getSlot(matrix: Int): Dice =
+    diceslot.cell(matrix)
 
 

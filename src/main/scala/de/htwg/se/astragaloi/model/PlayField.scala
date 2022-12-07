@@ -4,6 +4,7 @@ package model
 case class PlayField[T](matrixes: Vector[Vector[Vector[T]]]) extends Insert[T]:
 
     def this(size: Int, filling: T) = this(Vector.tabulate(2, size, size) { (matrix, row, col) => filling })
+    val rowsize: Int = matrixes(0).size
     val colsize: Int = matrixes(0)(0).size
     def cell(matrix: Int, row: Int, col: Int): T = matrixes(matrix)(row)(col) // z.B: cell(0)(1)(2) ==> Zugriff auf Zelle in Matrix 1, Zeile 2 Spalte 3
     def row(matrix: Int, row: Int) = matrixes(matrix)(row)
@@ -25,6 +26,16 @@ case class PlayField[T](matrixes: Vector[Vector[Vector[T]]]) extends Insert[T]:
 
     override def replaceCell(matrix: Int, row: Int, col: Int, value: T): PlayField[T] =
         copy(matrixes.updated(matrix, matrixes(matrix).updated(row, matrixes(matrix)(row).updated(col, value))))
+
+    override def undestroyValue(matrix: Int, col: Int, value: T, oldIndexes: Vector[Int]): PlayField[T] =
+        val enemyMatrix = 1 - matrix
+        //enemyCol = field.playfield.col(enemyMatrix, col)
+        var range = Range(0, oldIndexes.size)
+
+        var temp = copy(this.matrixes)
+        for(i <- range)
+            temp = temp.replaceCell(enemyMatrix, oldIndexes(i), col, value)
+        temp
 
     override def destroyValue(matrix: Int, x: Int, value: T, clear: T): PlayField[T] =
         val enemyMatrix = 1 - matrix
@@ -48,6 +59,16 @@ case class PlayField[T](matrixes: Vector[Vector[Vector[T]]]) extends Insert[T]:
         for (i <- range)
             temp = temp.replaceCell(enemyMatrix, i, x, formatVec(i))
         temp
+
+    def checkFinish(matrix: Int): Boolean =
+        val range = Range(0, rowsize)
+        var ret = true
+        for(i <- range)
+            if (checkCol(matrix, i) != -1) // if a col isn't filled in the given matrix
+                ret = false
+        ret
+
+
 
 
 
