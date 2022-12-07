@@ -59,6 +59,13 @@ class PlayFieldSpec extends AnyWordSpec {
             playfield9 = playfield9.undestroyValue(1, 0, Dice.ONE, oldIndexes)
             playfield9.cell(0, 0, 0) should be (Dice.ONE)
         }
+        "undo inputs" in {
+            var playfield9 = new PlayField[Dice](3, Dice.Empty)
+            val oldIndexes = Vector[Int]()
+            playfield9 = playfield9.insertValue(playfield9, 0, 0, Dice.TWO, Dice.Empty, 0, oldIndexes) // with do
+            playfield9 = playfield9.insertValue(playfield9, 0, 0, Dice.TWO, Dice.Empty, 1, oldIndexes) // with undo
+            playfield9.cell(0, 0, 0) should be (Dice.Empty)
+        }
     }
 }
 
