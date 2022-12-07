@@ -48,7 +48,8 @@ class PlayFieldSpec extends AnyWordSpec {
         }
         "insert values" in {
             val playfield9 = new PlayField[Dice](3, Dice.Empty)
-            val playfield10 = playfield9.insertValue(playfield9, 0, 0, Dice.TWO, Dice.Empty)
+            val oldIndexes = Vector[Int]()
+            val playfield10 = playfield9.insertValue(playfield9, 0, 0, Dice.TWO, Dice.Empty, 0, oldIndexes)
             playfield10.col(0, 0).map(_.toString).filter(!_.equals(" ")).map(_.toInt).sum should be (2)
         }
     }

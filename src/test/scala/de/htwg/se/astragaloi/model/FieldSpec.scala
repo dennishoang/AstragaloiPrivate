@@ -59,7 +59,8 @@ class FieldSpec extends AnyWordSpec {
             "put Dice, Number, Points in Field" in {
                 val fieldtest = new Field(new PlayField[Dice](3, Dice.Empty), new DiceSlot[Dice](2, Dice.Empty), new PointSlot[Dice](2,0))
                 val putDice = fieldtest.putSlot(Dice.SIX, 1)
-                val putNumber = putDice.put(Dice.FOUR, 0, 1)
+                val oldValues = Vector[Int]()
+                val putNumber = putDice.put(Dice.FOUR, 0, 1, 0, oldValues)
                 val putpoints = putNumber.putPoint(0, 1)
 
                 putpoints.toString() should be(
