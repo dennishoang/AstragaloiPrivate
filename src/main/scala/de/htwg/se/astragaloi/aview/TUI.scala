@@ -52,8 +52,6 @@ case class TUI(controller: Controller) extends Observer:
         val matrix = controller.player // matrix
         var value = controller.getSlot(matrix)
         var move = new Move(value, matrix, 0, 0)
-        // aktuelle matrix und dice hier bestimmen (aus controller)
-        // bastel aus matrix und dice Move
 
         analyseInput(move,input) match
             case None       =>
@@ -115,7 +113,8 @@ case class TUI(controller: Controller) extends Observer:
                             Some(Move(move.dice, move.matrix, col, 0)) // return new move, set mode to "do"
                     case Failure(i) =>
                         println("Falsche Eingabe!")
-                        analyseInput(move, input)
+                        val newInput = readLine()
+                        analyseInput(move, newInput)
             }
 
     def readCol(input: String): Try[String] = {
