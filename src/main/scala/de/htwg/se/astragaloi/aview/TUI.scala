@@ -89,7 +89,8 @@ case class TUI(controller: Controller) extends Observer:
             case "u" => {
                 if (doCounter == 0)
                     println("kein Undo moeglich")
-                    analyseInput(move, input)
+                    val newInput = readLine()
+                    analyseInput(move, newInput)
                 else
                     controller.Publish(controller.undo, 1)
                     Some(move.copy(move.dice, move.matrix, move.x, 1)) // set mode to "undo"
@@ -97,7 +98,8 @@ case class TUI(controller: Controller) extends Observer:
             case "r" => {
                 if (undoCounter == 0)
                     println("kein Redo moeglich")
-                    analyseInput(move, input)
+                    val newInput = readLine()
+                    analyseInput(move, newInput)
                 else
                     controller.Publish(controller.redo, 0)
                     Some(move.copy(move.dice, move.matrix, move.x, 2)) // set mode to "redo"
@@ -108,7 +110,8 @@ case class TUI(controller: Controller) extends Observer:
                         val col = input.toInt
                         if (controller.checkColPublish(move.matrix, col) == -1)
                             println("Spalte ist voll!")
-                            analyseInput(move, input)
+                            val newInput = readLine()
+                            analyseInput(move, newInput)
                         else
                             Some(Move(move.dice, move.matrix, col, 0)) // return new move, set mode to "do"
                     case Failure(i) =>

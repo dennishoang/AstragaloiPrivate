@@ -29,8 +29,6 @@ class PutCommand(move: Move) extends Command[Field]:
         var tmp = field.put(move.dice, move.matrix, move.x, 0, delValueIndx)
         tmp = tmp.putPoint(move.matrix, move.x)
         tmp = tmp.putSlot(Dice.Empty, move.matrix)
-        val random = Dice.values(Random.nextInt(Dice.values.size - 1))
-        tmp = tmp.putSlot(random, 1 - move.matrix)
         tmp
 
 
