@@ -12,11 +12,13 @@ import util.Event
 import model.PointSlot
 
 import scala.util.Random
+import scala.io.StdIn.readLine
 
 
 case class Controller(var field: Field) extends Observable:
 
     val undoManager = new UndoManager[Field]
+
 
     def startGame(move: Move) =
         field = putDiceslot(move)
@@ -29,7 +31,7 @@ case class Controller(var field: Field) extends Observable:
         field = putDiceslot(slot)
         notifyObservers(Event.Move)
 
-    def Publish(doThis: => Field, last: Int) = // for undo and redo
+    def Publish(doThis: => Field, last: Int): Unit = // for undo and redo
         field = doThis
         if (last == 1)
             notifyObservers(Event.Move)
