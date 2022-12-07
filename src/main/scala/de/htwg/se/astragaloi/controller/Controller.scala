@@ -18,11 +18,16 @@ case class Controller(var field: Field) extends Observable:
 
     val undoManager = new UndoManager[Field]
 
-    def Publish(doThis: Move => Field, move: Move, last: Int) =
+    def startGame(move: Move) =
+        field = putDiceslot(move)
+        notifyObservers(Event.Move)
+
+    def Publish(doThis: Move => Field, move: Move) =
         // doThis is a function which takes a Move and returns a field (put / putSlot)
         field = doThis(move)
-        if (last == 1)
-            notifyObservers(Event.Move)
+        val slot = new Move(rollDice, 1 - move.matrix, 0, 0)
+        field = putDiceslot(slot)
+        notifyObservers(Event.Move)
 
     def Publish(doThis: => Field, last: Int) = // for undo and redo
         field = doThis
@@ -52,7 +57,7 @@ case class Controller(var field: Field) extends Observable:
 
     def changePlayer(playerID: Int): Int = 1 - playerID
 
-    def rollDice(): Dice = Dice.values(Random.nextInt(Dice.values.size - 1))
+    def rollDice: Dice = Dice.values(Random.nextInt(Dice.values.size - 1))
 
     def checkColPublish(matrix: Int, col: Int): Int =
         field.colcheck(matrix, col)

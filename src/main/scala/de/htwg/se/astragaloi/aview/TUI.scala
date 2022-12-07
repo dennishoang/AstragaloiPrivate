@@ -22,6 +22,8 @@ case class TUI(controller: Controller) extends Observer:
 
     def run =
         val playerID = Random.nextInt(2)
+        val move = new Move(controller.rollDice, playerID, 0, 0)
+        controller.startGame(move)
         printLoop(playerID, false)
 
     def finish(player: Int) =
@@ -43,11 +45,11 @@ case class TUI(controller: Controller) extends Observer:
         if (undoDone) {
             var value = controller.getSlot(matrix)
             move = Move(value, matrix, 0, 0)
-        } else {
-            val random = controller.rollDice()
-            move = Move(random, matrix,  0, 0)
-            controller.Publish(controller.putDiceslot, move, 1)
-        }
+        } //else {
+            //val random = controller.rollDice()
+            //move = Move(random, matrix,  0, 0)
+            //controller.Publish(controller.putDiceslot, move, 1)
+        //}
 
 
         analyseInput(move) match
@@ -69,7 +71,7 @@ case class TUI(controller: Controller) extends Observer:
                     if (undoCounter > 0)
                         undoCounter -= 1
                     doCounter += 1
-                    controller.Publish(controller.put, playerAction, 0)
+                    controller.Publish(controller.put, playerAction)
                     // checkfinish
                     if (controller.checkFinish(matrix))
                         controller.Publish(controller.finish, 1)

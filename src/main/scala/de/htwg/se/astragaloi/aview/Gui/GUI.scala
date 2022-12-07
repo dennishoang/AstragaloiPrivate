@@ -16,6 +16,10 @@ import javax.swing.border.LineBorder
 import java.awt.ComponentOrientation
 import javax.swing.ImageIcon
 import scala.io.StdIn.readLine
+import java.nio.charset.StandardCharsets
+import java.io.{ByteArrayInputStream, StringReader}
+import java.io.InputStream
+import java.lang.System.*
 
 class GUI(controller: Controller) extends Frame with Observer:
     //listenTo(controller)
@@ -68,17 +72,17 @@ class GUI(controller: Controller) extends Frame with Observer:
             case ButtonClicked(`button1`) => {
                 val dice = controller.getSlot(matrix)
                 val move = new Move(dice, matrix, 0, 0)
-                controller.Publish(controller.put, move ,1)
+                controller.Publish(controller.put, move)
             }
             case ButtonClicked(`button2`) => {
                 val dice = controller.getSlot(matrix)
                 val move = new Move(dice, matrix, 1, 0)
-                controller.Publish(controller.put, move ,1)
+                controller.Publish(controller.put, move)
             }
             case ButtonClicked(`button3`) => {
                 val dice = controller.getSlot(matrix)
                 val move = new Move(dice, matrix, 2, 0)
-                controller.Publish(controller.put, move ,1)
+                controller.Publish(controller.put, move)
             }
         }
         contents += playerButtons(0)
@@ -86,6 +90,8 @@ class GUI(controller: Controller) extends Frame with Observer:
         contents += playerButtons(2)
     }
 
+    def read(t: String): String =
+        t
     case class FieldMatrix(matrix: Int) extends GridPanel(1,3) {
         val cellsPlayer: List[List[Label]] = List(
             List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }),
