@@ -19,6 +19,10 @@ case class Controller(var field: Field, var player: Int) extends Observable:
 
     val undoManager = new UndoManager[Field]
 
+    def clear =
+        field = field.clear
+        player = Random.nextInt(2)
+
     def startGame(move: Move) =
         field = putDiceslot(move)
         notifyObservers(Event.Move)

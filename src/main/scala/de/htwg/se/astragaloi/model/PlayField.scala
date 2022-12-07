@@ -15,14 +15,16 @@ case class PlayField[T](matrixes: Vector[Vector[Vector[T]]]) extends Insert[T]:
             ret = ret :+ cell(matrix, i, col)
         }
         ret
+    def fill(filling: T): PlayField[T] =
+        copy(Vector.tabulate(2, colsize, colsize) { (matrix, row, col) => filling })
+    def clear(clearing: T): PlayField[T] = fill(clearing)
 
     def checkCol(matrix: Int, x: Int): Int =
         val modcol = col(matrix,x)
         if (!modcol.contains(Dice.Empty)) { -1 }
         else { x }
 
-    def fill(filling: T): PlayField[T] =
-        copy(Vector.tabulate(2, colsize, colsize) { (matrix, row, col) => filling })
+
 
     override def replaceCell(matrix: Int, row: Int, col: Int, value: T): PlayField[T] =
         copy(matrixes.updated(matrix, matrixes(matrix).updated(row, matrixes(matrix)(row).updated(col, value))))

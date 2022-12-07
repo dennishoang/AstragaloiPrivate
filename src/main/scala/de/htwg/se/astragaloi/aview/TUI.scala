@@ -31,6 +31,14 @@ case class TUI(controller: Controller) extends Observer:
             println("unentschieden!")
         else
             println("Player " + player + " wins!")
+        val input = readLine("(1): Restart, (2): Quit\n")
+        input match
+            case "1" => {
+                controller.clear
+                run()
+            }
+            case "2" => sys.exit(0)
+            case _ => sys.exit(0)
 
 
     def update(e: Event) =
@@ -74,7 +82,7 @@ case class TUI(controller: Controller) extends Observer:
                     controller.Publish(controller.put, playerAction)
                     // checkfinish
                     if (controller.checkFinish(matrix))
-                        controller.Publish(controller.finish, 1)
+                        println(controller.field.toString)
                         finish(controller.chooseWinner)
                         continue = false
                 }

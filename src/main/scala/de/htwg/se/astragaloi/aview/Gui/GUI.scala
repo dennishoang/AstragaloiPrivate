@@ -243,8 +243,14 @@ class GUI(controller: Controller) extends Frame with Observer:
         field2.points.changePoints(points2)
         finalfield.totalPoints.changePoints(points1, points2)
 
-
         repaint() // at the end repaint the GUI
+
+        //if (controller.checkFinish)
+            //finish(controller.chooseWinner)
+
+    def finish(winner: Int) =
+
+            //controller.clear
 
 
     def update(e: Event): Unit =
