@@ -21,10 +21,9 @@ case class TUI(controller: Controller) extends Observer:
     var continue = true
 
     def run(): Unit =
-        val playerID = Random.nextInt(2)
-        val move = new Move(controller.rollDice, playerID, 0, 0)
+        val move = new Move(controller.rollDice, controller.player, 0, 0)
         controller.startGame(move)
-        printLoop(playerID, false)
+        printLoop(false)
 
 
     def finish(player: Int) =
@@ -33,35 +32,32 @@ case class TUI(controller: Controller) extends Observer:
         else
             println("Player " + player + " wins!")
 
+
     def update(e: Event) =
         e match
             case Event.Quit => continue = false
-            case Event.Move => println(controller.field.toString)
+            case Event.Move => {
+                println(controller.field.toString)
+                println("Column:")
+            }
 
 
-    def printLoop(matrix: Int, undoDone: Boolean): Unit =
 
-        //var move = Move(Dice.Empty, 0, 0, 0)
-        var value = controller.getSlot(matrix)
-        var move = new Move(value, matrix,0,0)
-        
-        /*if (undoDone) {
-            var value = controller.getSlot(matrix)
-            move = Move(value, matrix, 0, 0)
-        } else {
-            val random = controller.rollDice()
-            move = Move(random, matrix,  0, 0)
-            controller.Publish(controller.putDiceslot, move, 1)
-        }*/
-        
+    def printLoop(undoDone: Boolean): Unit =
+
+
         var undo = false
-        val input = readLine("Column: \n")
+        val input = readLine()
 
+        val matrix = controller.player // matrix
+        var value = controller.getSlot(matrix)
+        var move = new Move(value, matrix, 0, 0)
+        // aktuelle matrix und dice hier bestimmen (aus controller)
+        // bastel aus matrix und dice Move
 
         analyseInput(move,input) match
-            case None       => //printLoop(controller.changePlayer(matrix), undo)
+            case None       =>
             case Some(playerAction) => {
-
                 if (playerAction.mode == 1) { // on undo
                     if (doCounter > 0)
                         doCounter -= 1
@@ -84,9 +80,9 @@ case class TUI(controller: Controller) extends Observer:
                         finish(controller.chooseWinner)
                         continue = false
                 }
-
+                if continue then printLoop(undo)
             }
-        if continue then printLoop(controller.changePlayer(matrix), undo)
+
 
 
     def analyseInput(move: Move, input: String): Option[Move] =

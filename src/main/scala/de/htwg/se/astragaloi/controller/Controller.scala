@@ -15,10 +15,9 @@ import scala.util.Random
 import scala.io.StdIn.readLine
 
 
-case class Controller(var field: Field) extends Observable:
+case class Controller(var field: Field, var player: Int) extends Observable:
 
     val undoManager = new UndoManager[Field]
-
 
     def startGame(move: Move) =
         field = putDiceslot(move)
@@ -29,6 +28,7 @@ case class Controller(var field: Field) extends Observable:
         field = doThis(move)
         val slot = new Move(rollDice, 1 - move.matrix, 0, 0)
         field = putDiceslot(slot)
+        changePlayer
         notifyObservers(Event.Move)
 
     def Publish(doThis: => Field, last: Int): Unit = // for undo and redo
@@ -57,7 +57,8 @@ case class Controller(var field: Field) extends Observable:
     def putDiceslot(move: Move): Field =
         field.putSlot(move.dice, move.matrix)
 
-    def changePlayer(playerID: Int): Int = 1 - playerID
+    def changePlayer =
+        player = 1 - player
 
     def rollDice: Dice = Dice.values(Random.nextInt(Dice.values.size - 1))
 

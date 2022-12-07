@@ -66,41 +66,43 @@ class GUI(controller: Controller) extends Frame with Observer:
 
 
     class FieldButtons(matrix: Int) extends BoxPanel(Orientation.Horizontal) {
-        //val playerButtons: List[Button] = List(new Button("1") { xLayoutAlignment = 2}, new Button("2") { xLayoutAlignment = 2}, new Button("3") { xLayoutAlignment = 2})
-        /*
-        val button1 = playerButtons(0)
-        val button2 = playerButtons(1)
-        val button3 = playerButtons(2)
-        */
-        contents += new Button("1") {
-            listenTo(mouse.clicks)
-            reactions += {
-                case MouseClicked(src, pt, mod, clicks, props) =>
-                    val dice = controller.getSlot(matrix)
-                    val move = new Move(dice, matrix, 0, 0)
-                    controller.Publish(controller.put, move)
-            }
-        }
-        contents += new Button("2") {
-            listenTo(mouse.clicks)
-            reactions += {
-                case MouseClicked(src, pt, mod, clicks, props) =>
-                    val dice = controller.getSlot(matrix)
-                    val move = new Move(dice, matrix, 1, 0)
-                    controller.Publish(controller.put, move)
-            }
-        }
-        contents += new Button("3") {
-            listenTo(mouse.clicks)
-            reactions += {
-                case MouseClicked(src, pt, mod, clicks, props) =>
-                    val dice = controller.getSlot(matrix)
-                    val move = new Move(dice, matrix, 2, 0)
-                    controller.Publish(controller.put, move)
+        val button1 = new Button("1")
+        val button2 = new Button("2")
+        val button3 = new Button("3")
 
+        listenTo(button1)
+        reactions += {
+            case ButtonClicked(`button1`) =>
+                val dice = controller.getSlot(matrix)
+                val move = new Move(dice, matrix, 0, 0)
+                controller.Publish(controller.put, move)
             }
+        listenTo(button2)
+        reactions += {
+            case ButtonClicked(`button2`) =>
+                val dice = controller.getSlot(matrix)
+                val move = new Move(dice, matrix, 1, 0)
+                controller.Publish(controller.put, move)
         }
+        listenTo(button3)
+        reactions += {
+            case ButtonClicked(`button3`) =>
+                val dice = controller.getSlot(matrix)
+                val move = new Move(dice, matrix, 2, 0)
+                controller.Publish(controller.put, move)
+        }
+        contents += button1
+        contents += button2
+        contents += button3
 
+        def disableButtons =
+            button1.enabled = false
+            button2.enabled = false
+            button3.enabled = false
+        def enableButtons =
+            button1.enabled = true
+            button2.enabled = true
+            button3.enabled = true
     }
 
 
@@ -213,12 +215,23 @@ class GUI(controller: Controller) extends Frame with Observer:
     // update GUI when notifyObervers is called
     def redraw =
         // update diceslots
+        val matrix = controller.player
 
         val dice1 = controller.getSlot(0)
         val dice2 = controller.getSlot(1)
         field1.head.changeSlot(dice1)
         field2.head.changeSlot(dice2)
 
+        // disable and enable buttons
+        matrix match
+            case 0 => {
+                field1.buttons.enableButtons
+                field2.buttons.disableButtons
+            }
+            case 1 => {
+                field2.buttons.enableButtons
+                field1.buttons.disableButtons
+            }
         // update matrix
         for (i <- Range(0, 3))
             field1.matrix.changeCells(controller.getCol(0, i), i)
