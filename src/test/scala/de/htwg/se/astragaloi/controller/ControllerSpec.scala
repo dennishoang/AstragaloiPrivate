@@ -39,9 +39,22 @@ class ControllerSpec extends AnyWordSpec {
             else
                 value.toString.toInt should be <= 6
         }
-        "be published" in {
+        "publish do steps" in {
             val move = Move(Dice.ONE, 0, 0, 0)
             controller.Publish(controller.put, move, 1) should be
+            (println(controller.field.toString))
+        }
+        "publish undo steps" in {
+            val move = Move(Dice.ONE, 0, 0, 1)
+            controller.Publish(controller.put, move, 1)
+            controller.Publish(controller.undo, 1) should be
+            (println(controller.field.toString))
+        }
+        "publish redo steps" in {
+            val move = Move(Dice.ONE, 0, 0, 1)
+            controller.Publish(controller.put, move, 1)
+            controller.Publish(controller.undo, 1)
+            controller.Publish(controller.redo, 0) should be
             (println(controller.field.toString))
         }
         "notify observers" in {
@@ -52,6 +65,16 @@ class ControllerSpec extends AnyWordSpec {
         }
         "check Col-Publish" in {
             controller.checkColPublish(0, 1) should be (1)
+        }
+        "get slot" in {
+            controller.getSlot(0) should be (Dice.Empty)
+        }
+        val controller2 = Controller(new Field(3, 2, Dice.SIX, 0))
+        "check finish" in {
+            controller2.checkFinish(0) should be (true)
+        }
+        "choose Winner" in {
+            controller2.chooseWinner should be (-1)
         }
     }
 }
