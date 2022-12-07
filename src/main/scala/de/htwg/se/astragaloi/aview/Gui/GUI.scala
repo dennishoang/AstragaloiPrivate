@@ -24,6 +24,7 @@ import scala.io.StdIn.readLine
 import java.io.InputStream
 import java.io.ByteArrayInputStream
 
+
 class GUI(controller: Controller) extends Frame with Observer:
     //listenTo(controller)
     controller.add(this)
@@ -112,28 +113,27 @@ class GUI(controller: Controller) extends Frame with Observer:
         reactions += {
             case ButtonClicked(`button1`) => {
                 val dice = controller.getSlot(matrix)
-                    val move = new Move(dice, matrix, 0, 0)
-                    controller.Publish(controller.put, move ,1)
+                val move = new Move(dice, matrix, 0, 0)
+                controller.Publish(controller.put, move)
 
             }
             case ButtonClicked(`button2`) => {
                 val dice = controller.getSlot(matrix)
                 val move = new Move(dice, matrix, 1, 0)
-                controller.Publish(controller.put, move ,1)
-
+                controller.Publish(controller.put, move)
             }
             case ButtonClicked(`button3`) => {
                 val dice = controller.getSlot(matrix)
                 val move = new Move(dice, matrix, 2, 0)
-                controller.Publish(controller.put, move ,1)
-
+                controller.Publish(controller.put, move)
             }
         }
         */
 
     }
 
-    class FieldMatrix(matrix: Int) extends GridPanel(1,3) {
+
+    case class FieldMatrix(matrix: Int) extends GridPanel(1,3) {
         val cellsPlayer: List[List[Label]] = List(
             List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }),
             List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }),
