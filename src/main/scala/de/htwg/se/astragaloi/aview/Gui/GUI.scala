@@ -78,10 +78,7 @@ class GUI(controller: Controller) extends Frame with Observer:
                 case MouseClicked(src, pt, mod, clicks, props) =>
                     val dice = controller.getSlot(matrix)
                     val move = new Move(dice, matrix, 0, 0)
-
-                    controller.Publish(controller.put, move ,1)
-
-
+                    controller.Publish(controller.put, move)
             }
         }
         contents += new Button("2") {
@@ -90,8 +87,7 @@ class GUI(controller: Controller) extends Frame with Observer:
                 case MouseClicked(src, pt, mod, clicks, props) =>
                     val dice = controller.getSlot(matrix)
                     val move = new Move(dice, matrix, 1, 0)
-
-                    controller.Publish(controller.put, move ,1)
+                    controller.Publish(controller.put, move)
             }
         }
         contents += new Button("3") {
@@ -100,35 +96,10 @@ class GUI(controller: Controller) extends Frame with Observer:
                 case MouseClicked(src, pt, mod, clicks, props) =>
                     val dice = controller.getSlot(matrix)
                     val move = new Move(dice, matrix, 2, 0)
-                    controller.Publish(controller.put, move ,1)
+                    controller.Publish(controller.put, move)
 
             }
         }
-        /*
-        listenTo(button1)
-        listenTo(button2)
-        listenTo(button3)
-        */
-        /*
-        reactions += {
-            case ButtonClicked(`button1`) => {
-                val dice = controller.getSlot(matrix)
-                val move = new Move(dice, matrix, 0, 0)
-                controller.Publish(controller.put, move)
-
-            }
-            case ButtonClicked(`button2`) => {
-                val dice = controller.getSlot(matrix)
-                val move = new Move(dice, matrix, 1, 0)
-                controller.Publish(controller.put, move)
-            }
-            case ButtonClicked(`button3`) => {
-                val dice = controller.getSlot(matrix)
-                val move = new Move(dice, matrix, 2, 0)
-                controller.Publish(controller.put, move)
-            }
-        }
-        */
 
     }
 
