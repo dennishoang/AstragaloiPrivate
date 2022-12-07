@@ -32,7 +32,7 @@ object astragaloi {
       val controller = new Controller(field)
       val tui = TUI(controller)
       val gui = new GUI(controller)
-      tui.run
+      tui.run()
 
   }
 

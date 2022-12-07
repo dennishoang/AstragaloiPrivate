@@ -20,9 +20,13 @@ case class TUI(controller: Controller) extends Observer:
     var doCounter = 0
     var continue = true
 
-    def run =
+    def run(): Unit =
         val playerID = Random.nextInt(2)
+        val random = controller.rollDice()
+        var move =  new Move(random, playerID,  0, 0)
+        controller.Publish(controller.putDiceslot, move, 1)
         printLoop(playerID, false)
+
 
     def finish(player: Int) =
         if (player == -1)
@@ -30,7 +34,7 @@ case class TUI(controller: Controller) extends Observer:
         else
             println("Player " + player + " wins!")
 
-    override def update(e: Event) =
+    def update(e: Event) =
         e match
             case Event.Quit => continue = false
             case Event.Move => println(controller.field.toString)
@@ -38,8 +42,10 @@ case class TUI(controller: Controller) extends Observer:
 
     def printLoop(matrix: Int, undoDone: Boolean): Unit =
 
-        var move = Move(Dice.Empty, 0, 0, 0)
-
+        //var move = Move(Dice.Empty, 0, 0, 0)
+        var value = controller.getSlot(matrix)
+        var move = new Move(value, matrix,0,0)
+        /*
         if (undoDone) {
             var value = controller.getSlot(matrix)
             move = Move(value, matrix, 0, 0)
@@ -48,12 +54,14 @@ case class TUI(controller: Controller) extends Observer:
             move = Move(random, matrix,  0, 0)
             controller.Publish(controller.putDiceslot, move, 1)
         }
+        */
+        var undo = false
+        val input = readLine("Column: \n")
 
-
-        analyseInput(move) match
-            case None       =>
+        analyseInput(move,input) match
+            case None       => //printLoop(controller.changePlayer(matrix), undo)
             case Some(playerAction) => {
-                var undo = false
+
                 if (playerAction.mode == 1) { // on undo
                     if (doCounter > 0)
                         doCounter -= 1
@@ -76,17 +84,18 @@ case class TUI(controller: Controller) extends Observer:
                         finish(controller.chooseWinner)
                         continue = false
                 }
-                if continue then printLoop(controller.changePlayer(matrix), undo)
-            }
 
-    def analyseInput(move: Move): Option[Move] =
-        val input = readLine("Column: \n")
+            }
+        if continue then printLoop(controller.changePlayer(matrix), undo)
+
+
+    def analyseInput(move: Move, input: String): Option[Move] =
         input match
             case "q" => None
             case "u" => {
                 if (doCounter == 0)
                     println("kein Undo moeglich")
-                    analyseInput(move)
+                    analyseInput(move, input)
                 else
                     controller.Publish(controller.undo, 1)
                     Some(move.copy(move.dice, move.matrix, move.x, 1)) // set mode to "undo"
@@ -94,7 +103,7 @@ case class TUI(controller: Controller) extends Observer:
             case "r" => {
                 if (undoCounter == 0)
                     println("kein Redo moeglich")
-                    analyseInput(move)
+                    analyseInput(move, input)
                 else
                     controller.Publish(controller.redo, 0)
                     Some(move.copy(move.dice, move.matrix, move.x, 2)) // set mode to "redo"
@@ -105,12 +114,12 @@ case class TUI(controller: Controller) extends Observer:
                         val col = input.toInt
                         if (controller.checkColPublish(move.matrix, col) == -1)
                             println("Spalte ist voll!")
-                            analyseInput(move)
+                            analyseInput(move, input)
                         else
                             Some(Move(move.dice, move.matrix, col, 0)) // return new move, set mode to "do"
                     case Failure(i) =>
                         println("Falsche Eingabe!")
-                        analyseInput(move)
+                        analyseInput(move, input)
             }
 
     def readCol(input: String): Try[String] = {

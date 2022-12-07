@@ -5,6 +5,7 @@ package aview.gui
 import util.Observer
 import util.Event
 import controller.Controller
+import aview.TUI
 import model.Move
 import model.Dice
 import java.awt.Dimension
@@ -12,10 +13,16 @@ import scala.swing._
 import scala.swing.event.ButtonClicked
 import java.awt.GridLayout
 import javax.swing.BoxLayout
+import scala.swing.event._
 import javax.swing.border.LineBorder
 import java.awt.ComponentOrientation
 import javax.swing.ImageIcon
+import java.util.Scanner
+
+
 import scala.io.StdIn.readLine
+import java.io.InputStream
+import java.io.ByteArrayInputStream
 
 class GUI(controller: Controller) extends Frame with Observer:
     //listenTo(controller)
@@ -43,7 +50,7 @@ class GUI(controller: Controller) extends Frame with Observer:
     val imgToDice: Map[String, Dice] = Map(diceLinks(0) -> Dice.Empty, diceLinks(1) -> Dice.ONE, diceLinks(2) -> Dice.TWO, diceLinks(3) -> Dice.THREE,
      diceLinks(4) -> Dice.FOUR, diceLinks(5) -> Dice.FIVE, diceLinks(6) -> Dice.SIX)
 
-    case class FieldHead(matrix: Int) extends FlowPanel {
+    class FieldHead(matrix: Int) extends FlowPanel {
         val player = matrix + 1
         val playerLabel = new Label("Player " + player)
         val dice = new Label("Dice:")
@@ -51,42 +58,82 @@ class GUI(controller: Controller) extends Frame with Observer:
         contents += playerLabel
         contents += dice
         contents += diceslot
+
         def changeSlot(dice: Dice) =
             diceslot.icon = diceToImg.get(dice).get
     }
 
-    case class FieldButtons(matrix: Int) extends BoxPanel(Orientation.Horizontal) {
-        val playerButtons: List[Button] = List(new Button("1") { xLayoutAlignment = 2}, new Button("2") { xLayoutAlignment = 2}, new Button("3") { xLayoutAlignment = 2})
 
+    class FieldButtons(matrix: Int) extends BoxPanel(Orientation.Horizontal) {
+        //val playerButtons: List[Button] = List(new Button("1") { xLayoutAlignment = 2}, new Button("2") { xLayoutAlignment = 2}, new Button("3") { xLayoutAlignment = 2})
+        /*
         val button1 = playerButtons(0)
         val button2 = playerButtons(1)
         val button3 = playerButtons(2)
+        */
+        contents += new Button("1") {
+            listenTo(mouse.clicks)
+            reactions += {
+                case MouseClicked(src, pt, mod, clicks, props) =>
+                    val dice = controller.getSlot(matrix)
+                    val move = new Move(dice, matrix, 0, 0)
+
+                    controller.Publish(controller.put, move ,1)
+
+
+            }
+        }
+        contents += new Button("2") {
+            listenTo(mouse.clicks)
+            reactions += {
+                case MouseClicked(src, pt, mod, clicks, props) =>
+                    val dice = controller.getSlot(matrix)
+                    val move = new Move(dice, matrix, 1, 0)
+
+                    controller.Publish(controller.put, move ,1)
+            }
+        }
+        contents += new Button("3") {
+            listenTo(mouse.clicks)
+            reactions += {
+                case MouseClicked(src, pt, mod, clicks, props) =>
+                    val dice = controller.getSlot(matrix)
+                    val move = new Move(dice, matrix, 2, 0)
+                    controller.Publish(controller.put, move ,1)
+
+            }
+        }
+        /*
         listenTo(button1)
         listenTo(button2)
         listenTo(button3)
+        */
+        /*
         reactions += {
             case ButtonClicked(`button1`) => {
                 val dice = controller.getSlot(matrix)
-                val move = new Move(dice, matrix, 0, 0)
-                controller.Publish(controller.put, move ,1)
+                    val move = new Move(dice, matrix, 0, 0)
+                    controller.Publish(controller.put, move ,1)
+
             }
             case ButtonClicked(`button2`) => {
                 val dice = controller.getSlot(matrix)
                 val move = new Move(dice, matrix, 1, 0)
                 controller.Publish(controller.put, move ,1)
+
             }
             case ButtonClicked(`button3`) => {
                 val dice = controller.getSlot(matrix)
                 val move = new Move(dice, matrix, 2, 0)
                 controller.Publish(controller.put, move ,1)
+
             }
         }
-        contents += playerButtons(0)
-        contents += playerButtons(1)
-        contents += playerButtons(2)
+        */
+
     }
 
-    case class FieldMatrix(matrix: Int) extends GridPanel(1,3) {
+    class FieldMatrix(matrix: Int) extends GridPanel(1,3) {
         val cellsPlayer: List[List[Label]] = List(
             List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }),
             List(new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }, new Label { icon = new ImageIcon(diceLinks(0)) }),
@@ -106,7 +153,7 @@ class GUI(controller: Controller) extends Frame with Observer:
             cellsPlayer(col)(i).icon = diceToImg.get(values(i)).get
     }
 
-    case class FieldPoints(matrix: Int) extends GridPanel(1,3) {
+    class FieldPoints(matrix: Int) extends GridPanel(1,3) {
         val playerPoints: List[TextField] = List(new TextField("0"), new TextField("0"), new TextField("0"))
         for(i <- playerPoints)
             i.editable = false
@@ -118,7 +165,7 @@ class GUI(controller: Controller) extends Frame with Observer:
                 playerPoints(i).text = points(i).toString
     }
 
-    case class TotalPoints() extends GridPanel(2,1) {
+    class TotalPoints() extends GridPanel(2,1) {
         val totalPointsPlayer1 = new TextField("0")
         val totalPointsPlayer2 = new TextField("0")
         totalPointsPlayer1.editable = false
@@ -143,11 +190,12 @@ class GUI(controller: Controller) extends Frame with Observer:
             points.changePoints(values)
     }
 
-    case class Field2(var head: FieldHead, var buttons: FieldButtons, var matrix: FieldMatrix, var points: FieldPoints) extends BoxPanel(Orientation.Vertical) {
+    class Field2(var head: FieldHead, var buttons: FieldButtons, var matrix: FieldMatrix, var points: FieldPoints) extends BoxPanel(Orientation.Vertical) {
         contents += points
         contents += matrix
         contents += buttons
         contents += head
+
         def changeSlot(dice: Dice) =
             head.changeSlot(dice)
         def changeCells(values: Vector[Dice], col: Int) =
@@ -156,16 +204,17 @@ class GUI(controller: Controller) extends Frame with Observer:
             points.changePoints(values)
     }
 
-    case class Playfield(var field1: Field1, var field2: Field2) extends BoxPanel(Orientation.Vertical) {
+    class Playfield(var field1: Field1, var field2: Field2) extends BoxPanel(Orientation.Vertical) {
         contents += field1
         contents += field2
+
         def changeSlot(move: Move) =
             move.matrix match
                 case 0 => field1.changeSlot(move.dice)
                 case 1 => field2.changeSlot(move.dice)
     }
 
-    case class Finalfield(var playfield: Playfield, var totalPoints: TotalPoints) extends FlowPanel {
+    class Finalfield(var playfield: Playfield, var totalPoints: TotalPoints) extends FlowPanel {
         contents += playfield
         contents += totalPoints
         def changePoints(points1: Vector[Int], points2: Vector[Int]) =
@@ -183,17 +232,22 @@ class GUI(controller: Controller) extends Frame with Observer:
     contents = new BorderPanel {
         add(finalfield, BorderPanel.Position.Center)
     }
-    visible = true
+    //visible = true
+    pack()
+    centerOnScreen()
+    open()
 
 
 
     // update GUI when notifyObervers is called
     def redraw =
         // update diceslots
+
         val dice1 = controller.getSlot(0)
         val dice2 = controller.getSlot(1)
         field1.head.changeSlot(dice1)
         field2.head.changeSlot(dice2)
+
         // update matrix
         for (i <- Range(0, 3))
             field1.matrix.changeCells(controller.getCol(0, i), i)
@@ -209,7 +263,7 @@ class GUI(controller: Controller) extends Frame with Observer:
         repaint() // at the end repaint the GUI
 
 
-    override def update(e: Event): Unit =
+    def update(e: Event): Unit =
         e match
             case Event.Quit => // continue = false
             case Event.Move => redraw

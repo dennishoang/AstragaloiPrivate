@@ -12,19 +12,20 @@ import util.Event
 import model.PointSlot
 
 import scala.util.Random
+import scala.io.StdIn.readLine
 
 
 case class Controller(var field: Field) extends Observable:
 
     val undoManager = new UndoManager[Field]
 
-    def Publish(doThis: Move => Field, move: Move, last: Int) =
+    def Publish(doThis: Move => Field, move: Move, last: Int): Unit =
         // doThis is a function which takes a Move and returns a field (put / putSlot)
         field = doThis(move)
         if (last == 1)
             notifyObservers(Event.Move)
 
-    def Publish(doThis: => Field, last: Int) = // for undo and redo
+    def Publish(doThis: => Field, last: Int): Unit = // for undo and redo
         field = doThis
         if (last == 1)
             notifyObservers(Event.Move)
