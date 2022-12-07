@@ -37,8 +37,8 @@ case class TUI(controller: Controller) extends Observer:
                 controller.clear
                 run()
             }
-            case "2" => sys.exit(0)
-            case _ => sys.exit(0)
+            case "2" => sys.exit(0) // sys.exit nicht noetig
+            case _ => sys.exit(0) // sys.exit nicht noetig
 
 
     def update(e: Event) =

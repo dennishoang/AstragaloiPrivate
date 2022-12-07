@@ -17,6 +17,8 @@ import scala.swing.event._
 import javax.swing.border.LineBorder
 import java.awt.ComponentOrientation
 import javax.swing.ImageIcon
+import javax.swing.UIManager
+import javax.swing.UIDefaults
 import java.util.Scanner
 
 
@@ -213,9 +215,10 @@ class GUI(controller: Controller) extends Frame with Observer:
 
 
     // update GUI when notifyObervers is called
-    def redraw =
+    def redraw: Unit =
         // update diceslots
-        val matrix = controller.player
+        val nextMatrix = controller.player
+        val prevMatrix = 1 - controller.player
 
         val dice1 = controller.getSlot(0)
         val dice2 = controller.getSlot(1)
@@ -223,7 +226,7 @@ class GUI(controller: Controller) extends Frame with Observer:
         field2.head.changeSlot(dice2)
 
         // disable and enable buttons
-        matrix match
+        nextMatrix match
             case 0 => {
                 field1.buttons.enableButtons
                 field2.buttons.disableButtons
@@ -245,12 +248,26 @@ class GUI(controller: Controller) extends Frame with Observer:
 
         repaint() // at the end repaint the GUI
 
-        //if (controller.checkFinish)
-            //finish(controller.chooseWinner)
+        if (controller.checkFinish(prevMatrix))
+            //repaint()
+            finish(controller.chooseWinner)
+
 
     def finish(winner: Int) =
-
-            //controller.clear
+        val str = "Player " + winner + " wins!\n" + "Do you want to Quit?"
+        UIManager.put("OptionPane.noButtonText", "Restart");
+        UIManager.put("OptionPane.yesButtonText", "Quit");
+        val res = Dialog.showConfirmation(contents.head, str, optionType=Dialog.Options.YesNo, title=title)
+        res match
+            case Dialog.Result.Yes => {
+                sys.exit(0)
+            }
+            case Dialog.Result.No => {
+                controller.clear
+                val move = new Move(controller.rollDice, controller.player, 0, 0)
+                controller.startGame(move)
+                redraw
+            }
 
 
     def update(e: Event): Unit =
