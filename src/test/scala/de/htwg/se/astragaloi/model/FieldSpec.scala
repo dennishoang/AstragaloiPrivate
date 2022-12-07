@@ -15,10 +15,7 @@ class FieldSpec extends AnyWordSpec {
 
             val eol = ("\n")
             "have a constructor" in {
-                val playfield = new PlayField[Dice](3, Dice.Empty)
-                val diceslot = new DiceSlot[Dice](2, Dice.Empty)
-                val pointslot = new PointSlot[Dice](2, 0)
-                val field = new Field(playfield, diceslot, pointslot)
+                val field = new Field(new PlayField[Dice](3, Dice.Empty), new DiceSlot[Dice](2, Dice.Empty), new PointSlot[Dice](2, 0))
                 val field2 = new Field(3, 2, Dice.Empty, 0)
                 field should be (field)
                 field2 should be (field2)

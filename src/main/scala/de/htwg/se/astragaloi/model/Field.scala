@@ -11,7 +11,7 @@ import model.Shape
 case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot: PointSlot[Dice]):
 
   def this(matrix_size: Int, diceslot_size: Int = 2, filling: Dice, fillingpoint: Int) =
-    this(new PlayField(matrix_size, filling), new DiceSlot(diceslot_size, filling), new PointSlot(diceslot_size, fillingpoint))
+    this(new PlayField[Dice](matrix_size, filling), new DiceSlot[Dice](diceslot_size, filling), new PointSlot[Dice](diceslot_size, fillingpoint))
 
   val mesh = new CompositeShape(
     new Quadrat[Dice](diceslot, 5, 15, 1, 0),
