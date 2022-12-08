@@ -29,6 +29,7 @@ class PutCommand(move: Move) extends Command[Field]:
         var tmp = field.put(move.dice, move.matrix, move.x, 0, delValueIndx)
         tmp = tmp.putPoint(move.matrix, move.x)
         tmp = tmp.putSlot(Dice.Empty, move.matrix)
+        tmp = tmp.putSlot(move.nextDice, 1 - move.matrix)
         tmp
 
 
@@ -37,7 +38,7 @@ class PutCommand(move: Move) extends Command[Field]:
         tmp = tmp.putPoint(move.matrix, move.x)
         tmp = tmp.putSlot(move.dice, move.matrix)
         tmp = tmp.putSlot(Dice.Empty, 1 - move.matrix)
-        //delValueIndx = Vector[Int]() // after undo delValue not needed anymore
+        delValueIndx = Vector[Int]() // after undo delValue not needed anymore
         tmp
 
     override def redoStep(field: Field): Field =
@@ -45,6 +46,7 @@ class PutCommand(move: Move) extends Command[Field]:
         var tmp = field.put(move.dice, move.matrix, move.x, 0, delValueIndx)
         tmp = tmp.putPoint(move.matrix, move.x)
         tmp = tmp.putSlot(Dice.Empty, move.matrix)
+        tmp = tmp.putSlot(move.nextDice, 1 - move.matrix)
         tmp
 
 

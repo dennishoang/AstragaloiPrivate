@@ -30,8 +30,6 @@ case class Controller(var field: Field, var player: Int) extends Observable:
     def Publish(doThis: Move => Field, move: Move) =
         // doThis is a function which takes a Move and returns a field (put / putSlot)
         field = doThis(move)
-        val slot = new Move(rollDice, 1 - move.matrix, 0)
-        field = putDiceslot(slot)
         changePlayer
         notifyObservers(Event.Move)
 
@@ -50,7 +48,9 @@ case class Controller(var field: Field, var player: Int) extends Observable:
 
     def getSlot(matrix: Int): Dice = field.getSlot(matrix)
 
-    def put(move: Move): Field = undoManager.doStep(field, PutCommand(move))
+    def put(move: Move): Field =
+        val step = new Move(move.dice, move.matrix, move.x, rollDice)
+        undoManager.doStep(field, PutCommand(step))
 
     def undo: Field = undoManager.undoStep(field)
 
@@ -60,6 +60,9 @@ case class Controller(var field: Field, var player: Int) extends Observable:
 
     def putDiceslot(move: Move): Field =
         field.putSlot(move.dice, move.matrix)
+
+    def putNextDice(move: Move): Field =
+        field.putSlot(move.nextDice, 1 - move.matrix)
 
     def changePlayer =
         player = 1 - player

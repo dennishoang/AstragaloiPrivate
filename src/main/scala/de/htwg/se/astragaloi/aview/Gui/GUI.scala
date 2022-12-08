@@ -34,15 +34,18 @@ class GUI(controller: Controller) extends Frame with Observer:
     title = "Astragaloi"
 
     menuBar = new MenuBar {
-        contents += new Menu("File") {
-            contents += MenuItem("undo")
-            contents += MenuItem("redo")
+        contents += new Menu("Game Actions") {
+            contents += MenuItem(Action("Undo"){
+                controller.Publish(controller.undo)
+            })
+            contents += MenuItem(Action("Redo"){
+                controller.Publish(controller.redo)
+            })
             contents += MenuItem(Action("Exit") {
             sys.exit(0)
             })
         }
     }
-
 
     val diceLinks: List[String] = List("src/main/resources/DiceEmpty.png", "src/main/resources/DiceOne.png", "src/main/resources/DiceTwo.png", "src/main/resources/DiceThree.png",
         "src/main/resources/DiceFour.png", "src/main/resources/DiceFive.png", "src/main/resources/DiceSix.png")
@@ -76,21 +79,21 @@ class GUI(controller: Controller) extends Frame with Observer:
         reactions += {
             case ButtonClicked(`button1`) =>
                 val dice = controller.getSlot(matrix)
-                val move = new Move(dice, matrix, 0)
+                val move = new Move(dice, matrix, 0, Dice.Empty)
                 controller.Publish(controller.put, move)
             }
         listenTo(button2)
         reactions += {
             case ButtonClicked(`button2`) =>
                 val dice = controller.getSlot(matrix)
-                val move = new Move(dice, matrix, 1)
+                val move = new Move(dice, matrix, 1, Dice.Empty)
                 controller.Publish(controller.put, move)
         }
         listenTo(button3)
         reactions += {
             case ButtonClicked(`button3`) =>
                 val dice = controller.getSlot(matrix)
-                val move = new Move(dice, matrix, 2)
+                val move = new Move(dice, matrix, 2, Dice.Empty)
                 controller.Publish(controller.put, move)
         }
         contents += button1
@@ -264,7 +267,7 @@ class GUI(controller: Controller) extends Frame with Observer:
             }
             case Dialog.Result.No => {
                 controller.clear
-                val move = new Move(controller.rollDice, controller.player, 0)
+                val move = new Move(controller.rollDice, controller.player, 0, Dice.Empty)
                 controller.startGame(move)
                 redraw
             }

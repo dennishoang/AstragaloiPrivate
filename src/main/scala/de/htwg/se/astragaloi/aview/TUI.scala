@@ -17,7 +17,7 @@ case class TUI(controller: Controller) extends Observer:
     controller.add(this)
 
     def run(): Unit =
-        val move = new Move(controller.rollDice, controller.player, 0)
+        val move = new Move(controller.rollDice, controller.player, 0, Dice.Empty)
         controller.startGame(move)
         printLoop()
 
@@ -53,7 +53,7 @@ case class TUI(controller: Controller) extends Observer:
 
         val matrix = controller.player // matrix
         var value = controller.getSlot(matrix)
-        var move = new Move(value, matrix, 0)
+        var move = new Move(value, matrix, 0, Dice.Empty)
 
         analyseInput(move,input) match
             case None       =>
@@ -80,7 +80,7 @@ case class TUI(controller: Controller) extends Observer:
                             val newInput = readLine()
                             analyseInput(move, newInput)
                         else
-                            Some(Move(move.dice, move.matrix, col)) // return new move, set mode to "do"
+                            Some(Move(move.dice, move.matrix, col, Dice.Empty)) // return new move, set mode to "do"
                     case Failure(i) =>
                         println("Falsche Eingabe!")
                         val newInput = readLine()
