@@ -16,14 +16,10 @@ case class TUI(controller: Controller) extends Observer:
 
     controller.add(this)
 
-    var undoCounter = 0
-    var doCounter = 0
-    var continue = true
-
     def run(): Unit =
-        val move = new Move(controller.rollDice, controller.player, 0, 0)
+        val move = new Move(controller.rollDice, controller.player, 0)
         controller.startGame(move)
-        printLoop(false)
+        printLoop()
 
 
     def finish(player: Int) =
@@ -43,75 +39,38 @@ case class TUI(controller: Controller) extends Observer:
 
     def update(e: Event) =
         e match
-            case Event.Quit => continue = false
-            case Event.Move => {
+            case Event.Quit =>
+            case Event.Move =>
                 println(controller.field.toString)
                 println("Column:")
-            }
 
+    def printLoop(): Unit =
 
-
-    def printLoop(undoDone: Boolean): Unit =
-
-
-        var undo = false
         val input = readLine()
+        if (input == "q")
+            return
+            //sys.exit(0)
 
         val matrix = controller.player // matrix
         var value = controller.getSlot(matrix)
-        var move = new Move(value, matrix, 0, 0)
+        var move = new Move(value, matrix, 0)
 
         analyseInput(move,input) match
             case None       =>
             case Some(playerAction) => {
-                if (playerAction.mode == 1) { // on undo
-                    if (doCounter > 0)
-                        doCounter -= 1
-                    undoCounter += 1
-                    undo = true
-                }
-                else if (playerAction.mode == 2) { // on redo
-                    if (undoCounter > 0)
-                        undoCounter -= 1
-                    doCounter += 1
-                }
-                else if (playerAction.mode == 0) { // on do
-                    if (undoCounter > 0)
-                        undoCounter -= 1
-                    doCounter += 1
                     controller.Publish(controller.put, playerAction)
                     // checkfinish
                     if (controller.checkFinish(matrix))
                         println(controller.field.toString)
                         finish(controller.chooseWinner)
-                        continue = false
-                }
-                if continue then printLoop(undo)
             }
-
+            printLoop()
 
 
     def analyseInput(move: Move, input: String): Option[Move] =
         input match
-            case "q" => None
-            case "u" => {
-                if (doCounter == 0)
-                    println("kein Undo moeglich")
-                    val newInput = readLine()
-                    analyseInput(move, newInput)
-                else
-                    controller.Publish(controller.undo, 1)
-                    Some(move.copy(move.dice, move.matrix, move.x, 1)) // set mode to "undo"
-            }
-            case "r" => {
-                if (undoCounter == 0)
-                    println("kein Redo moeglich")
-                    val newInput = readLine()
-                    analyseInput(move, newInput)
-                else
-                    controller.Publish(controller.redo, 0)
-                    Some(move.copy(move.dice, move.matrix, move.x, 2)) // set mode to "redo"
-            }
+            case "r" => controller.Publish(controller.redo); None
+            case "u" => controller.Publish(controller.undo); None
             case _ => {
                 readCol(input) match
                     case Success(v) =>
@@ -121,7 +80,7 @@ case class TUI(controller: Controller) extends Observer:
                             val newInput = readLine()
                             analyseInput(move, newInput)
                         else
-                            Some(Move(move.dice, move.matrix, col, 0)) // return new move, set mode to "do"
+                            Some(Move(move.dice, move.matrix, col)) // return new move, set mode to "do"
                     case Failure(i) =>
                         println("Falsche Eingabe!")
                         val newInput = readLine()

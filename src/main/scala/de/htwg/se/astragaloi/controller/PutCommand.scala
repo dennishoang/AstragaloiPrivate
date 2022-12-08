@@ -37,7 +37,7 @@ class PutCommand(move: Move) extends Command[Field]:
         tmp = tmp.putPoint(move.matrix, move.x)
         tmp = tmp.putSlot(move.dice, move.matrix)
         tmp = tmp.putSlot(Dice.Empty, 1 - move.matrix)
-        delValueIndx = Vector[Int]() // after undo delValue not needed anymore
+        //delValueIndx = Vector[Int]() // after undo delValue not needed anymore
         tmp
 
     override def redoStep(field: Field): Field =

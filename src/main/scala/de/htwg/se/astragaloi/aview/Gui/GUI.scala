@@ -76,21 +76,21 @@ class GUI(controller: Controller) extends Frame with Observer:
         reactions += {
             case ButtonClicked(`button1`) =>
                 val dice = controller.getSlot(matrix)
-                val move = new Move(dice, matrix, 0, 0)
+                val move = new Move(dice, matrix, 0)
                 controller.Publish(controller.put, move)
             }
         listenTo(button2)
         reactions += {
             case ButtonClicked(`button2`) =>
                 val dice = controller.getSlot(matrix)
-                val move = new Move(dice, matrix, 1, 0)
+                val move = new Move(dice, matrix, 1)
                 controller.Publish(controller.put, move)
         }
         listenTo(button3)
         reactions += {
             case ButtonClicked(`button3`) =>
                 val dice = controller.getSlot(matrix)
-                val move = new Move(dice, matrix, 2, 0)
+                val move = new Move(dice, matrix, 2)
                 controller.Publish(controller.put, move)
         }
         contents += button1
@@ -264,7 +264,7 @@ class GUI(controller: Controller) extends Frame with Observer:
             }
             case Dialog.Result.No => {
                 controller.clear
-                val move = new Move(controller.rollDice, controller.player, 0, 0)
+                val move = new Move(controller.rollDice, controller.player, 0)
                 controller.startGame(move)
                 redraw
             }
@@ -274,3 +274,4 @@ class GUI(controller: Controller) extends Frame with Observer:
         e match
             case Event.Quit => // continue = false
             case Event.Move => redraw
+

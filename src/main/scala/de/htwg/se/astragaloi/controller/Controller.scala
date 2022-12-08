@@ -30,15 +30,15 @@ case class Controller(var field: Field, var player: Int) extends Observable:
     def Publish(doThis: Move => Field, move: Move) =
         // doThis is a function which takes a Move and returns a field (put / putSlot)
         field = doThis(move)
-        val slot = new Move(rollDice, 1 - move.matrix, 0, 0)
+        val slot = new Move(rollDice, 1 - move.matrix, 0)
         field = putDiceslot(slot)
         changePlayer
         notifyObservers(Event.Move)
 
-    def Publish(doThis: => Field, last: Int): Unit = // for undo and redo
+    def Publish(doThis: => Field) = // for undo and redo
         field = doThis
-        if (last == 1)
-            notifyObservers(Event.Move)
+        changePlayer
+        notifyObservers(Event.Move)
 
     def quit: Unit = notifyObservers(Event.Quit)
 
