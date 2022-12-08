@@ -30,7 +30,7 @@ import java.io.ByteArrayInputStream
 class GUI(controller: Controller) extends Frame with Observer:
     //listenTo(controller)
     controller.add(this)
-    size = new Dimension(1000,1000)
+    preferredSize = new Dimension(450,550)
     title = "Astragaloi"
 
     menuBar = new MenuBar {
@@ -42,6 +42,7 @@ class GUI(controller: Controller) extends Frame with Observer:
                 controller.Publish(controller.redo)
             })
             contents += MenuItem(Action("Exit") {
+            //controller.quit
             sys.exit(0)
             })
         }
@@ -100,14 +101,18 @@ class GUI(controller: Controller) extends Frame with Observer:
         contents += button2
         contents += button3
 
-        def disableButtons =
-            button1.enabled = false
-            button2.enabled = false
-            button3.enabled = false
-        def enableButtons =
-            button1.enabled = true
-            button2.enabled = true
-            button3.enabled = true
+
+        def disableButtons(button: Int) =
+            button match
+                case 0 => button1.enabled = false
+                case 1 => button2.enabled = false
+                case 2 => button3.enabled = false
+
+        def enableButtons(button: Int) =
+            button match
+                case 0 => button1.enabled = true
+                case 1 => button2.enabled = true
+                case 2 => button3.enabled = true
     }
 
 
@@ -124,6 +129,7 @@ class GUI(controller: Controller) extends Frame with Observer:
                 for (j <- range)
                     border = LineBorder(new Color(0, 0, 0, 255), 3)
                     contents += cellsPlayer(i)(j)
+                    background = new Color(0,0,0,80)
             }
 
         def changeCells(values: Vector[Dice], col: Int) =
@@ -185,7 +191,7 @@ class GUI(controller: Controller) extends Frame with Observer:
     class Playfield(var field1: Field1, var field2: Field2) extends BoxPanel(Orientation.Vertical) {
         contents += field1
         contents += field2
-
+        preferredSize = new Dimension(350, 500)
         def changeSlot(move: Move) =
             move.matrix match
                 case 0 => field1.changeSlot(move.dice)
@@ -195,6 +201,7 @@ class GUI(controller: Controller) extends Frame with Observer:
     class Finalfield(var playfield: Playfield, var totalPoints: TotalPoints) extends FlowPanel {
         contents += playfield
         contents += totalPoints
+
         def changePoints(points1: Vector[Int], points2: Vector[Int]) =
             totalPoints.changePoints(points1, points2)
     }
@@ -208,6 +215,7 @@ class GUI(controller: Controller) extends Frame with Observer:
 
     // finalfield.playfield.changeSlot(new Move(Dice.THREE, 0, 0, 0)) zum testen
     contents = new BorderPanel {
+
         add(finalfield, BorderPanel.Position.Center)
     }
     //visible = true
@@ -231,13 +239,22 @@ class GUI(controller: Controller) extends Frame with Observer:
         // disable and enable buttons
         nextMatrix match
             case 0 => {
-                field1.buttons.enableButtons
-                field2.buttons.disableButtons
+                for(i <- Range (0,3))
+                    field1.buttons.enableButtons(i)
+                    field2.buttons.disableButtons(i)
             }
             case 1 => {
-                field2.buttons.enableButtons
-                field1.buttons.disableButtons
+                for(i <- Range(0,3))
+                    field2.buttons.enableButtons(i)
+                    field1.buttons.disableButtons(i)
             }
+        for (i <- Range(0,3))
+            if(controller.checkColPublish(nextMatrix, i) == -1)
+                if (nextMatrix == 0)
+                    field1.buttons.disableButtons(i)
+                else
+                    field2.buttons.disableButtons(i)
+
         // update matrix
         for (i <- Range(0, 3))
             field1.matrix.changeCells(controller.getCol(0, i), i)
@@ -275,6 +292,6 @@ class GUI(controller: Controller) extends Frame with Observer:
 
     def update(e: Event): Unit =
         e match
-            case Event.Quit => // continue = false
+            case Event.Quit => //sys.exit(0)
             case Event.Move => redraw
 

@@ -39,7 +39,7 @@ case class TUI(controller: Controller) extends Observer:
 
     def update(e: Event) =
         e match
-            case Event.Quit =>
+            case Event.Quit => sys.exit(0)
             case Event.Move =>
                 println(controller.field.toString)
                 println("Column:")
@@ -47,9 +47,6 @@ case class TUI(controller: Controller) extends Observer:
     def printLoop(): Unit =
 
         val input = readLine()
-        if (input == "q")
-            return
-            //sys.exit(0)
 
         val matrix = controller.player // matrix
         var value = controller.getSlot(matrix)
@@ -69,6 +66,7 @@ case class TUI(controller: Controller) extends Observer:
 
     def analyseInput(move: Move, input: String): Option[Move] =
         input match
+            case "q" => controller.quit; None
             case "r" => controller.Publish(controller.redo); None
             case "u" => controller.Publish(controller.undo); None
             case _ => {
