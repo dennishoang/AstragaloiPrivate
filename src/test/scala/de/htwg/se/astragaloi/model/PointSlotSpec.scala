@@ -40,6 +40,21 @@ class PointSlotSpec extends AnyWordSpec {
         val pointslot9 = new PointSlot[Dice](2,5)
         val pointslotrow = pointslot9.calculatePoints(new PlayField[Dice](3, Dice.Empty), 0, 1, 99, 5)
         pointslotrow should be (15)
+    }
+    "choose the Winner" in {
+        var playfield = new PlayField[Dice](3, Dice.Empty)
+        val oldIndexes = Vector[Int]()
+        playfield = playfield.insertValue(playfield, 1, 0, Dice.SIX, Dice.Empty, 0, oldIndexes)
+        var pointslot4 = pointslot.replaceAllPoints(playfield, 1, 0)
+        pointslot4.chooseWinner should be(2)
 
+        playfield = playfield.insertValue(playfield, 0, 0, Dice.SIX, Dice.Empty, 0, oldIndexes)
+        var pointslot5 = pointslot.replaceAllPoints(playfield, 0, 0)
+        pointslot5.chooseWinner should be(1)
+    }
+    "choose a draw" in {
+        var playfield = new PlayField[Dice](3, Dice.Empty)
+        var pointslot6 = pointslot.replaceAllPoints(playfield, 1, 0)
+        pointslot6.chooseWinner should be(-1)
     }
 }

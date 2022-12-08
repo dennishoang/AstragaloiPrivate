@@ -16,21 +16,14 @@ class ControllerSpec extends AnyWordSpec {
     "The Controller" should {
         val controller = Controller(new Field(3, 2, Dice.Empty, 0))
         "put a number in the Playfielid" in {
-            val move = Move(Dice.ONE, 0, 2)
-            controller.field = controller.putPlayfield(move)
+            val move = Move(Dice.ONE, 0, 2, 0)
+            controller.field = controller.put(move)
             controller.field.playfield.cell(0, 2, 2) should be (Dice.ONE)
         }
         "put a number in the qudadrat" in {
-            val move = Move(Dice.SIX, 1, 0)
+            val move = Move(Dice.SIX, 1, 0, 0)
             controller.field = controller.putDiceslot(move)
             controller.field.diceslot.cell(1) should be (Dice.SIX)
-        }
-        "put points in the pointslot" in {
-            val move = Move(Dice.SIX, 1, 0)
-            controller.field = controller.putPlayfield(move)
-            val movePoints = Move(Dice.Empty, 1, 0)
-            controller.field = controller.putPoints(move)
-            controller.field.pointslot.cell(1, 0) should be (6)
         }
         "print the Field" in {
             controller.toString should be (controller.field.toString)
@@ -46,9 +39,22 @@ class ControllerSpec extends AnyWordSpec {
             else
                 value.toString.toInt should be <= 6
         }
-        "be published" in {
-            val move = Move(Dice.ONE, 0, 0)
-            controller.Publish(controller.putPlayfield, move, 1) should be
+        "publish do steps" in {
+            val move = Move(Dice.ONE, 0, 0, 0)
+            controller.Publish(controller.put, move, 1) should be
+            (println(controller.field.toString))
+        }
+        "publish undo steps" in {
+            val move = Move(Dice.ONE, 0, 0, 1)
+            controller.Publish(controller.put, move, 1)
+            controller.Publish(controller.undo, 1) should be
+            (println(controller.field.toString))
+        }
+        "publish redo steps" in {
+            val move = Move(Dice.ONE, 0, 0, 1)
+            controller.Publish(controller.put, move, 1)
+            controller.Publish(controller.undo, 1)
+            controller.Publish(controller.redo, 0) should be
             (println(controller.field.toString))
         }
         "notify observers" in {
@@ -59,6 +65,16 @@ class ControllerSpec extends AnyWordSpec {
         }
         "check Col-Publish" in {
             controller.checkColPublish(0, 1) should be (1)
+        }
+        "get slot" in {
+            controller.getSlot(0) should be (Dice.Empty)
+        }
+        val controller2 = Controller(new Field(3, 2, Dice.SIX, 0))
+        "check finish" in {
+            controller2.checkFinish(0) should be (true)
+        }
+        "choose Winner" in {
+            controller2.chooseWinner should be (-1)
         }
     }
 }
