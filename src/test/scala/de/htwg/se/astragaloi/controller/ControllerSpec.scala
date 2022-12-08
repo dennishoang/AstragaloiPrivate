@@ -14,14 +14,14 @@ import org.scalatest.matchers.should.Matchers._
 
 class ControllerSpec extends AnyWordSpec {
     "The Controller" should {
-        val controller = Controller(new Field(3, 2, Dice.Empty, 0))
+        val controller = Controller(new Field(3, 2, Dice.Empty, 0), 1)
         "put a number in the Playfielid" in {
-            val move = Move(Dice.ONE, 0, 2, 0)
+            val move = Move(Dice.ONE, 0, 2, Dice.Empty)
             controller.field = controller.put(move)
             controller.field.playfield.cell(0, 2, 2) should be (Dice.ONE)
         }
         "put a number in the qudadrat" in {
-            val move = Move(Dice.SIX, 1, 0, 0)
+            val move = Move(Dice.SIX, 1, 0, Dice.Empty)
             controller.field = controller.putDiceslot(move)
             controller.field.diceslot.cell(1) should be (Dice.SIX)
         }
@@ -29,32 +29,34 @@ class ControllerSpec extends AnyWordSpec {
             controller.toString should be (controller.field.toString)
         }
         "change the player" in {
-            controller.changePlayer(1) should be (0)
-            controller.changePlayer(0) should be (1)
+            controller.changePlayer
+            controller.player should be (0)
+            controller.changePlayer
+            controller.player should be (1)
         }
         "roll the Dice" in {
-            val value = controller.rollDice()
+            val value = controller.rollDice
             if (value.equals(Dice.Empty))
                 value should be (" ")
             else
                 value.toString.toInt should be <= 6
         }
         "publish do steps" in {
-            val move = Move(Dice.ONE, 0, 0, 0)
-            controller.Publish(controller.put, move, 1) should be
+            val move = Move(Dice.ONE, 0, 0, Dice.Empty)
+            controller.Publish(controller.put, move) should be
             (println(controller.field.toString))
         }
         "publish undo steps" in {
-            val move = Move(Dice.ONE, 0, 0, 1)
-            controller.Publish(controller.put, move, 1)
-            controller.Publish(controller.undo, 1) should be
+            val move = Move(Dice.ONE, 0, 0, Dice.Empty)
+            controller.Publish(controller.put, move)
+            controller.Publish(controller.undo) should be
             (println(controller.field.toString))
         }
         "publish redo steps" in {
-            val move = Move(Dice.ONE, 0, 0, 1)
-            controller.Publish(controller.put, move, 1)
-            controller.Publish(controller.undo, 1)
-            controller.Publish(controller.redo, 0) should be
+            val move = Move(Dice.ONE, 0, 0, Dice.Empty)
+            controller.Publish(controller.put, move)
+            controller.Publish(controller.undo)
+            controller.Publish(controller.redo) should be
             (println(controller.field.toString))
         }
         "notify observers" in {
@@ -69,7 +71,7 @@ class ControllerSpec extends AnyWordSpec {
         "get slot" in {
             controller.getSlot(0) should be (Dice.Empty)
         }
-        val controller2 = Controller(new Field(3, 2, Dice.SIX, 0))
+        val controller2 = Controller(new Field(3, 2, Dice.SIX, 0), 0)
         "check finish" in {
             controller2.checkFinish(0) should be (true)
         }

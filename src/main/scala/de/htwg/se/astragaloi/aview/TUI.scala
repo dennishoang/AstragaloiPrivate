@@ -55,11 +55,11 @@ case class TUI(controller: Controller) extends Observer:
         analyseInput(move,input) match
             case None       =>
             case Some(playerAction) => {
-                    controller.Publish(controller.put, playerAction)
-                    // checkfinish
-                    if (controller.checkFinish(matrix))
-                        println(controller.field.toString)
-                        finish(controller.chooseWinner)
+                controller.Publish(controller.put, playerAction)
+                // checkfinish
+                if (controller.checkFinish(matrix))
+                    println(controller.field.toString)
+                    finish(controller.chooseWinner)
             }
             printLoop()
 
