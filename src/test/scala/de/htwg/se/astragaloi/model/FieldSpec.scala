@@ -107,6 +107,19 @@ class FieldSpec extends AnyWordSpec {
                 val field = new Field(3, 2, Dice.SIX, 0)
                 field.chooseWinner should be (-1)
             }
+            "clear the field" in {
+                var field = new Field(3, 2, Dice.SIX, 0)
+                field = field.clear
+                field.playfield.cell(0, 0, 0) should be (Dice.Empty)
+            }
+            "get the Col" in {
+                val field = new Field(3, 2, Dice.SIX, 0)
+                field.getCol(0, 1).map(_.toString).map(_.toInt).sum should be (18)
+            }
+            "get the Points" in {
+                val field = new Field(3, 2, Dice.ONE, 0)
+                field.getPoints(0).sum should be (0)
+            }
         }
     }
 }

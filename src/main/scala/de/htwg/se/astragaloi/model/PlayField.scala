@@ -17,7 +17,6 @@ case class PlayField[T](matrixes: Vector[Vector[Vector[T]]]) extends Insert[T]:
         ret
     def fill(filling: T): PlayField[T] =
         copy(Vector.tabulate(2, colsize, colsize) { (matrix, row, col) => filling })
-    def clear(clearing: T): PlayField[T] = fill(clearing)
 
     def checkCol(matrix: Int, x: Int): Int =
         val modcol = col(matrix,x)
