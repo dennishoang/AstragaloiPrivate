@@ -78,6 +78,15 @@ class ControllerSpec extends AnyWordSpec {
         "choose Winner" in {
             controller2.chooseWinner should be (-1)
         }
+        "clear the Field" in {
+            controller.clear
+            controller.field.playfield.cell(0, 0, 0) should be (Dice.Empty)
+            controller.player should be >= 0
+        }
+        "start the game" in {
+            controller.startGame(new Move(Dice.ONE, 1, 0, Dice.SIX))
+            controller.field.getSlot(1) should be (Dice.ONE)
+        }
     }
 }
 
