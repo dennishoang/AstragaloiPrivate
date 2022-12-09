@@ -1,9 +1,12 @@
 
-package de.htwg.se.astragaloi.model
+package de.htwg.se.astragaloi.controller
 
 import de.htwg.se.astragaloi.model.Field
 import de.htwg.se.astragaloi.model.PlayField
 import de.htwg.se.astragaloi.model.Dice
+import de.htwg.se.astragaloi.model.DiceSlot
+import de.htwg.se.astragaloi.model.PointSlot
+import de.htwg.se.astragaloi.model.Move
 import de.htwg.se.astragaloi.controller.PutCommand
 
 import org.scalatest.wordspec.AnyWordSpec
@@ -18,7 +21,7 @@ class PutCommandSpec extends AnyWordSpec {
             var diceslot = new DiceSlot[Dice](2, Dice.Empty)
             var pointslot = new PointSlot[Dice](2, 0)
             var field = new Field(playfield, diceslot, pointslot)
-            val putCommand = new PutCommand(new Move(Dice.SIX, 0, 0, 1))
+            val putCommand = new PutCommand(new Move(Dice.SIX, 0, 0, Dice.Empty))
             field = putCommand.doStep(field)
             field = putCommand.undoStep(field)
             field.playfield.cell(0, 0, 0) should be (Dice.Empty)
@@ -28,7 +31,7 @@ class PutCommandSpec extends AnyWordSpec {
             var diceslot = new DiceSlot[Dice](2, Dice.Empty)
             var pointslot = new PointSlot[Dice](2, 0)
             var field = new Field(playfield, diceslot, pointslot)
-            val putCommand = new PutCommand(new Move(Dice.SIX, 0, 0, 1))
+            val putCommand = new PutCommand(new Move(Dice.SIX, 0, 0, Dice.Empty))
             field = putCommand.doStep(field)
             field = putCommand.undoStep(field)
             field = putCommand.redoStep(field)

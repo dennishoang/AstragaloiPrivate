@@ -7,6 +7,7 @@ import model.Move
 import scala.io.StdIn.readLine
 //import scala.io.StdIn.readInt
 import util.Observer
+import util.Event
 import scala.util.Random
 import scala.util.{Try, Success, Failure}
 
@@ -15,95 +16,73 @@ case class TUI(controller: Controller) extends Observer:
 
     controller.add(this)
 
-    var undoCounter = 0
-    var doCounter = 0
+    def run(): Unit =
+        val move = new Move(controller.rollDice, controller.player, 0, Dice.Empty)
+        controller.startGame(move)
+        printLoop()
 
-    def run =
-        val playerID = Random.nextInt(2)
-        getInputAndPrintLoop(playerID, 1)
 
     def finish(player: Int) =
         if (player == -1)
             println("unentschieden!")
         else
             println("Player " + player + " wins!")
-
-    override def update = println(controller.field.toString)
-
-    def getInputAndPrintLoop(matrix: Int, continue: Int): Unit =
-
-        var move = Move(Dice.Empty, 0, 0, 0)
-
-        if (continue == 1) {
-            val random = controller.rollDice()
-            move = Move(random, matrix,  0, 0)
-            controller.Publish(controller.putDiceslot, move, 1)
-        } else {
-            var value = controller.getSlot(matrix)
-            move = Move(value, matrix, 0, 0)
-        }
+        val input = readLine("(1): Restart, (2): Quit\n")
+        input match
+            case "1" => {
+                controller.clear
+                run()
+            }
+            case "2" => sys.exit(0) // sys.exit nicht noetig
+            case _ => sys.exit(0) // sys.exit nicht noetig
 
 
-        analyseInput(move) match
+    def update(e: Event) =
+        e match
+            case Event.Quit => sys.exit(0)
+            case Event.Move =>
+                println(controller.field.toString)
+                println("Column:")
+
+    def printLoop(): Unit =
+
+        val input = readLine()
+
+        val matrix = controller.player // matrix
+        var value = controller.getSlot(matrix)
+        var move = new Move(value, matrix, 0, Dice.Empty)
+
+        analyseInput(move,input) match
             case None       =>
             case Some(playerAction) => {
-                if (playerAction.mode == 1) { // on undo
-                    if (doCounter > 0)
-                        doCounter -= 1
-                    undoCounter += 1
-                    getInputAndPrintLoop(controller.changePlayer(matrix), 0)
-                }
-                else if (playerAction.mode == 2) { // on redo
-                    if (undoCounter > 0)
-                        undoCounter -= 1
-                    doCounter += 1
-                    getInputAndPrintLoop(controller.changePlayer(matrix), 1)
-                }
-                else if (playerAction.mode == 0) { // on do
-                    if (undoCounter > 0)
-                        undoCounter -= 1
-                    doCounter += 1
-                    controller.Publish(controller.put, playerAction, 0)
-                    // checkfinish
-                    if (controller.checkFinish(matrix))
-                        finish(controller.chooseWinner)
-                    else
-                        getInputAndPrintLoop(controller.changePlayer(matrix), 1)
-                }
+                controller.Publish(controller.put, playerAction)
+                // checkfinish
+                if (controller.checkFinish(matrix))
+                    println(controller.field.toString)
+                    finish(controller.chooseWinner)
             }
+            printLoop()
 
-    def analyseInput(move: Move): Option[Move] =
-        val input = readLine("Column: ")
+
+    def analyseInput(move: Move, input: String): Option[Move] =
         input match
-            case "q" => None
-            case "u" => {
-                if (doCounter == 0)
-                    println("kein Undo moeglich")
-                    analyseInput(move)
-                else
-                    controller.Publish(controller.undo, 1)
-                    Some(move.copy(move.dice, move.matrix, move.x, 1)) // set mode to "undo"
-            }
-            case "r" => {
-                if (undoCounter == 0)
-                    println("kein Redo moeglich")
-                    analyseInput(move)
-                else
-                    controller.Publish(controller.redo, 0)
-                    Some(move.copy(move.dice, move.matrix, move.x, 2)) // set mode to "redo"
-            }
+            case "q" => controller.quit; None
+            case "r" => controller.Publish(controller.redo); None
+            case "u" => controller.Publish(controller.undo); None
             case _ => {
                 readCol(input) match
                     case Success(v) =>
                         val col = input.toInt
                         if (controller.checkColPublish(move.matrix, col) == -1)
                             println("Spalte ist voll!")
-                            analyseInput(move)
+                            val newInput = readLine()
+                            analyseInput(move, newInput)
                         else
-                            Some(Move(move.dice, move.matrix, col, 0)) // return new move, set mode to "do"
+                            Some(Move(move.dice, move.matrix, col, Dice.Empty)) // return new move, set mode to "do"
                     case Failure(i) =>
                         println("Falsche Eingabe!")
-                        analyseInput(move)
+                        val newInput = readLine()
+                        analyseInput(move, newInput)
             }
 
     def readCol(input: String): Try[String] = {

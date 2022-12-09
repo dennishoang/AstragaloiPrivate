@@ -8,6 +8,8 @@ import model.Dice
 import util.Command
 import util.UndoManager
 
+import scala.util.Random
+
 class PutCommand(move: Move) extends Command[Field]:
 
     var delValueIndx = Vector[Int]()
@@ -27,6 +29,7 @@ class PutCommand(move: Move) extends Command[Field]:
         var tmp = field.put(move.dice, move.matrix, move.x, 0, delValueIndx)
         tmp = tmp.putPoint(move.matrix, move.x)
         tmp = tmp.putSlot(Dice.Empty, move.matrix)
+        tmp = tmp.putSlot(move.nextDice, 1 - move.matrix)
         tmp
 
 
@@ -38,12 +41,12 @@ class PutCommand(move: Move) extends Command[Field]:
         delValueIndx = Vector[Int]() // after undo delValue not needed anymore
         tmp
 
-
     override def redoStep(field: Field): Field =
         delValueIndx = increaseDelValue(field)
         var tmp = field.put(move.dice, move.matrix, move.x, 0, delValueIndx)
         tmp = tmp.putPoint(move.matrix, move.x)
         tmp = tmp.putSlot(Dice.Empty, move.matrix)
+        tmp = tmp.putSlot(move.nextDice, 1 - move.matrix)
         tmp
 
 

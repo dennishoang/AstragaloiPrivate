@@ -28,11 +28,6 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot
   def put(number: Dice, matrix: Int, col: Int, undo: Int, oldValues: Vector[Int]) =
     copy(playfield.insertValue(playfield, matrix, col, number, Dice.Empty, undo, oldValues), diceslot)
 
-
-    /*else {
-      temp.copy(temp.playfield, temp.diceslot.replace(matrix, number), temp.pointslot.replaceAllPoints(temp.playfield, matrix, col))
-    }*/
-
   def putPoint(matrix:Int, col:Int) =
     copy(playfield, diceslot, pointslot.replaceAllPoints(playfield, matrix, col))
 
@@ -50,5 +45,14 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot
 
   def getSlot(matrix: Int): Dice =
     diceslot.cell(matrix)
+
+  def getCol(matrix: Int, col: Int): Vector[Dice] =
+    playfield.col(matrix, col)
+
+  def getPoints(matrix: Int): Vector[Int] =
+    pointslot.slot(matrix)
+
+  def clear: Field =
+    copy(playfield.clear(Dice.Empty), diceslot.clear(Dice.Empty), pointslot.clear)
 
 

@@ -10,6 +10,7 @@ case class PointSlot[T](slots: Vector[Vector[Int]]):
     def cell(matrix: Int, col:Int): Int = slots(matrix)(col)
     def slot(matrix: Int) = slots(matrix)
     def fill(filling: Int): PointSlot[T] = copy(Vector.tabulate(size, 4) { (slot, col) => filling })
+    def clear: PointSlot[T] = fill(0)
 
     def chooseWinner: Int =
         var winner = 0
