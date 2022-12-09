@@ -41,6 +41,7 @@ class ControllerSpec extends AnyWordSpec {
             else
                 value.toString.toInt should be <= 6
         }
+
         "publish do steps" in {
             val move = Move(Dice.ONE, 0, 0, Dice.Empty)
             controller.Publish(controller.put, move) should be
@@ -78,8 +79,33 @@ class ControllerSpec extends AnyWordSpec {
         "choose Winner" in {
             controller2.chooseWinner should be (-1)
         }
+        "change Player" in {
+            controller.changePlayer
+            controller.player should be (0)
+        }
+        "getCol" in {
+            val controller1 = Controller(new Field(3, 2, Dice.ONE, 0), 1)
+            val dices = controller1.getCol(1,1)
+            dices(1) should be (Dice.ONE)
+        }
+        "putNextDice" in {
+            val controller2 = Controller(new Field(3, 2, Dice.Empty, 0), 1)
+            controller2.field = controller.putNextDice(new Move(Dice.Empty, 0, 0, Dice.TWO))
+            controller2.getSlot(1) should be (Dice.TWO)
+        }
+        "getPoints" in {
+            val controller2 = Controller(new Field(3, 2, Dice.ONE, 3), 1)
+            controller2.getPoints(1).sum should be (12)
+        }
+        "finish game" in {
+            controller.finish should be (controller.field)
+        }
+        "quit game" in {
+            controller.quit
+        }
     }
 }
+
 
 
 
