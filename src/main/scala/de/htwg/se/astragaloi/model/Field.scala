@@ -53,6 +53,6 @@ case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot
     pointslot.slot(matrix)
 
   def clear: Field =
-    copy(playfield.clear(Dice.Empty), diceslot.clear(Dice.Empty), pointslot.clear)
+    copy(playfield.fill(Dice.Empty), diceslot.fill(Dice.Empty), pointslot.fill(0))
 
 
