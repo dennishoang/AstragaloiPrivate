@@ -1,9 +1,8 @@
-
 package de.htwg.se.astragaloi
 
-import model.Field
-import model.Dice
-import model.PointSlot
+import de.htwg.se.astragaloi.model.dataComponent.dataBaseImpl.Field
+import de.htwg.se.astragaloi.model.dataComponent.dataBaseImpl.PointSlot
+import de.htwg.se.astragaloi.model.Dice
 
 
 import model.Move

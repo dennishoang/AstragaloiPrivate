@@ -1,15 +1,15 @@
 package de.htwg.se.astragaloi
 package controller
 
-import model.Field
+import model.dataComponent.dataBaseImpl.Field
+import model.dataComponent.dataBaseImpl.PointSlot
 import model.Dice
-import model.Field
 import model.Move
 import util.Observable
 import util.UndoManager
 import util.Event
 
-import model.PointSlot
+
 
 import scala.util.Random
 import scala.io.StdIn.readLine

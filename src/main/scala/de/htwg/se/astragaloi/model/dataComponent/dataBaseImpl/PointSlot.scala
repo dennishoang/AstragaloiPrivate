@@ -1,9 +1,9 @@
-package de.htwg.se.astragaloi
-package model
+package de.htwg.se.astragaloi.model.dataComponent.dataBaseImpl
 
-import model.PlayField
+import de.htwg.se.astragaloi.model.dataComponent.PlayFieldInterface
+import de.htwg.se.astragaloi.model.dataComponent.PointSlotInterface
 
-case class PointSlot[T](slots: Vector[Vector[Int]]):
+case class PointSlot[T](slots: Vector[Vector[Int]]) extends PointSlotInterface[T]:
     def this(size: Int, filling: Int) = this(Vector.tabulate(size, 4) { (slot, col) => filling})
     val size = slots.size
     val slotsize = slots(0).size
@@ -21,7 +21,7 @@ case class PointSlot[T](slots: Vector[Vector[Int]]):
             winner = -1 // unentschieden
         winner
 
-    def replacePoints(playfield: PlayField[T], matrix: Int, col: Int): PointSlot[T] =
+    def replacePoints(playfield: PlayFieldInterface[T], matrix: Int, col: Int): PointSlot[T] =
         val value = calculatePoints(playfield, matrix, col, 0, 0)
         val sumvalue = calculatePoints(playfield,matrix, col, 99, value)
 
@@ -30,17 +30,17 @@ case class PointSlot[T](slots: Vector[Vector[Int]]):
         //val total = calculatePoints(playfield, matrix, col, 1)
         //copy(slots.updated(matrix, slots(matrix).updated(3,total)))
 
-    def replaceAllPoints(playfield: PlayField[T], matrix: Int, col: Int): PointSlot[T] =
+    def replaceAllPoints(playfield: PlayFieldInterface[T], matrix: Int, col: Int): PointSlot[T] =
         val temp = replacePoints(playfield, matrix, col)
         temp.replacePoints(playfield, 1 - matrix, col)
 
-    def calculatePoints(playfield: PlayField[T], matrix: Int, col: Int, algorithm: Int, value: Int): Int =
+    def calculatePoints(playfield: PlayFieldInterface[T], matrix: Int, col: Int, algorithm: Int, value: Int): Int =
 
         object Algorithm {
 
             var strategy = if (algorithm == 0) calcCol(playfield, matrix, col) else rowPoints(matrix,col, value)
 
-            def calcCol(playfield: PlayField[T], matrix: Int, col: Int): Int =
+            def calcCol(playfield: PlayFieldInterface[T], matrix: Int, col: Int): Int =
 
                 val values = playfield.col(matrix, col).map(_.toString).filter(_.forall(Character.isDigit)).map(_.toInt)
                 var unique = Vector(0)

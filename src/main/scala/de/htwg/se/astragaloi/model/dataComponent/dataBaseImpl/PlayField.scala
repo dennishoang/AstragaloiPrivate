@@ -1,7 +1,8 @@
-package de.htwg.se.astragaloi
-package model
+package de.htwg.se.astragaloi.model.dataComponent.dataBaseImpl
 
-case class PlayField[T](matrixes: Vector[Vector[Vector[T]]]):
+import de.htwg.se.astragaloi.model.dataComponent.PlayFieldInterface
+
+case class PlayField[T](matrixes: Vector[Vector[Vector[T]]]) extends PlayFieldInterface[T]:
 
     def this(size: Int, filling: T) = this(Vector.tabulate(2, size, size) { (matrix, row, col) => filling })
     val rowsize: Int = matrixes(0).size

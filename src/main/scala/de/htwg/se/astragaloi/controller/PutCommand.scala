@@ -1,12 +1,10 @@
+package de.htwg.se.astragaloi.controller
 
-package de.htwg.se.astragaloi
-package controller
-
-import model.Field
-import model.Move
-import model.Dice
-import util.Command
-import util.UndoManager
+import de.htwg.se.astragaloi.model.dataComponent.dataBaseImpl.Field
+import de.htwg.se.astragaloi.model.Move
+import de.htwg.se.astragaloi.model.Dice
+import de.htwg.se.astragaloi.util.Command
+import de.htwg.se.astragaloi.util.UndoManager
 
 import scala.util.Random
 
