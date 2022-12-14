@@ -41,12 +41,12 @@ case class Controller(var field: Field, var player: Int) extends Observable:
     def quit: Unit = notifyObservers(Event.Quit)
 
     def getPoints(matrix: Int): Vector[Int] =
-        field.getPoints(matrix)
+        field.points(matrix)
 
     def getCol(matrix: Int, col: Int): Vector[Dice] =
-        field.getCol(matrix, col)
+        field.col(matrix, col)
 
-    def getSlot(matrix: Int): Dice = field.getSlot(matrix)
+    def getSlot(matrix: Int): Dice = field.slot(matrix)
 
     def put(move: Move): Field =
         val step = new Move(move.dice, move.matrix, move.x, rollDice)
