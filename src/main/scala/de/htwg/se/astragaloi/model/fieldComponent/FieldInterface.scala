@@ -1,4 +1,4 @@
-package de.htwg.se.astragaloi.model.dataComponent
+package de.htwg.se.astragaloi.model.fieldComponent
 
 
 trait FieldInterface[T] {
@@ -16,7 +16,7 @@ trait FieldInterface[T] {
     def clear: FieldInterface[T]
 }
 
-
+/*
 trait PlayFieldInterface[T] {
 
     def insertValue(matrix: Int, x: Int, value: T, clear: T, undo: Int, oldIndexes: Vector[Int]): PlayFieldInterface[T]
@@ -40,3 +40,4 @@ trait PointSlotInterface[T] {
     def slot(matrix: Int): Vector[Int]
     def fill(filling: Int): PointSlotInterface[T]
 }
+*/

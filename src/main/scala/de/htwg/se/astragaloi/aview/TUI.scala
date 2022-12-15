@@ -49,13 +49,13 @@ case class TUI(controller: Controller) extends Observer:
         val input = readLine()
 
         val matrix = controller.player // matrix
-        var value = controller.getSlot(matrix)
+        var value = controller.slot(matrix)
         var move = new Move(value, matrix, 0, Dice.Empty)
 
         analyseInput(move,input) match
             case None       =>
             case Some(playerAction) => {
-                controller.Publish(controller.put, playerAction)
+                controller.publish(controller.put, playerAction)
                 // checkfinish
                 if (controller.checkFinish(matrix))
                     println(controller.field.toString)
@@ -67,8 +67,8 @@ case class TUI(controller: Controller) extends Observer:
     def analyseInput(move: Move, input: String): Option[Move] =
         input match
             case "q" => controller.quit; None
-            case "r" => controller.Publish(controller.redo); None
-            case "u" => controller.Publish(controller.undo); None
+            case "r" => controller.publish(controller.redo); None
+            case "u" => controller.publish(controller.undo); None
             case _ => {
                 readCol(input) match
                     case Success(v) =>

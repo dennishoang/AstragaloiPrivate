@@ -1,22 +1,9 @@
-package de.htwg.se.astragaloi.model.dataComponent.dataBaseImpl
+package de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl
 
-import de.htwg.se.astragaloi.model.dataComponent.FieldInterface
-import de.htwg.se.astragaloi.model.dataComponent.PlayFieldInterface
-import de.htwg.se.astragaloi.model.dataComponent.DiceSlotInterface
-import de.htwg.se.astragaloi.model.dataComponent.PointSlotInterface
-import de.htwg.se.astragaloi.model.dataComponent.dataBaseImpl.PlayField
-import de.htwg.se.astragaloi.model.dataComponent.dataBaseImpl.DiceSlot
-import de.htwg.se.astragaloi.model.dataComponent.dataBaseImpl.PointSlot
-import de.htwg.se.astragaloi.model.Dice
-import de.htwg.se.astragaloi.model.Shape
-import de.htwg.se.astragaloi.model.CompositeShape
-import de.htwg.se.astragaloi.model.Quadrat
-import de.htwg.se.astragaloi.model.CellMatrix
-import de.htwg.se.astragaloi.model.PointCell
-import de.htwg.se.astragaloi.model.MatrixSeperator
+import de.htwg.se.astragaloi.model.fieldComponent.FieldInterface
 
 
-case class Field(playfield: PlayFieldInterface[Dice], diceslot: DiceSlotInterface[Dice], pointslot: PointSlotInterface[Dice]) extends FieldInterface[Dice]:
+case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot: PointSlot[Dice]) extends FieldInterface[Dice]:
 
   def this(matrix_size: Int, diceslot_size: Int = 2, filling: Dice, fillingpoint: Int) =
     this(new PlayField[Dice](matrix_size, filling), new DiceSlot[Dice](diceslot_size, filling), new PointSlot[Dice](diceslot_size, fillingpoint))

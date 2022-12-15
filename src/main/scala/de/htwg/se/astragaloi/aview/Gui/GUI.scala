@@ -36,10 +36,10 @@ class GUI(controller: Controller) extends Frame with Observer:
     menuBar = new MenuBar {
         contents += new Menu("Game Actions") {
             contents += MenuItem(Action("Undo"){
-                controller.Publish(controller.undo)
+                controller.publish(controller.undo)
             })
             contents += MenuItem(Action("Redo"){
-                controller.Publish(controller.redo)
+                controller.publish(controller.redo)
             })
             contents += MenuItem(Action("Exit") {
             //controller.quit
@@ -79,23 +79,23 @@ class GUI(controller: Controller) extends Frame with Observer:
         listenTo(button1)
         reactions += {
             case ButtonClicked(`button1`) =>
-                val dice = controller.getSlot(matrix)
+                val dice = controller.slot(matrix)
                 val move = new Move(dice, matrix, 0, Dice.Empty)
-                controller.Publish(controller.put, move)
+                controller.publish(controller.put, move)
             }
         listenTo(button2)
         reactions += {
             case ButtonClicked(`button2`) =>
-                val dice = controller.getSlot(matrix)
+                val dice = controller.slot(matrix)
                 val move = new Move(dice, matrix, 1, Dice.Empty)
-                controller.Publish(controller.put, move)
+                controller.publish(controller.put, move)
         }
         listenTo(button3)
         reactions += {
             case ButtonClicked(`button3`) =>
-                val dice = controller.getSlot(matrix)
+                val dice = controller.slot(matrix)
                 val move = new Move(dice, matrix, 2, Dice.Empty)
-                controller.Publish(controller.put, move)
+                controller.publish(controller.put, move)
         }
         contents += button1
         contents += button2
@@ -231,8 +231,8 @@ class GUI(controller: Controller) extends Frame with Observer:
         val nextMatrix = controller.player
         val prevMatrix = 1 - controller.player
 
-        val dice1 = controller.getSlot(0)
-        val dice2 = controller.getSlot(1)
+        val dice1 = controller.slot(0)
+        val dice2 = controller.slot(1)
         field1.head.changeSlot(dice1)
         field2.head.changeSlot(dice2)
 
@@ -249,7 +249,7 @@ class GUI(controller: Controller) extends Frame with Observer:
                     field1.buttons.disableButtons(i)
             }
         for (i <- Range(0,3))
-            if(controller.checkColPublish(nextMatrix, i) == -1)
+            if(controller.checkColpublish(nextMatrix, i) == -1)
                 if (nextMatrix == 0)
                     field1.buttons.disableButtons(i)
                 else
@@ -257,11 +257,11 @@ class GUI(controller: Controller) extends Frame with Observer:
 
         // update matrix
         for (i <- Range(0, 3))
-            field1.matrix.changeCells(controller.getCol(0, i), i)
-            field2.matrix.changeCells(controller.getCol(1, i), i)
+            field1.matrix.changeCells(controller.col(0, i), i)
+            field2.matrix.changeCells(controller.col(1, i), i)
         // update points
-        val points1 = controller.getPoints(0)
-        val points2 = controller.getPoints(1)
+        val points1 = controller.points(0)
+        val points2 = controller.points(1)
         field1.points.changePoints(points1)
         field2.points.changePoints(points2)
         finalfield.totalPoints.changePoints(points1, points2)
