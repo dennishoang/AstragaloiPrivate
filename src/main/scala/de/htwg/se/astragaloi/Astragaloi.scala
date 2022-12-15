@@ -1,16 +1,11 @@
-/*
 package de.htwg.se.astragaloi
 
-import de.htwg.se.astragaloi.model.dataComponent.dataBaseImpl.Field
-import de.htwg.se.astragaloi.model.dataComponent.dataBaseImpl.PointSlot
-import de.htwg.se.astragaloi.model.Dice
 
-
-import model.Move
-import aview.TUI
-import aview.gui.GUI
-import util.Observer
-import controller.Controller
+import de.htwg.se.astragaloi.aview.TUI
+import de.htwg.se.astragaloi.aview.GUI
+import de.htwg.se.astragaloi.controller.controllerComponent.controllerBaseImpl.Controller
+import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.Field
+import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.Dice
 import scala.io.StdIn.readLine
 import scala.util.Random
 import scala.util.control._
@@ -38,8 +33,6 @@ object astragaloi {
   }
 
 }
-
-*/
 
 
 

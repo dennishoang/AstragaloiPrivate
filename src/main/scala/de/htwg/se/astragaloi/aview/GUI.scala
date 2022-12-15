@@ -1,14 +1,12 @@
-/*
-package de.htwg.se.astragaloi //.aview.Gui
-package aview.gui
-
+package de.htwg.se.astragaloi
+package aview
 
 import util.Observer
 import util.Event
-import controller.Controller
-import aview.TUI
-import model.Move
-import model.Dice
+import controller.controllerComponent.ControllerInterface
+import model.fieldComponent.fieldBaseImpl.Move
+import model.fieldComponent.fieldBaseImpl.Dice
+
 import java.awt.Dimension
 import scala.swing._
 import scala.swing.event.ButtonClicked
@@ -21,15 +19,11 @@ import javax.swing.ImageIcon
 import javax.swing.UIManager
 import javax.swing.UIDefaults
 import java.util.Scanner
-
-
 import scala.io.StdIn.readLine
-import java.io.InputStream
-import java.io.ByteArrayInputStream
 
 
-class GUI(controller: Controller) extends Frame with Observer:
-    //listenTo(controller)
+class GUI(controller: ControllerInterface[Dice]) extends Frame with Observer:
+
     controller.add(this)
     preferredSize = new Dimension(450,550)
     title = "Astragaloi"
@@ -43,7 +37,6 @@ class GUI(controller: Controller) extends Frame with Observer:
                 controller.publish(controller.redo)
             })
             contents += MenuItem(Action("Exit") {
-            //controller.quit
             sys.exit(0)
             })
         }
@@ -250,7 +243,7 @@ class GUI(controller: Controller) extends Frame with Observer:
                     field1.buttons.disableButtons(i)
             }
         for (i <- Range(0,3))
-            if(controller.checkColpublish(nextMatrix, i) == -1)
+            if(controller.checkColPublish(nextMatrix, i) == -1)
                 if (nextMatrix == 0)
                     field1.buttons.disableButtons(i)
                 else
@@ -295,7 +288,4 @@ class GUI(controller: Controller) extends Frame with Observer:
         e match
             case Event.Quit => //sys.exit(0)
             case Event.Move => redraw
-
-            */
-
 

@@ -12,7 +12,7 @@ trait ControllerInterface[T] extends Observable{
     def clear: Unit
     def startGame(move: Move): Unit
     def publish(doThis: Move => FieldInterface[T], move: Move): Unit
-    def publish(doThis: Move => FieldInterface[T]): Unit
+    def publish(doThis: => FieldInterface[T]): Unit
     def quit: Unit
     def points(matrix: Int): Vector[Int]
     def col(matrix: Int, col: Int): Vector[Dice]
