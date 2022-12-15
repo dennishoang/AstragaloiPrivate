@@ -89,7 +89,8 @@ class ControllerSpec extends AnyWordSpec {
             controller.changePlayer
         }
         "get Player" in {
-            controller.player should be (1)
+            val controller2 = Controller(new Field(3, 2, Dice.Empty, 0), 1)
+            controller2.player should be (1)
         }
         "getCol" in {
             val controller1 = Controller(new Field(3, 2, Dice.ONE, 0), 1)
