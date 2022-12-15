@@ -54,7 +54,7 @@ case class Controller(var field: FieldInterface[Dice], var playerID: Int) extend
         undoManager.doStep(field, PutCommand(step))
 
     def undo: FieldInterface[Dice] = undoManager.undoStep(field)
-^^
+
     def redo: FieldInterface[Dice] = undoManager.redoStep(field)
 
     def finish: FieldInterface[Dice] = field
