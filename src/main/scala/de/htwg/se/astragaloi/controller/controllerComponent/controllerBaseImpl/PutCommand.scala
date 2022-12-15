@@ -1,21 +1,20 @@
+package de.htwg.se.astragaloi.controller.controllerComponent.controllerBaseImpl
 
-package de.htwg.se.astragaloi
-package controller
-
-import model.Field
-import model.Move
-import model.Dice
-import util.Command
-import util.UndoManager
+import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.Field
+import de.htwg.se.astragaloi.model.fieldComponent.FieldInterface
+import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.Move
+import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.Dice
+import de.htwg.se.astragaloi.util.Command
+import de.htwg.se.astragaloi.util.UndoManager
 
 import scala.util.Random
 
-class PutCommand(move: Move) extends Command[Field]:
+class PutCommand(move: Move) extends Command[FieldInterface[Dice]]:
 
     var delValueIndx = Vector[Int]()
 
-    def increaseDelValue(field: Field): Vector[Int] =
-        val enemyCol = field.playfield.col(1 - move.matrix, move.x)
+    def increaseDelValue(field: FieldInterface[Dice]): Vector[Int] =
+        val enemyCol = field.col(1 - move.matrix, move.x)
         var range = Range( 0 , enemyCol.size )
         var tmp = Vector[Int]()
         for (i <- range)
@@ -24,7 +23,7 @@ class PutCommand(move: Move) extends Command[Field]:
         tmp
 
 
-    override def doStep(field: Field): Field =
+    override def doStep(field: FieldInterface[Dice]): FieldInterface[Dice] =
         delValueIndx = increaseDelValue(field)
         var tmp = field.put(move.dice, move.matrix, move.x, 0, delValueIndx)
         tmp = tmp.putPoint(move.matrix, move.x)
@@ -33,7 +32,7 @@ class PutCommand(move: Move) extends Command[Field]:
         tmp
 
 
-    override def undoStep(field: Field): Field =
+    override def undoStep(field: FieldInterface[Dice]): FieldInterface[Dice] =
         var tmp = field.put(move.dice, move.matrix, move.x, 1, delValueIndx) // 1 for undo
         tmp = tmp.putPoint(move.matrix, move.x)
         tmp = tmp.putSlot(move.dice, move.matrix)
@@ -41,7 +40,7 @@ class PutCommand(move: Move) extends Command[Field]:
         delValueIndx = Vector[Int]() // after undo delValue not needed anymore
         tmp
 
-    override def redoStep(field: Field): Field =
+    override def redoStep(field: FieldInterface[Dice]): FieldInterface[Dice] =
         delValueIndx = increaseDelValue(field)
         var tmp = field.put(move.dice, move.matrix, move.x, 0, delValueIndx)
         tmp = tmp.putPoint(move.matrix, move.x)

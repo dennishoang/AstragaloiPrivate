@@ -1,18 +1,17 @@
 package de.htwg.se.astragaloi
 package aview
 
-import controller.Controller
-import model.Dice
-import model.Move
+import controller.controllerComponent.ControllerInterface
+import model.fieldComponent.fieldBaseImpl.Dice
+import model.fieldComponent.fieldBaseImpl.Move
 import scala.io.StdIn.readLine
-//import scala.io.StdIn.readInt
 import util.Observer
 import util.Event
 import scala.util.Random
 import scala.util.{Try, Success, Failure}
 
 
-case class TUI(controller: Controller) extends Observer:
+case class TUI(controller: ControllerInterface[Dice]) extends Observer:
 
     controller.add(this)
 
@@ -41,7 +40,7 @@ case class TUI(controller: Controller) extends Observer:
         e match
             case Event.Quit => sys.exit(0)
             case Event.Move =>
-                println(controller.field.toString)
+                println(controller.toString)
                 println("Column:")
 
     def printLoop(): Unit =
@@ -49,16 +48,16 @@ case class TUI(controller: Controller) extends Observer:
         val input = readLine()
 
         val matrix = controller.player // matrix
-        var value = controller.getSlot(matrix)
+        var value = controller.slot(matrix)
         var move = new Move(value, matrix, 0, Dice.Empty)
 
         analyseInput(move,input) match
             case None       =>
             case Some(playerAction) => {
-                controller.Publish(controller.put, playerAction)
+                controller.publish(controller.put, playerAction)
                 // checkfinish
                 if (controller.checkFinish(matrix))
-                    println(controller.field.toString)
+                    println(controller.toString)
                     finish(controller.chooseWinner)
             }
             printLoop()
@@ -67,8 +66,8 @@ case class TUI(controller: Controller) extends Observer:
     def analyseInput(move: Move, input: String): Option[Move] =
         input match
             case "q" => controller.quit; None
-            case "r" => controller.Publish(controller.redo); None
-            case "u" => controller.Publish(controller.undo); None
+            case "r" => controller.publish(controller.redo); None
+            case "u" => controller.publish(controller.undo); None
             case _ => {
                 readCol(input) match
                     case Success(v) =>

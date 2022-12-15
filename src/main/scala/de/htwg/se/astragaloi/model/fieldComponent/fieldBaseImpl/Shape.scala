@@ -1,9 +1,5 @@
+package de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl
 
-package de.htwg.se.astragaloi
-package model
-
-import model.PlayField
-import model.DiceSlot
 
 trait Shape:
     val eol = "\n"

@@ -1,10 +1,4 @@
-package de.htwg.se.astragaloi.model
-
-import de.htwg.se.astragaloi.model.Shape
-import de.htwg.se.astragaloi.model.PlayField
-import de.htwg.se.astragaloi.model.Dice
-import de.htwg.se.astragaloi.model.DiceSlot
-import de.htwg.se.astragaloi.model.PointSlot
+package de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._

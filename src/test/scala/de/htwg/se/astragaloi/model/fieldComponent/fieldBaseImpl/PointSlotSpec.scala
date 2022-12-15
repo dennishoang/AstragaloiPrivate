@@ -1,7 +1,4 @@
-package de.htwg.se.astragaloi.model
-
-import de.htwg.se.astragaloi.model.PlayField
-import de.htwg.se.astragaloi.model.Dice
+package de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
@@ -44,11 +41,11 @@ class PointSlotSpec extends AnyWordSpec {
     "choose the Winner" in {
         var playfield = new PlayField[Dice](3, Dice.Empty)
         val oldIndexes = Vector[Int]()
-        playfield = playfield.insertValue(playfield, 1, 0, Dice.SIX, Dice.Empty, 0, oldIndexes)
+        playfield = playfield.insertValue(1, 0, Dice.SIX, Dice.Empty, 0, oldIndexes)
         var pointslot4 = pointslot.replaceAllPoints(playfield, 1, 0)
         pointslot4.chooseWinner should be(2)
 
-        playfield = playfield.insertValue(playfield, 0, 0, Dice.SIX, Dice.Empty, 0, oldIndexes)
+        playfield = playfield.insertValue(0, 0, Dice.SIX, Dice.Empty, 0, oldIndexes)
         var pointslot5 = pointslot.replaceAllPoints(playfield, 0, 0)
         pointslot5.chooseWinner should be(1)
     }
