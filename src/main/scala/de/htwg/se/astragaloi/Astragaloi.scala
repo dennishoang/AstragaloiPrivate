@@ -1,3 +1,4 @@
+/*
 package de.htwg.se.astragaloi
 
 import de.htwg.se.astragaloi.model.dataComponent.dataBaseImpl.Field
@@ -37,6 +38,8 @@ object astragaloi {
   }
 
 }
+
+*/
 
 
 

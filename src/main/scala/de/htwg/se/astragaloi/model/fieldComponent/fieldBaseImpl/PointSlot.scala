@@ -25,8 +25,6 @@ case class PointSlot[T](slots: Vector[Vector[Int]]):
 
         copy(slots.updated(matrix, slots(matrix).updated(col,value).updated(3,sumvalue)))
 
-        //val total = calculatePoints(playfield, matrix, col, 1)
-        //copy(slots.updated(matrix, slots(matrix).updated(3,total)))
 
     def replaceAllPoints(playfield: PlayField[T], matrix: Int, col: Int): PointSlot[T] =
         val temp = replacePoints(playfield, matrix, col)
@@ -61,8 +59,6 @@ case class PointSlot[T](slots: Vector[Vector[Int]]):
                 val numOfEqElements = doubles.size - 1
                 (doubles.sum * numOfEqElements) + unique.diff(doubles).sum
 
-
-                // playfield.col(matrix, col).map(_.toString).filter(_.forall(Character.isDigit)).map(_.toInt).sum
 
             def rowPoints(matrix: Int, col: Int, value: Int): Int  = col match
                 case 0 => value + cell(matrix, 1) + cell(matrix, 2)

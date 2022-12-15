@@ -1,8 +1,9 @@
 package de.htwg.se.astragaloi.controller.controllerComponent
 
-import de.htwg.se.astragaloi.util.Observer
+import de.htwg.se.astragaloi.util.Observable
 import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.Move
-import java.lang.reflect.Field
+import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.Dice
+import de.htwg.se.astragaloi.model.fieldComponent.FieldInterface
 
 // Probleme Zugriffe: Move, Dice ==> lieber als Interface?
 
@@ -28,4 +29,5 @@ trait ControllerInterface[T] extends Observable{
     def checkFinish(matrix: Int): Boolean
     def chooseWinner: Int
     def toString: String
+    def player: Int
 }

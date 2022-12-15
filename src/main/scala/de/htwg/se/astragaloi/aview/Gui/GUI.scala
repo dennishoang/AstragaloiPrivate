@@ -1,3 +1,4 @@
+/*
 package de.htwg.se.astragaloi //.aview.Gui
 package aview.gui
 
@@ -294,4 +295,7 @@ class GUI(controller: Controller) extends Frame with Observer:
         e match
             case Event.Quit => //sys.exit(0)
             case Event.Move => redraw
+
+            */
+
 
