@@ -10,7 +10,7 @@ import util.Event
 import scala.util.Random
 import scala.util.{Try, Success, Failure}
 
-import de.htwg.se.astragaloi.controller.controllerModules.Default.{given}
+import de.htwg.se.astragaloi.modules.AstragaloiConfig
 
 class TUI(using controller: ControllerInterface) extends Observer:
 

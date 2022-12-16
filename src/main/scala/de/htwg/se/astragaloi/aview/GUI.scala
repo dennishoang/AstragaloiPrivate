@@ -21,7 +21,7 @@ import javax.swing.UIDefaults
 import java.util.Scanner
 import scala.io.StdIn.readLine
 
-import de.htwg.se.astragaloi.controller.controllerModules.Default.{given}
+import de.htwg.se.astragaloi.modules.AstragaloiConfig
 
 class GUI(using controller: ControllerInterface) extends Frame with Observer:
 

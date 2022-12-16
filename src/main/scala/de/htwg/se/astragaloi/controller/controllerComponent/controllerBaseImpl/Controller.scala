@@ -10,22 +10,24 @@ import de.htwg.se.astragaloi.util.Observable
 import de.htwg.se.astragaloi.util.UndoManager
 import de.htwg.se.astragaloi.util.Event
 
-import de.htwg.se.astragaloi.model.fieldModules.Default.{given}
+import de.htwg.se.astragaloi.modules.AstragaloiConfig
 
 
 import scala.util.Random
 import scala.io.StdIn.readLine
 
 
-class Controller(using var field: FieldInterface, var playerID: Int) extends ControllerInterface:
+class Controller(using var field: FieldInterface) extends ControllerInterface:
 
     val undoManager = new UndoManager[FieldInterface]
+    var playerID = 0
 
     def clear: Unit =
         field = field.clear
         playerID = Random.nextInt(2)
 
     def startGame(move: Move): Unit =
+        playerID = Random.nextInt(2)
         field = putDiceslot(move)
         notifyObservers(Event.Move)
 
