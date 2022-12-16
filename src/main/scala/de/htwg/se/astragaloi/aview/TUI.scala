@@ -10,8 +10,9 @@ import util.Event
 import scala.util.Random
 import scala.util.{Try, Success, Failure}
 
+import de.htwg.se.astragaloi.controller.controllerModules.Default.{given}
 
-case class TUI(controller: ControllerInterface) extends Observer:
+class TUI(using controller: ControllerInterface) extends Observer:
 
     controller.add(this)
 

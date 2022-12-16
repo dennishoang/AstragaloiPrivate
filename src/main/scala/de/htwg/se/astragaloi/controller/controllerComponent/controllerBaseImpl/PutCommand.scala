@@ -7,13 +7,15 @@ import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.Dice
 import de.htwg.se.astragaloi.util.Command
 import de.htwg.se.astragaloi.util.UndoManager
 
+import de.htwg.se.astragaloi.model.fieldModules.Default.{given}
+
 import scala.util.Random
 
 class PutCommand(move: Move) extends Command[FieldInterface]:
 
     var delValueIndx = Vector[Int]()
 
-    def increaseDelValue(field: FieldInterface): Vector[Int] =
+    def increaseDelValue(using field: FieldInterface): Vector[Int] =
         val enemyCol = field.col(1 - move.matrix, move.x)
         var range = Range( 0 , enemyCol.size )
         var tmp = Vector[Int]()
@@ -23,7 +25,7 @@ class PutCommand(move: Move) extends Command[FieldInterface]:
         tmp
 
 
-    override def doStep(field: FieldInterface): FieldInterface =
+    override def doStep(using field: FieldInterface): FieldInterface =
         delValueIndx = increaseDelValue(field)
         var tmp = field.put(move.dice, move.matrix, move.x, 0, delValueIndx)
         tmp = tmp.putPoint(move.matrix, move.x)
@@ -32,7 +34,7 @@ class PutCommand(move: Move) extends Command[FieldInterface]:
         tmp
 
 
-    override def undoStep(field: FieldInterface): FieldInterface =
+    override def undoStep(using field: FieldInterface): FieldInterface =
         var tmp = field.put(move.dice, move.matrix, move.x, 1, delValueIndx) // 1 for undo
         tmp = tmp.putPoint(move.matrix, move.x)
         tmp = tmp.putSlot(move.dice, move.matrix)
@@ -40,7 +42,7 @@ class PutCommand(move: Move) extends Command[FieldInterface]:
         delValueIndx = Vector[Int]() // after undo delValue not needed anymore
         tmp
 
-    override def redoStep(field: FieldInterface): FieldInterface =
+    override def redoStep(using field: FieldInterface): FieldInterface =
         delValueIndx = increaseDelValue(field)
         var tmp = field.put(move.dice, move.matrix, move.x, 0, delValueIndx)
         tmp = tmp.putPoint(move.matrix, move.x)

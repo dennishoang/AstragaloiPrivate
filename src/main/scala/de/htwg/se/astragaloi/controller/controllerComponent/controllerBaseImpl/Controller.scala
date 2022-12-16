@@ -10,13 +10,14 @@ import de.htwg.se.astragaloi.util.Observable
 import de.htwg.se.astragaloi.util.UndoManager
 import de.htwg.se.astragaloi.util.Event
 
+import de.htwg.se.astragaloi.model.fieldModules.Default.{given}
 
 
 import scala.util.Random
 import scala.io.StdIn.readLine
 
 
-case class Controller(var field: FieldInterface, var playerID: Int) extends ControllerInterface:
+class Controller(using var field: FieldInterface, var playerID: Int) extends ControllerInterface:
 
     val undoManager = new UndoManager[FieldInterface]
 
