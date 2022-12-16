@@ -5,7 +5,6 @@ import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.Move
 import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.Dice
 import de.htwg.se.astragaloi.model.fieldComponent.FieldInterface
 
-// Probleme Zugriffe: Move, Dice ==> lieber als Interface?
 
 trait ControllerInterface[T] extends Observable{
 
