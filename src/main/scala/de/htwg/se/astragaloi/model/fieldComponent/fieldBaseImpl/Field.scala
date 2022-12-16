@@ -3,7 +3,7 @@ package de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl
 import de.htwg.se.astragaloi.model.fieldComponent.FieldInterface
 
 
-case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot: PointSlot[Dice]) extends FieldInterface[Dice]:
+case class Field(playfield: PlayField[Dice], diceslot: DiceSlot[Dice], pointslot: PointSlot[Dice]) extends FieldInterface:
 
   def this(matrix_size: Int, diceslot_size: Int = 2, filling: Dice, fillingpoint: Int) =
     this(new PlayField[Dice](matrix_size, filling), new DiceSlot[Dice](diceslot_size, filling), new PointSlot[Dice](diceslot_size, fillingpoint))

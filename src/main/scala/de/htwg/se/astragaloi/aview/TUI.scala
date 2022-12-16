@@ -11,7 +11,7 @@ import scala.util.Random
 import scala.util.{Try, Success, Failure}
 
 
-case class TUI(controller: ControllerInterface[Dice]) extends Observer:
+case class TUI(controller: ControllerInterface) extends Observer:
 
     controller.add(this)
 

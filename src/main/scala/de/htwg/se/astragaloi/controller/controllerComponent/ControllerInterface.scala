@@ -6,22 +6,22 @@ import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.Dice
 import de.htwg.se.astragaloi.model.fieldComponent.FieldInterface
 
 
-trait ControllerInterface[T] extends Observable{
+trait ControllerInterface extends Observable{
 
     def clear: Unit
     def startGame(move: Move): Unit
-    def publish(doThis: Move => FieldInterface[T], move: Move): Unit
-    def publish(doThis: => FieldInterface[T]): Unit
+    def publish(doThis: Move => FieldInterface, move: Move): Unit
+    def publish(doThis: => FieldInterface): Unit
     def quit: Unit
     def points(matrix: Int): Vector[Int]
     def col(matrix: Int, col: Int): Vector[Dice]
     def slot(matrix: Int): Dice
-    def put(move: Move): FieldInterface[T]
-    def undo: FieldInterface[T]
-    def redo: FieldInterface[T]
-    def finish: FieldInterface[T]
-    def putDiceslot(move: Move): FieldInterface[T]
-    def putNextDice(move: Move): FieldInterface[T]
+    def put(move: Move): FieldInterface
+    def undo: FieldInterface
+    def redo: FieldInterface
+    def finish: FieldInterface
+    def putDiceslot(move: Move): FieldInterface
+    def putNextDice(move: Move): FieldInterface
     def changePlayer: Unit
     def rollDice: Dice
     def checkColPublish(matrix: Int, col: Int): Int

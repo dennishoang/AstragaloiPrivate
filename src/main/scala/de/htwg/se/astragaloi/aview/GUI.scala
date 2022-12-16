@@ -22,7 +22,7 @@ import java.util.Scanner
 import scala.io.StdIn.readLine
 
 
-class GUI(controller: ControllerInterface[Dice]) extends Frame with Observer:
+class GUI(controller: ControllerInterface) extends Frame with Observer:
 
     controller.add(this)
     preferredSize = new Dimension(450,550)

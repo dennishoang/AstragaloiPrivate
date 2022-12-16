@@ -16,9 +16,9 @@ import scala.util.Random
 import scala.io.StdIn.readLine
 
 
-case class Controller(var field: FieldInterface[Dice], var playerID: Int) extends ControllerInterface[Dice]:
+case class Controller(var field: FieldInterface, var playerID: Int) extends ControllerInterface:
 
-    val undoManager = new UndoManager[FieldInterface[Dice]]
+    val undoManager = new UndoManager[FieldInterface]
 
     def clear: Unit =
         field = field.clear
@@ -28,13 +28,13 @@ case class Controller(var field: FieldInterface[Dice], var playerID: Int) extend
         field = putDiceslot(move)
         notifyObservers(Event.Move)
 
-    def publish(doThis: Move => FieldInterface[Dice], move: Move): Unit =
+    def publish(doThis: Move => FieldInterface, move: Move): Unit =
         // doThis is a function which takes a Move and returns a field (put / putSlot)
         field = doThis(move)
         changePlayer
         notifyObservers(Event.Move)
 
-    def publish(doThis: => FieldInterface[Dice]): Unit = // for undo and redo
+    def publish(doThis: => FieldInterface): Unit = // for undo and redo
         field = doThis
         changePlayer
         notifyObservers(Event.Move)
@@ -49,20 +49,20 @@ case class Controller(var field: FieldInterface[Dice], var playerID: Int) extend
 
     def slot(matrix: Int): Dice = field.slot(matrix)
 
-    def put(move: Move): FieldInterface[Dice] =
+    def put(move: Move): FieldInterface =
         val step = new Move(move.dice, move.matrix, move.x, rollDice)
         undoManager.doStep(field, PutCommand(step))
 
-    def undo: FieldInterface[Dice] = undoManager.undoStep(field)
+    def undo: FieldInterface = undoManager.undoStep(field)
 
-    def redo: FieldInterface[Dice] = undoManager.redoStep(field)
+    def redo: FieldInterface = undoManager.redoStep(field)
 
-    def finish: FieldInterface[Dice] = field
+    def finish: FieldInterface = field
 
-    def putDiceslot(move: Move): FieldInterface[Dice] =
+    def putDiceslot(move: Move): FieldInterface =
         field.putSlot(move.dice, move.matrix)
 
-    def putNextDice(move: Move): FieldInterface[Dice] =
+    def putNextDice(move: Move): FieldInterface =
         field.putSlot(move.nextDice, 1 - move.matrix)
 
     def player: Int =
