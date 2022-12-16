@@ -1,5 +1,4 @@
-package de.htwg.se.astragaloi
-package util
+package de.htwg.se.astragaloi.util
 
 trait Observer:
   def update(e: Event): Unit

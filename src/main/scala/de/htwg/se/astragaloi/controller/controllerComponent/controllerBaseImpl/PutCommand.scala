@@ -7,9 +7,6 @@ import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.Dice
 import de.htwg.se.astragaloi.util.Command
 import de.htwg.se.astragaloi.util.UndoManager
 
-import de.htwg.se.astragaloi.modules.AstragaloiConfig
-
-import scala.util.Random
 
 class PutCommand(move: Move) extends Command[FieldInterface]:
 

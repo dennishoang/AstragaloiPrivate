@@ -2,8 +2,6 @@ package de.htwg.se.astragaloi.controller.controllerComponent.controllerBaseImpl
 
 import de.htwg.se.astragaloi.controller.controllerComponent.ControllerInterface
 import de.htwg.se.astragaloi.model.fieldComponent.FieldInterface
-import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.Field
-import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.PointSlot
 import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.Dice
 import de.htwg.se.astragaloi.model.fieldComponent.fieldBaseImpl.Move
 import de.htwg.se.astragaloi.util.Observable
@@ -20,14 +18,13 @@ import scala.io.StdIn.readLine
 class Controller(using var field: FieldInterface) extends ControllerInterface:
 
     val undoManager = new UndoManager[FieldInterface]
-    var playerID = 0
+    var playerID = Random.nextInt(2)
 
     def clear: Unit =
         field = field.clear
         playerID = Random.nextInt(2)
 
     def startGame(move: Move): Unit =
-        playerID = Random.nextInt(2)
         field = putDiceslot(move)
         notifyObservers(Event.Move)
 
