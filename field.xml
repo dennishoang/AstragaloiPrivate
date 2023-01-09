@@ -1,0 +1,98 @@
+<field>
+    <matrix>
+        <number>0</number>
+        <diceslot>
+            <dice> </dice>
+        </diceslot>
+        <col>
+            <number>0</number>
+            <cells>
+                <cell>
+                    <value> </value>
+                </cell>
+                <cell>
+                    <value>4</value>
+                </cell>
+                <cell>
+                    <value>3</value>
+                </cell>
+            </cells>
+        </col>
+        <col>
+            <number>1</number>
+            <cells>
+                <cell>
+                    <value> </value>
+                </cell>
+                <cell>
+                    <value> </value>
+                </cell>
+                <cell>
+                    <value>2</value>
+                </cell>
+            </cells>
+        </col>
+        <col>
+            <number>2</number>
+            <cells>
+                <cell>
+                    <value> </value>
+                </cell>
+                <cell>
+                    <value> </value>
+                </cell>
+                <cell>
+                    <value>6</value>
+                </cell>
+            </cells>
+        </col>
+    </matrix>
+    <matrix>
+        <number>1</number>
+        <diceslot>
+            <dice>2</dice>
+        </diceslot>
+        <col>
+            <number>0</number>
+            <cells>
+                <cell>
+                    <value> </value>
+                </cell>
+                <cell>
+                    <value> </value>
+                </cell>
+                <cell>
+                    <value>2</value>
+                </cell>
+            </cells>
+        </col>
+        <col>
+            <number>1</number>
+            <cells>
+                <cell>
+                    <value> </value>
+                </cell>
+                <cell>
+                    <value> </value>
+                </cell>
+                <cell>
+                    <value>6</value>
+                </cell>
+            </cells>
+        </col>
+        <col>
+            <number>2</number>
+            <cells>
+                <cell>
+                    <value> </value>
+                </cell>
+                <cell>
+                    <value> </value>
+                </cell>
+                <cell>
+                    <value>3</value>
+                </cell>
+            </cells>
+        </col>
+    </matrix>
+</field>

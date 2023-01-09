@@ -10,6 +10,9 @@ import de.htwg.se.astragaloi.util.Event
 
 import de.htwg.se.astragaloi.modules.AstragaloiConfig
 
+import de.htwg.se.astragaloi.model.fileIoComponent.FileIOInterface
+import de.htwg.se.astragaloi.model.fileIoComponent.fileIoXmlImpl.FileIO
+
 
 import scala.util.Random
 import scala.io.StdIn.readLine
@@ -19,6 +22,8 @@ class Controller(using var field: FieldInterface) extends ControllerInterface:
 
     val undoManager = new UndoManager[FieldInterface]
     var playerID = Random.nextInt(2)
+
+    val file: FileIOInterface = new FileIO
 
     def clear: Unit =
         field = field.clear
@@ -83,3 +88,12 @@ class Controller(using var field: FieldInterface) extends ControllerInterface:
         field.chooseWinner
 
     override def toString: String = field.toString
+
+    def save: Unit = {
+        file.save(field)
+    }
+
+    def load: Unit = {
+        file.load
+    }
+

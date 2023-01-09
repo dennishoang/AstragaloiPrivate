@@ -29,4 +29,6 @@ trait ControllerInterface extends Observable{
     def chooseWinner: Int
     def toString: String
     def player: Int
+    def save: Unit
+    def load: Unit
 }
