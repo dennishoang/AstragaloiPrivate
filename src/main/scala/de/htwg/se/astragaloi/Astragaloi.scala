@@ -22,6 +22,3 @@ object astragaloi {
   }
 
 }
-
-
-
