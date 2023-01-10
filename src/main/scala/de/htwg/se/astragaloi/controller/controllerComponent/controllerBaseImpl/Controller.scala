@@ -94,6 +94,7 @@ class Controller(using var field: FieldInterface) extends ControllerInterface:
     }
 
     def load: Unit = {
-        file.load
+        field = file.load
+        notifyObservers(Event.Move)
     }
 

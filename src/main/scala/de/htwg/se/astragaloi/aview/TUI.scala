@@ -70,6 +70,13 @@ class TUI(using controller: ControllerInterface) extends Observer:
             case "r" => controller.publish(controller.redo); None
             case "u" => controller.publish(controller.undo); None
             case "s" => controller.save; None
+            case "l" => {
+                controller.load
+                val player = controller.player
+                if (controller.slot(player).equals(Dice.Empty)) {
+                    controller.changePlayer
+                }
+            }; None
             case _ => {
                 readCol(input) match
                     case Success(v) =>

@@ -6,45 +6,39 @@
         </diceslot>
         <col>
             <number>0</number>
-            <cells>
-                <cell>
-                    <value> </value>
-                </cell>
-                <cell>
-                    <value>4</value>
-                </cell>
-                <cell>
-                    <value>3</value>
-                </cell>
-            </cells>
+            <cell>
+                <value> </value>
+            </cell>
+            <cell>
+                <value>3</value>
+            </cell>
+            <cell>
+                <value>3</value>
+            </cell>
         </col>
         <col>
             <number>1</number>
-            <cells>
-                <cell>
-                    <value> </value>
-                </cell>
-                <cell>
-                    <value> </value>
-                </cell>
-                <cell>
-                    <value>2</value>
-                </cell>
-            </cells>
+            <cell>
+                <value> </value>
+            </cell>
+            <cell>
+                <value>4</value>
+            </cell>
+            <cell>
+                <value>3</value>
+            </cell>
         </col>
         <col>
             <number>2</number>
-            <cells>
-                <cell>
-                    <value> </value>
-                </cell>
-                <cell>
-                    <value> </value>
-                </cell>
-                <cell>
-                    <value>6</value>
-                </cell>
-            </cells>
+            <cell>
+                <value> </value>
+            </cell>
+            <cell>
+                <value> </value>
+            </cell>
+            <cell>
+                <value>3</value>
+            </cell>
         </col>
     </matrix>
     <matrix>
@@ -54,45 +48,39 @@
         </diceslot>
         <col>
             <number>0</number>
-            <cells>
-                <cell>
-                    <value> </value>
-                </cell>
-                <cell>
-                    <value> </value>
-                </cell>
-                <cell>
-                    <value>2</value>
-                </cell>
-            </cells>
+            <cell>
+                <value> </value>
+            </cell>
+            <cell>
+                <value> </value>
+            </cell>
+            <cell>
+                <value>6</value>
+            </cell>
         </col>
         <col>
             <number>1</number>
-            <cells>
-                <cell>
-                    <value> </value>
-                </cell>
-                <cell>
-                    <value> </value>
-                </cell>
-                <cell>
-                    <value>6</value>
-                </cell>
-            </cells>
+            <cell>
+                <value> </value>
+            </cell>
+            <cell>
+                <value>6</value>
+            </cell>
+            <cell>
+                <value>2</value>
+            </cell>
         </col>
         <col>
             <number>2</number>
-            <cells>
-                <cell>
-                    <value> </value>
-                </cell>
-                <cell>
-                    <value> </value>
-                </cell>
-                <cell>
-                    <value>3</value>
-                </cell>
-            </cells>
+            <cell>
+                <value> </value>
+            </cell>
+            <cell>
+                <value> </value>
+            </cell>
+            <cell>
+                <value>5</value>
+            </cell>
         </col>
     </matrix>
 </field>

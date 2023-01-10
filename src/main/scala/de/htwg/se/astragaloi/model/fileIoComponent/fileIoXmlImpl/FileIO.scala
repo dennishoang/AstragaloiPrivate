@@ -16,7 +16,8 @@ class FileIO extends FileIOInterface {
             val number: Int = (matrix \ "number").text.toInt
 
             val diceslot = (matrix \\ "diceslot")
-            val dice: String = (diceslot \ "dice").toString
+            val dice: String = (diceslot \ "dice").text.toString
+            //print("Dice: " + dice)
             dice match {
                 case " " => field = field.putSlot(Dice.Empty, number)
                 case "1" => field = field.putSlot(Dice.ONE, number)
@@ -27,12 +28,15 @@ class FileIO extends FileIOInterface {
                 case "6" => field = field.putSlot(Dice.SIX, number)
             }
 
+
             val cols = (matrix \\ "col")
             for (col <- cols) {
+                //val col = (c \\ "col")
                 val colnumber: Int = (col \ "number").text.toInt
-                val cells = (col \\ "cells")
+                val cells = (col \\ "cell")
                 for (cell <- cells) {
-                    val value: String = (cell \ "value").toString
+                    val value: String = (cell \ "value").text.toString
+                    //print("Value: " + value)
                     value match {
                         case " " => field = field.put(Dice.Empty, number, colnumber, 0, Vector[Int]())
                         case "1" => field = field.put(Dice.ONE, number, colnumber, 0, Vector[Int]())
@@ -45,7 +49,7 @@ class FileIO extends FileIOInterface {
                 }
             }
 
-            for (i <- Range(0, 4)) {
+            for (i <- Range(0, 3)) {
                 field = field.putPoint(number, i)
             }
         }
@@ -93,13 +97,11 @@ class FileIO extends FileIOInterface {
     def colToXml(field: FieldInterface, matrix: Int, col: Int) = {
         <col>
             <number>{ col.toString }</number>
-            <cells>
             {
                 for {
                     x <- 0 until 3
                 } yield cellToXml(field, matrix, col, x)
             }
-            </cells>
         </col>
     }
 
