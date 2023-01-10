@@ -7,7 +7,8 @@ import de.htwg.se.astragaloi.controller.controllerComponent.ControllerInterface
 import de.htwg.se.astragaloi.controller.controllerComponent.controllerBaseImpl.Controller
 
 import de.htwg.se.astragaloi.model.fileIoComponent.FileIOInterface
-import de.htwg.se.astragaloi.model.fileIoComponent.fileIoXmlImpl.FileIO
+//import de.htwg.se.astragaloi.model.fileIoComponent.fileIoXmlImpl.FileIO
+import de.htwg.se.astragaloi.model.fileIoComponent.fileIoJsonImpl.FileIO
 
 import scala.util.Random
 import javax.imageio.stream.FileImageOutputStream

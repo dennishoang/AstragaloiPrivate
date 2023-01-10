@@ -11,7 +11,7 @@ import de.htwg.se.astragaloi.util.Event
 import de.htwg.se.astragaloi.modules.AstragaloiConfig
 
 import de.htwg.se.astragaloi.model.fileIoComponent.FileIOInterface
-import de.htwg.se.astragaloi.model.fileIoComponent.fileIoXmlImpl.FileIO
+import de.htwg.se.astragaloi.model.fileIoComponent.fileIoJsonImpl.FileIO
 
 
 import scala.util.Random
